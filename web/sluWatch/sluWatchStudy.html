@@ -1,0 +1,285 @@
+<div>
+     <!-- navigation -->
+    <!-- Dropdown Structure -->
+    <ul class="dropdown-content">
+        <li><a >Contact Info</a></li>
+        <li class="divider"></li>
+        <li><a >Add Patient</a></li>
+        <li class="divider"></li>
+        <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+    </ul>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper" id="topNav">
+                <a class="btn-floating btn-large grey lighten-3" id="navBack" ng-click="vm.takeBack()">
+                    <i class="material-icons" id="navBack">arrow_back</i></a>
+                <!-- <a href="#!" id="nav-logo" >Mood ToolKit</a> -->
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="overview/overview.html">Studies</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <!-- Dropdown Trigger -->
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- end navigation -->
+    <!--sidebar -->
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="userView">
+                <!-- <img class="background" src="images/office.jpg"> -->
+                <!-- <a href="#!user"><img class="circle" src="images/yuna.jpg"></a> -->
+                <a href="#!name"><span class="white-text name">John Doe</span></a>
+                <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div>
+        </li>
+        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+        <li><a href="#!">Second Link</a></li>
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li><a class="subheader">Subheader</a></li>
+        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse"></a>
+    <!-- end sidebar -->
+    <!-- page content for SLU overview status determined by this flag-->
+  <div ng-if="vm.showOverviewPageFlag">
+   <div class="row">
+      <div class="col s3" >
+         <div class="row">
+         <h1 class = 'section-header center'>Participation</h1>
+            <div class="card col s12 z-depth-1" id="card1">
+                <div class="card-title">
+                    <h3>Study Progress</h3>
+                    <hr>
+                </div>
+                <div class="card-content">
+                  <div><p class="days"><strong>Total Participants: {{vm.sluData.users.length}}</strong></p><br></div>
+                  <div><p class="days"><strong>Total days complete: {{vm.findTotal('totalDays')}}</strong></p><br></div>
+                  <div><p class="surveys"><strong>Total surveys complete: {{vm.findTotal('surveysComplete')}}</strong></p></div>
+                </div>
+                <div class="card-action">
+                </div>
+               </div>
+            </div>
+         <div class="row">
+            <div class="card col s12 z-depth-1 " id="card2">
+                <div class="card-title">
+                    <h3>Compliance</h3>
+                    <hr>
+
+                </div>
+                <div class="card-content">
+                <div ><p class="missed"><strong>Total missed surveys: </strong></p></div>
+                 <br>
+                 <div><p class="compliance"><strong>Avg participant compliance: {{vm.findAvgCompliance}}</strong></p></div>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+      </div>
+      </div>
+      <div class= "col s9">
+         <h1 class = 'section-header center' id="mood-changes-header">SLU Watch Overview</h1>
+         <div class='col s12 study-module study-stats z-depth-2'>
+            <highchart config="vm.daysSurveysGraph"></highchart>
+         </div>
+      </div>
+   </div>
+
+   <div class='row'>
+      <h1 class = 'section-header center'>Mood Changes</h1>
+      <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
+        <highchart config="vm.averageValuesGraph"></highchart>
+      </div>
+   </div>
+    <div class='row'>
+      <h1 class = 'section-header center'>Response Summary</h1>
+      <div class="col s12 highcharts-background study-module study-stats z-depth-2">
+        <highchart config="vm.cigsDrinksGraph"></highchart>
+      </div>
+    </div>
+   <div class = 'row'>
+      <h1 class = 'section-header left'>Participants</h1>
+
+      <div class='col s12'>
+         <div class="table-responsive-vertical shadow-z-1 study-module study-stats z-depth-2">
+           <!-- Table starts here -->
+           <table id="table" class="table table-hover table-mc-light-blue ">
+               <thead>
+                 <tr>
+                   <th>ID</th>
+                   <th>Name</th>
+                   <th>Start Date</th>
+                   <th>End Date</th>
+                   <th>Days in Study</th>
+                   <th>Compliance</th>
+                   <th>Actions</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr ng-repeat="user in vm.sluData.users">
+                   <td data-title="ID">{{$index+1}}</td>
+                   <td data-title="Name">{{user.user}}</td>
+                   <td data-title="Start Date">{{user.startDate}}</td>
+                   <td data-title="End Date">{{user.endDate}}</td>
+                   <td data-title="Days Elapsed">{{user.totalDays}}</td>
+                   <td data-title="Status">{{user.compliance | number :3}}</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <a href="../app/data/SLU_data/{{user.user}}.zip" download><i class="material-icons t-icon">archive</i></a>
+                     <a ng-click="vm.navigateToUserPage(user)"><i class="material-icons t-icon">open_in_new</i></a>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+         </div>
+      </div>
+    </div>
+   </div>
+  <!-- The view to handle user data the flag will determine whether to show user data or not-->
+   <div ng-if="vm.showUserPageFlag">
+     <div class="row profile">
+        <div class="col s8">
+            <div id = "profile-actions">
+               <a class="btn-floating  btn-large waves-effect waves-light teal"><i class="material-icons">alarm_on</i></a>
+               <a class="btn-floating  btn-large waves-effect waves-light red" href="../app/data/SLU_data/{{vm.currentUser.user}}.zip" download><i class="material-icons">get_app</i></a>
+               <a class="btn-floating  btn-large waves-effect waves-light orange"><i class="material-icons">settings</i></a>
+            </div>
+        </div>
+        <div class="col s2 left">
+            <h4>User {{vm.currentUser.user}}</h4>
+            <small><i>Columbia, MO</i></small>
+            <p>
+                email@study.com
+                <br />
+                <br /> June 02, 1988</p>
+            <!-- Split button -->
+            <div class="btn-group">
+                <ul class="dropdown-menu" role="menu">
+
+                    <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
+                    <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
+                    <li class="divider"></li>
+                </ul>
+            </div>
+        </div>
+        <div class=" col s2 ">
+            <img src="" alt="" class="img-circle" />
+        </div>
+    </div>
+   <div class="row ">
+      <div class="col s12">
+      <div class="col s4">
+         <div class = "highcharts-background study-module study-stats z-depth-1 ">
+            <table class="highlight bordered">
+              <thead >
+                <tr>
+                    <th data-field="id">   Start Date</th>
+                    <th data-field="name"> Finish Date</th>
+                    <th data-field="price"> Days Complete</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>{{vm.currentUser.startDate}}</td>
+                  <td>{{vm.currentUser.endDate}}</td>
+                  <td>{{vm.currentUser.totalDays}}</td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+         <div class = "highcharts-background study-module study-stats z-depth-2">
+            <table class="highlight bordered">
+              <thead >
+                <tr>
+                    <th data-field="id">Surveys Completed</th>
+                    <th data-field="name">Total Surveys Taken</th>
+                    <th data-field="price">Compliance (%)</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>{{vm.currentUser.surveysComplete}}</td>
+                  <td>{{vm.currentUser.totalSurveys}}</td>
+                  <td>{{vm.currentUser.compliance * 100 | number :2}}</td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+      </div>
+      <div class ="col s4" class = "study-module">
+         <div class = "highcharts-background study-module study-stats z-depth-1">
+            <highchart config="vm.userSubstanceStats"></highchart>
+         </div>
+      </div>
+      <div class ="col s4" class = "study-module">
+         <div class = "highcharts-background study-module study-stats z-depth-1" >
+            <highchart config="vm.userAverageResponse"></highchart>
+         </div>
+      </div>
+    </div>
+   </div>
+   <div class = "row">
+    <div class="col s12">
+      <div class=" col s12" class="study-module">
+        <div class = "highcharts-background study-module study-stats z-depth-1">
+            <highchart config="vm.userDailyComplianceGraph"></highchart>
+        </div>
+      </div>
+    </div>
+   </div>
+   <div class = "row">
+
+      <h1 class = 'section-header center'>Basis Watch Data</h1>
+      <div class ="col s12" class = "study-module">
+         <div class = "highcharts-background study-module study-stats z-depth-2">
+            <highchart config="vm.dailyPhisPersonalGraph"></highchart>
+         </div>
+      </div>
+   </div>
+    <div class="row">
+      <div class ="col s12" class = "study-module">
+         <div id = "hourly-phis" class = "highcharts-background study-module study-stats z-depth-2">
+            <highchart config="vm.hourlyPhisPersonalGraph"></highchart>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Footer start -->
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Mood ToolKit</h5>
+                <p class="grey-text text-lighten-4">Mood ToolKit is a collaberative effort between the University of Missouri Computer Science and Psychology departments. It can be used to build re-configurable surveys and data processing for mobile-based studies. </p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 Mood ToolKit
+            <a class="grey-text text-lighten-4 right" href="#!">Read More</a>
+        </div>
+    </div>
+</footer>
+
+
+
+

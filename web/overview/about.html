@@ -1,0 +1,186 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Research Dash Board</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="../resources/css/style.css">
+
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="../resources/js/script.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <!-- navigation -->
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">Contact Info</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Add Patient</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Notify</a></li>
+    </ul>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper" id="topNav">
+                <a class="btn-floating btn-large grey lighten-3" id="navBack">
+                    <i class="material-icons" id="navBack">arrow_back</i></a>
+                <!-- <a href="#!" id="nav-logo" >Mood ToolKit</a> -->
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="overview.html">Studies</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <!-- Dropdown Trigger -->
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- end navigation -->
+   <!-- page content -->
+   <div class="container">
+    <div class="row">
+    <div >
+  <div class="carousel">
+    <a class="carousel-item" href="#one!"><img src="http://lorempixel.com/250/250/nature/1"></a>
+    <a class="carousel-item" href="#two!"><img src="http://lorempixel.com/250/250/nature/2"></a>
+    <a class="carousel-item" href="#three!"><img src="http://lorempixel.com/250/250/nature/3"></a>
+    <a class="carousel-item" href="#four!"><img src="http://lorempixel.com/250/250/nature/4"></a>
+    <a class="carousel-item" href="#five!"><img src="http://lorempixel.com/250/250/nature/5"></a>
+  </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+   <div class="container">
+    <div class="row">
+        <div class="col m10 offset-m1 s12 contact z-depth-2">
+            <h2 class="center-align">Say Hello</h2>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                            <input id="first_name" type="text" class="validate">
+                            <label for="first_name">First Name</label>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <input id="last_name" type="text" class="validate">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s12">
+                           <i class="material-icons prefix">email</i>
+                           <input id="email" type="email" class="validate" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field col m6 s12">
+                            <i class="material-icons prefix">perm_identity</i>
+                            <input id="affiliation" type="text" class="validate">
+                            <label for="affiliation">Affiliation</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                          <textarea id="message" class="materialize-textarea"></textarea>
+                          <label for="message">Message</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                          <label for="budget">Reason for Reaching Out</label>
+                          <br/>
+                        </div>
+                        <div class="input-field col s12">
+                            <select class="browser-default" id="reason">
+                              <option value="" selected disabled>Choose your option</option>
+                              <option value="1">More information</option>
+                              <option value="2">Collaboration</option>
+                              <option value="3">General Inquiry</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                          <label>How Did You Find Us?</label>
+                          <br/>
+                        </div>
+                        <div class="input-field col m3 s6 center-align">
+                          <input name="group1" type="radio" id="google" />
+                          <label for="google">Google</label>
+                        </div>
+                        <div class="input-field col m3 s6 center-align">
+                          <input name="group1" type="radio" id="customer" />
+                          <label for="customer">Associate</label>
+                        </div>
+                        <div class="input-field col m3 s6 center-align">
+                          <input name="group1" type="radio" id="other" />
+                          <label for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="divider"></div>
+                    <div class="row">
+                        <div class="col m12">
+                         <p class="right-align"><button class="btn btn-large waves-effect waves-light red" type="button" name="action">Send Message</button></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+
+<!-- Footer start -->
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Mood ToolKit</h5>
+                <p class="grey-text text-lighten-4">Mood ToolKit is a collaberative effort between the University of Missouri Computer Science and Psychology departments. It can be used to build re-configurable surveys and data processing for mobile-based studies. </p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 Mood ToolKit
+            <a class="grey-text text-lighten-4 right" href="#!">Read More</a>
+        </div>
+    </div>
+</footer>
+
+</html>

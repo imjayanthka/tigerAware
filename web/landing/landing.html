@@ -1,0 +1,117 @@
+<div>
+   <div class="overlay"></div>
+   <div class = "hi z-depth-2">
+      <h2>Welcome</h2>
+         <p>to</p>
+         <h2>Mood ToolKit</h2>
+         <h5> A University of Missouri <br>Research Project</h5>
+         <span id="btn-transparent"><a class="waves-effect waves-light btn-large btn-left z-depth-3" ng-click="vm.directToRegister()">Register</a></span>
+         <a class="waves-effect waves-light btn-large btn-right modal-trigger z-depth-3" ng-click="vm.directToLogin()">Login</a>
+   </div>
+   <!-- Modal Structure -->
+   <div id="modal1" class="modal" ng-show="vm.showLoginModal">
+    <div class="modal-content">
+      <h4 class="center">Login </h4>
+      <div class="section"></div>
+
+      <div class="container center">
+        <div class="z-depth-1 grey lighten-4 row login-container">
+
+          <form name="loginForm" id = "loginform" class="col s12" novalidate>
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='text' ng-model="temp.username" name="username" required/>
+                <label for='username'>Enter your username:</label>
+                <span ng-show="loginForm.username.$dirty && loginForm.username.$error.required">*  Required</span>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='password' ng-model="temp.password" name="password" required/>
+                <label for='password'>Enter your password:</label>
+                <span ng-show="loginForm.password.$dirty &&  loginForm.password.$error.required">*  Required</span>
+              </div>
+            </div>
+
+            <br />
+            <center>
+              <div class='row'>
+                <button id = "btn_login" name='btn_login' class='col s12 btn btn-large waves-effect btn-left' ng-disabled="loginForm.$invalid" ng-click="vm.postLoginInfo()">Login</button>
+              </div>
+              <div>{{vm.message}}</div>
+            </center>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class = "container form-signin">
+
+   </div> <!-- /container -->
+    <div class="modal-footer">
+      <a ng-click="vm.cancelClicked()" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+    </div>
+   </div>
+
+   <div id="modal2" class="modal" ng-show="vm.showRegisterModal">
+    <div class="modal-content">
+      <h4 class="center">Register </h4>
+      <div class="section"></div>
+
+      <div class="container center">
+        <div class="z-depth-1 grey lighten-4 row login-container">
+
+          <form name="registerForm" id = "registerform" class="col s12" novalidate>
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='text' ng-model="temp.registerUsername" name="registerUsername" required/>
+                <label for='registerUsername'>Enter a username:</label>
+                <span ng-show="registerForm.registerUsername.$dirty && registerForm.registerUsername.$error.required">*  Required</span>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='password' ng-model="temp.registerPassword" name="registerPassword" equals={{temp.confirmPassword}} required/>
+                <label for='registerPassword'>Enter a password:</label>
+                <span ng-show="registerForm.registerPassword.$dirty &&  registerForm.registerPassword.$error.required">*  Required</span>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='password' ng-model="temp.confirmPassword" name="confirmPassword" equals={{temp.registerPassword}} required/>
+                <label for='confirmPassword'>Confirm password:</label>
+                <span ng-show="registerForm.confirmPassword.$dirty &&  registerForm.confirmPassword.$error.required">*  Required</span>
+                <span ng-show="registerForm.confirmPassword.$dirty &&  registerForm.confirmPassword.$error.equals">*  passwords should match</span>
+              </div>
+            </div>
+
+            <br />
+            <center>
+              <div class='row'>
+                <button id = "btn_login" name='btn_login' class='col s12 btn btn-large waves-effect btn-left' ng-disabled="registerForm.$invalid" ng-click="vm.postRegisterInfo()">Register</button>
+              </div>
+            </center>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class = "container form-signin">
+
+   </div> <!-- /container -->
+    <div class="modal-footer">
+      <a ng-click="vm.cancelClicked()" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+    </div>
+   </div>
+</div>

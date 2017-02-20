@@ -1,0 +1,25 @@
+# Folder view configuration files
+Desktop.ini
+*.DS_Store
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# Database config
+app/config/database.php
+
+
+# Compiled C++ files
+*.out
+
+# Application specific files
+node_modules
+.sass-cache
+sftp-config.json
+
+#pem file
+*.pem

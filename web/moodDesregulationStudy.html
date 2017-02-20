@@ -1,0 +1,285 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Research Dash Board</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="resources/css/style.css">
+
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    
+    <script src="resources/js/script.js" type="text/javascript"></script>
+    <script src="resources/js/study-graphs.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- navigation -->
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">Contact Info</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Add Patient</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Notify</a></li>
+    </ul>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper" id="navBack">
+                <a class="btn-floating btn-large grey lighten-3" id="toggleSideNav">
+                    <i class="material-icons" id ="arrow-back-icon" >arrow_back</i></a>
+                <!-- <a href="#!" id="nav-logo" >Mood ToolKit</a> -->
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#">Study</a></li>
+                    <li><a href="badges.html">About</a></li>
+                    <!-- Dropdown Trigger -->
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- end navigation -->
+    <!-- page content -->
+    <div class='row overview study'>
+        <h1 class = 'section-header '>Mood Dysregulation Study Overview</h1>
+
+        <div class="col s12 " id="overview">
+            <div class="card col s3" id="card1">
+                <div class="card-title">
+                    <h3>Progress</h3>
+                    <hr>
+                </div>
+                <div class="card-content">
+                  <p>258 total days</p>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+            <div class="card col s3" id="card2">
+                <div class="card-title">
+                    <h3>Participants</h3>
+                    <hr>
+                </div>
+                <div class="card-content">
+                  <i class = "material-icons right">alarm_on</i>
+                  <p>38 Participants</p>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+            <div class="card col s3" id="card3">
+                <div class="card-title">
+                    <h3>Contact</h3>
+                    <hr>
+                </div>
+                <div class="card-content">
+                <i class = "material-icons right i-card">contact_mail</i>
+
+                  <p></p>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+            <div class="card col s2" id="card4">
+                <div class="card-title">
+                    <h3>Notifications</h3>
+                    <hr>
+                </div>
+                <div class="card-content">
+                  <p>258 total days</p>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+      <h1 class = 'section-header center'>Response Summary</h1>
+        <div class='col s12'>
+            <div class='col s4 highcharts-background study-module study-stats' id='surveys'></div>
+            <div class='col s8 study-module' id='days'></div>
+        </div>
+    </div>
+   <div class = 'row'>
+      <h1 class = 'section-header left'>Participants</h1>
+
+      <div class='col s12'>
+         <div class="table-responsive-vertical shadow-z-1 study-module">
+           <!-- Table starts here -->
+           <table id="table" class="table table-hover table-mc-light-blue">
+               <thead>
+                 <tr>
+                   <th>ID</th>
+                   <th>Name</th>
+                   <th>Start Date</th>
+                   <th>End Date</th>
+                   <th>Days Elapsed</th>
+                   <th>Actions</th>
+                   <th>Status</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td data-title="ID">1</td>
+                   <td data-title="Name">John Apple</td>
+                   <td data-title="Start Date"> October 2, 2016</td>
+                   <td data-title="End Date"> November 7, 2016</td>
+                   <td data-title="Days Elapsed">15</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">In Progress</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">2</td>
+                   <td data-title="Name">John Orange</td>
+                   <td data-title="Start Date"> October 3, 2016</td>
+                   <td data-title="End Date"> November 1, 2016</td>
+                   <td data-title="Days Elapsed">12</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">In Progress</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">3</td>
+                   <td data-title="Name">Joan Mellon</td>
+                   <td data-title="Start Date"> September 2, 2016</td>
+                   <td data-title="End Date"> October 3, 2016</td>
+                   <td data-title="Days Elapsed">32</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">4</td>
+                   <td data-title="Name">Joan Tangerine</td>
+                   <td data-title="Start Date"> September 15, 2016</td>
+                   <td data-title="End Date"> October 10, 2016</td>
+                   <td data-title="Days Elapsed">17</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">5</td>
+                   <td data-title="Name">Jeff Appleson</td>
+                   <td data-title="Start Date"> October 3, 2016</td>
+                   <td data-title="End Date"> October 18, 2016</td>
+                   <td data-title="Days Elapsed">10</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">6</td>
+                   <td data-title="Name">Jamey Mango</td>
+                   <td data-title="Start Date"> August 5, 2016</td>
+                   <td data-title="End Date"> September 5, 2016</td>
+                   <td data-title="Days Elapsed">30</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">7</td>
+                   <td data-title="Name">Jeremiah Wooton</td>
+                   <td data-title="Start Date"> October 9, 2016</td>
+                   <td data-title="End Date"> November 1, 2016</td>
+                   <td data-title="Days Elapsed">4</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">In Progress</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">8</td>
+                   <td data-title="Name">James Appleseed</td>
+                   <td data-title="Start Date"> October 2, 2016</td>
+                   <td data-title="End Date"> November 7, 2016</td>
+                   <td data-title="Days Elapsed">15</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+                 <tr>
+                   <td data-title="ID">1</td>
+                   <td data-title="Name">Johnney Depth</td>
+                   <td data-title="Start Date"> September 22, 2016</td>
+                   <td data-title="End Date"> October 10, 2016</td>
+                   <td data-title="Days Elapsed">20</td>
+                   <td data-title="Actions">
+                     <i class="material-icons t-icon">alarm_on</i>
+                     <i class="material-icons t-icon">get_app</i>
+                     <i class="material-icons t-icon">settings</i>
+                   </td>
+                   <td data-title="Status">Complete</td>
+                 </tr>
+               </tbody>
+             </table>
+         </div>
+      </div>
+   </div>
+</body>
+
+
+<!-- Footer start -->
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">Mood ToolKit</h5>
+                <p class="grey-text text-lighten-4">Mood ToolKit is a collaberative effort between the University of Missouri Computer Science and Psychology departments. It can be used to build re-configurable surveys and data processing for mobile-based studies. </p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+                    <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2016 Mood ToolKit
+            <a class="grey-text text-lighten-4 right" href="#!">Read More</a>
+        </div>
+    </div>
+</footer>
+
+</html>

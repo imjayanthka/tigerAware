@@ -1,0 +1,289 @@
+@import 'https://code.highcharts.com/css/highcharts.css';
+@import "https://fonts.googleapis.com/css?family=Montserrat";
+
+* {
+   font-family: 'Open Sans', sans-serif;
+}
+
+a{
+   color: #454545;
+}
+th{
+   font-style: bold;
+}
+td{
+   text-align: center;
+}
+h1, h2, h3, p, a{
+   color:#454545;
+}
+
+h3{
+   font-size: 18px;
+   font-weight: 18pt;
+   color: #454545;
+}
+
+hr{
+   line-height: 1px;
+}
+
+.contact{
+   border-radius: 1px;
+   border-style: solid;
+   border-color: #454545;
+   border-radius: 15px;
+   background-color: #F9F8F8;
+   height: 90%;
+}
+
+.section-header{
+   font-family: 'Montserrat', sans-serif;
+   margin-bottom: 30px;
+   font-weight: 10px;
+   padding-left: 25px;
+   color: #454545;
+}
+
+#nav-logo{
+   font-style: bold;
+   font-weight: 20px
+}
+#navBack{
+   color: #454545 !important;
+}
+
+#arrow-back-icon{
+   color: black;
+}
+
+.p-icon{
+   margin: 0 5px 0 5px;
+   color: #dd616e;
+}
+
+#profile-actions{
+   position: relative;
+   margin-top: 18%;
+   margin-left: 75%;
+}
+
+.btn-floating{
+   margin-left: 12px;
+}
+
+.header{
+   margin-left: 300px;
+}
+
+.nav-wrapper{
+   background-color: #b3aee5;
+}
+.profile{
+   background-color: #F2F2F2;
+   /*background-image: url('mizzou.png');*/
+}
+.img-circle {
+    border-radius: 50%;
+    width: 200px;
+}
+#study-cards{
+   padding-top: 20px;
+   padding-bottom: 30px;
+}
+
+.nimh-study-card{
+   padding: 0px;
+}
+
+#study-overview-header{
+   padding-bottom: 20px;
+}
+
+.row{
+   padding: 10px 10px;
+   margin-bottom: 10px;
+}
+.chart {
+    min-width: 320px;
+    max-width: 800px;
+    height: 220px;
+    margin: 10 auto;
+}
+.study-stats{
+   background-color: white!important;
+   border-style: solid;
+   border-width: 1px;
+   border-color: #b3aee5!important;
+   margin-top: 4%;
+   margin-bottom: 10px;
+   border-radius: 20px;
+}
+.pie-charts{
+   margin-bottom: 25px;
+}
+
+footer.page-footer{
+   background-color: #b3aee5;
+   margin-top: 0px;
+}
+
+/* Study */
+#participant-table{
+   background-color:#f9f8f8;
+   border: 1px solid;
+   border-radius: 10px;
+   border-radius: 25px;
+}
+#mood-changes-header{
+   padding-top: 18px;
+}
+
+#mood-breakdown{
+   padding-top: 12px;
+}
+
+.mood-stats{
+   margin-left: 30px!important;
+}
+
+
+.study-page-card{
+   margin: 0 2% 0 2%;
+   background-color: #f9f8f8;
+}
+
+.overview-card{
+   border-style: solid 4px black;
+   border-radius: 10px;
+}
+
+.i-card{
+   color: #878E99;
+}
+
+#card1{
+   background-color: #FF9655;
+}
+
+#card2{
+   background-color: #93BEDF;
+}
+
+#surveys{
+   margin-top: 0px;
+   border-radius: 10px;
+}
+
+#days{
+   margin-top: 0px;
+   border-radius: 10px;
+}
+
+/*---- Table Style & Formatting*/
+.study-module{
+  border-radius: 8px;
+  border: solid 1.5px #dd616e;
+  background-color: #f9f8f8;
+  padding: 5px;
+  margin-top: 30px;
+}
+
+.t-icon{
+   margin: 0 5px 0 5px;
+   color: #dd616e;
+}
+
+td{
+   color: #454545;
+}
+
+.shadow-z-1 {
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  background-color: #f9f8f8;
+  color: #454545;
+}
+.table > thead > tr,
+.table > tbody > tr,
+.table > tfoot > tr {
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  text-align: left;
+  padding: 1.6rem;
+  vertical-align: top;
+  border-top: 0;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.table > thead > tr > th {
+  font-weight: 400;
+  color: #757575;
+  vertical-align: bottom;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.table > tbody + tbody {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.table .table {
+  background-color: #ffffff;
+}
+.table .no-border {
+  border: 0;
+}
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 0.8rem;
+}
+.table-bordered {
+  border: 0;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #f5f5f5;
+}
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background-color: rgba(0, 0, 0, 0.12);
+}
