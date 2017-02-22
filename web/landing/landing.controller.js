@@ -25,6 +25,10 @@
 
       //Initialize the modal
       function initModal(){
+            // $(document).ready(function(){
+            //    $('#preloader').fadeOut('fast');
+            // });
+
             $('#modal1').modal();
             $('#modal2').modal();
             $('#modal1,#modal2').modal({

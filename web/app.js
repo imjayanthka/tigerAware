@@ -2,7 +2,7 @@
    /***** Instantiate the module *****/
    "use strict";
    /***** Inject the modules which are dependencies *****/
-   
+   // initPreloader();
    angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies'])
    		  .config(config)
           .run(run);
@@ -11,7 +11,7 @@
    config.$inject = ['$routeProvider', '$locationProvider'];
     function config($routeProvider, $locationProvider) {
         $routeProvider
-            
+
 
             .when('/login', {
                 title: 'Login',
@@ -36,7 +36,7 @@
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
             })
-            
+
             .when('/nimh', {
                 title: 'Mood Toolkit',
                 controller: 'NimhController',
@@ -45,11 +45,16 @@
                 controllerAs: 'vm'
             })
 
-            
+
 
             .otherwise({ redirectTo: '/login' });
     }
 
+    function initPreloader(){
+         $(document).ready(function(){
+            $('#preloader').fadeOut('fast');
+         });
+    }
     //This takes care of enforcing the login while accessing the routes
     run.$inject = ['$rootScope', '$location', '$http','$cookies'];
     function run($rootScope, $location, $http,$cookies) {

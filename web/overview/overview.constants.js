@@ -1,35 +1,35 @@
 (function(){
 
     /***** Constants Singleton object for all the studies *****/
-    
+
    "use strict";
    angular.module('researchApp')
    .constant('OverviewConstants',
     {
         alcoholStudy:{
-            nameOfStudy: "Alcohol Craving",
+            nameOfStudy: "Campus Safety",
             link: "alcoholCravingStudy.html",
-            imageLink:"resources/images/alcohol.jpg",
-            description: "The Alcohol Craving Study is was funded by X and was conducted to study the relationship between alcohol craving, context, and phisiological data."
+            imageLink:"resources/images/safety.jpg",
+            description: "The Campus Safety Survey was conducted to examine what makes students feel unsafe, where they feel the most protected, and what campus safety officers can do to improve feelings of security."
         },
         nimhStudy:{
-            nameOfStudy: "NIMH",
+            nameOfStudy: "Sexual Assault",
             link: "nimh",
-            imageLink:"resources/images/nih.png",
+            imageLink:"resources/images/assault.jpg",
             description: "Here is some more information about this product that is only revealed once clicked on."
 
         },
         moodDysregulationStudy:{
-            nameOfStudy: "Mood Dysregulation",
+            nameOfStudy: "Student Satisfaction",
             link: "moodDesregulationStudy.html",
-            imageLink:"resources/images/mood.jpg",
+            imageLink:"resources/images/satisfaction.jpg",
             description: "Here is some more information about this product that is only revealed once clicked on."
 
         },
         sluWatchStudy:{
-            nameOfStudy: "SLU WATCH",
+            nameOfStudy: "Mumps Spread",
             link: "sluWatch",
-            imageLink:"resources/images/watch.png",
+            imageLink:"resources/images/doctor.jpg",
             description: "Here is some more information about this product that is only revealed once clicked on."
         }
 

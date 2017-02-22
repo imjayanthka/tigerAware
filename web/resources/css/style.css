@@ -2,7 +2,7 @@
 @import "https://fonts.googleapis.com/css?family=Montserrat";
 
 * {
-   font-family: 'Open Sans', sans-serif;
+   font-family: 'Montserrat', sans-serif;
 }
 
 a{
@@ -77,7 +77,7 @@ hr{
 }
 
 .nav-wrapper{
-   background-color: #b3aee5;
+   background-color: #031926;
 }
 .profile{
    background-color: #F2F2F2;
@@ -114,18 +114,31 @@ hr{
    background-color: white!important;
    border-style: solid;
    border-width: 1px;
-   border-color: #b3aee5!important;
+   border-color: #031926!important;
    margin-top: 4%;
    margin-bottom: 10px;
    border-radius: 20px;
 }
+
+.study-module{
+   border-radius: 8px;
+   border: solid 1.5px #031926;
+   background-color: #f9f8f8;
+   padding: 5px;
+   margin-top: 30px;
+}
+
 .pie-charts{
    margin-bottom: 25px;
 }
 
 footer.page-footer{
-   background-color: #b3aee5;
+   background-color: #031926;
    margin-top: 0px;
+}
+
+.footer-content{
+   padding-left: 40px;
 }
 
 /* Study */
@@ -147,7 +160,6 @@ footer.page-footer{
    margin-left: 30px!important;
 }
 
-
 .study-page-card{
    margin: 0 2% 0 2%;
    background-color: #f9f8f8;
@@ -163,11 +175,11 @@ footer.page-footer{
 }
 
 #card1{
-   background-color: #FF9655;
+   background-color: #E7E247;
 }
 
 #card2{
-   background-color: #93BEDF;
+   background-color: #EF7458;
 }
 
 #surveys{
@@ -181,13 +193,7 @@ footer.page-footer{
 }
 
 /*---- Table Style & Formatting*/
-.study-module{
-  border-radius: 8px;
-  border: solid 1.5px #dd616e;
-  background-color: #f9f8f8;
-  padding: 5px;
-  margin-top: 30px;
-}
+
 
 .t-icon{
    margin: 0 5px 0 5px;
