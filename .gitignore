@@ -12,6 +12,7 @@ Thumbs.db
 
 # Database config
 app/config/database.php
+*firebase.js
 
 
 # Compiled C++ files
