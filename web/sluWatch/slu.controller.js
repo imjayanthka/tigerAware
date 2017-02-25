@@ -14,7 +14,7 @@
       vm.showUserPageFlag = false;
       vm.findAvgCompliance = null;
       /** Initiate LogOut **/
-      vm.initiateLogOut =function(){
+      vm.initiateLogOut = function(){
 
         vm.message = "You have logged out Successfully!";
         LoginService.clearCredentials();
@@ -35,8 +35,6 @@
         }
 
       }
-
-
 
       /*** Initialize SLU controller where the get call and main functionality happens ***/
       function initSluController(){
@@ -90,8 +88,8 @@
                return AggregateService.getTotalValue(vm.sluData.users,property);
              }
             console.log(vm.findAvgCompliance);
-            
-            
+
+
             /** Sets flags and initiates route to SLU user view **/
 
             vm.navigateToUserPage = function(userId){
@@ -135,7 +133,7 @@
                   vm.currentUser.complianceDaysSeries.push(value['date']);
                   vm.currentUser.complianceDailySeries.push(value['avg']);
                });
-               
+
 
                // User-specific hourly phis measures
                vm.currentUser.hoursSeries = []
@@ -659,10 +657,10 @@
                       title: {
                           text: 'Daily Survey Compliance'
                       },
-                      
+
                       xAxis: {
                           min: 8,
-                          categories: vm.currentUser.complianceDaysSeries,  
+                          categories: vm.currentUser.complianceDaysSeries,
                           crosshair: true
                       },
                       yAxis: {

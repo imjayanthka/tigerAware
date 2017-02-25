@@ -3,7 +3,7 @@
    "use strict";
    /***** Inject the modules which are dependencies *****/
    // initPreloader();
-   angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies'])
+   angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies', "firebase"])
    		  .config(config)
           .run(run);
 
@@ -45,7 +45,13 @@
                 controllerAs: 'vm'
             })
 
-
+            .when('/firebase', {
+                title: 'Firebase demo',
+                controller: 'FirebaseController',
+                templateUrl: 'firebase/firebase.html',
+                css: 'resources/css/style.css',
+                controllerAs: 'vm'
+            })
 
             .otherwise({ redirectTo: '/login' });
     }
