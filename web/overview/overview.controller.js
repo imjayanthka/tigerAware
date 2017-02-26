@@ -1,7 +1,7 @@
 (function(){
 
   /***** Controller for Overview page *****/
-  
+
    "use strict";
    angular.module('researchApp')
    .controller('OverviewController', OverviewController);
@@ -9,10 +9,8 @@
 
    function OverviewController(ngScope,ngRootScope,http,OverviewConstants,timeout,location,LoginService){
 
-
             var vm=this;
-        
-        
+
             vm.initOverviewController=initOverviewController;
             //Wait for executing until dom
             timeout(initOverviewController,50);

@@ -11,7 +11,6 @@ function createStudiesObject(){
       });
    });
 
-   var demo_study
    // Parse through data blueprint & retreive corresponding data
    var blueprintRef = database.ref('blueprints/');
 

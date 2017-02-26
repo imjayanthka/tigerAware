@@ -49,7 +49,7 @@
    <div class="row">
       <div class="col s3" >
          <div class="row">
-         <h1 class = 'section-header center'></h1>
+         <h1 class = 'section-header center'>{{vm.study_name }}</h1>
             <div class="card col s12 z-depth-1" id="card1">
                 <div class="card-title">
                     <h3>Study Progress</h3>
@@ -58,7 +58,7 @@
                 <div class="card-content">
                   <div><p class="days"><strong>Total Participants: {{vm.nimhData.users.length}}</strong></p><br></div>
                   <div><p class="days"><strong>Total days complete: {{vm.findTotal('day-count')}}</strong></p><br></div>
-                  <div><p class="surveys"><strong>Total surveys complete: {{vm.findTotal('survey-count')}}</strong></p></div>
+                  <div><p class="surveys"><strong>Total surveys complete:  {{vm.number_responses}}</strong></p></div>
                 </div>
                 <div class="card-action">
                 </div>

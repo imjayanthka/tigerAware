@@ -2,14 +2,16 @@
 
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('FirebaseController',FirebaseController);
-   FirebaseController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','LoginService','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray'];
+   FirebaseController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','LoginService','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout"];
 
-   function FirebaseController(ngScope,ngRootScope,$http,nimhAPI,window,location,LoginService,ColorConstants,graphService,AggregateService, firebaseObject){
+   function FirebaseController($scope,$rootScope,$http,nimhAPI,$window,$location,LoginService,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout){
       var vm = this;
-
       vm.takeBack = takeBack;
       vm.length = 10;
       vm.surveySchema = {}
+
+      createStudiesObject();
+      initNIMHController();
 
       function createStudiesObject(){
          //Get current user. Retrieve all surveys corresponding to the user.
@@ -20,6 +22,7 @@
                user_surveys.push(childSnapshot.val());
             });
          });
+         vm.study_name = "createStudiesObject";
 
          var demo_study
          // Parse through data blueprint & retreive corresponding data
@@ -28,6 +31,7 @@
          //Iterate through all study blueprints and save data
          blueprintRef.once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
+               vm.study_name = "innertest"
                var study_information = {}
                var childKey = childSnapshot.key;
                var childData = childSnapshot.val();
@@ -49,21 +53,19 @@
                   blueprints[childKey] = study_information;
                }
             });
-            parse_blueprint(blueprints);
+
+            $timeout(function() {
+               parse_blueprint(blueprints);
+            });
          });
          function parse_blueprint(blueprints){
-            blueprints = blueprints["-KaG7uz6fbY_rQPTx9kN"];
-            console.log(blueprints);
-            vm.surveySchema = blueprints
-            console.log(vm.surveySchema.name);
+            vm.surveySchema = blueprints["-KaG7uz6fbY_rQPTx9kN"];
             vm.study_name = vm.surveySchema.name;
-            console.log(vm.study_name);
+            vm.number_responses = Object.keys(vm.surveySchema.answers).length;
+            console.log(vm.number_responses);
 
          }
       }
-      createStudiesObject();
-      initNIMHController();
-      console.log(blueprints);
 
       vm.initiateLogOut = function(){
         vm.message = "You have logged out Successfully!";
