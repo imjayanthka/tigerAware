@@ -89,25 +89,18 @@
       </div>
    </div>
 
+      <h1 class = 'section-header center-align' id = "study-overview-header">Dynamic Surveys</h1>
 
-   <div class='row'>
-      <h1 class = 'section-header center'>Mood Changes</h1>
-      <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
-        <highchart config="vm.moodChangesGraph"></highchart>
-      </div>
-   </div>
-    <div class='row'>
-      <h1 class = 'section-header center'>Response Summary</h1>
-      <div class='col s3 highcharts-background study-module study-stats mood-stats z-depth-1'>
-        <highchart config="vm.totalMoodBreakdownGraph"></highchart>
-      </div>
-      <div class="col s4  highcharts-background study-module study-stats mood-stats z-depth-1">
-        <highchart config="vm.negativeMoodBreakdownGraph"></highchart>
-      </div>
-      <div class="col s4 highcharts-background study-module study-stats mood-stats z-depth-1">
-        <highchart config="vm.positiveMoodBreakdownGraph"></highchart>
-      </div>
-    </div>
+
+     <div ng-repeat="question in vm.loadedResponses">
+         <div class='row'>
+            <h1 class = 'section-header center'>{{question.title}}</h1>
+               <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
+            <highchart config="vm.negativeMoodBreakdownGraph"></highchart>
+            </div>
+         </div>
+     </div>
+
    <div class = 'row'>
       <h1 class = 'section-header left'>Participants</h1>
 

@@ -10,8 +10,8 @@
       vm.length = 10;
       vm.surveySchema = {}
 
-      createStudiesObject();
       initNIMHController();
+      createStudiesObject();
 
       function createStudiesObject(){
          //Get current user. Retrieve all surveys corresponding to the user.
@@ -62,8 +62,38 @@
             vm.surveySchema = blueprints["-KaG7uz6fbY_rQPTx9kN"];
             vm.study_name = vm.surveySchema.name;
             vm.number_responses = Object.keys(vm.surveySchema.answers).length;
-            console.log(vm.number_responses);
 
+            var surveys = vm.surveySchema.survey;
+            var survey_display_data = {}
+            for(var question in surveys){
+               var chart = {}
+               chart.title = surveys[question].title;
+               chart.type = surveys[question].type
+
+               if (surveys[question].type === "textSlide" || surveys[question].type === "textField") {
+                  continue;
+               }else{
+                  answers = {}
+                  for (var response in vm.surveySchema.answers) {
+                     if (vm.surveySchema.answers.hasOwnProperty(response)) {
+                        response = vm.surveySchema.answers[response].surveyData[surveys[question].id]
+                        if (answers[response]){
+                           answers[response]++;
+                        }else{
+                           answers[response] = 1;
+                        }
+                     }
+                  }
+               }
+               chart.answers = answers
+               chart.graph = function(){
+                  if(chart.type == "yesNo"){
+
+                  }
+               }
+               survey_display_data[surveys[question].id] = chart;
+            }
+            vm.loadedResponses = survey_display_data;
          }
       }
 
@@ -290,94 +320,50 @@
 
       //       } //end of mood-changes breakdown graph
 
-      //       vm.negativeMoodBreakdownGraph = {
+            vm.negativeMoodBreakdownGraph = {
 
-      //          options:{
-      //             chart: {
-      //                plotBackgroundColor: null,
-      //                plotBorderWidth: null,
-      //                plotShadow: false,
-      //                type: 'pie'
-      //             },
-      //             title: {
-      //                text: 'Negative Mood Change Triggers'
-      //             },
-      //             tooltip: {
-      //                borderColor: null,
-      //                pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
-      //             },
-      //             plotOptions: {
-      //                pie: {
-      //                   allowPointSelect: true,
-      //                   cursor: 'pointer',
-      //                   dataLabels: {
-      //                      enabled: true
-      //                   }
-      //                }
-      //             }
-      //          },
-      //          credits: {
-      //             enabled: false
-      //          },
-      //          series: [{
-      //             name: 'Negative Triggers',
-      //             colorByPoint: true,
-      //             data: [{
-      //                name: 'Argument or Conflict',
-      //                color: vm.colors[0],
-      //                y: parseInt(vm.nimhData['neg_argument_or_conflict'])
-      //             }, {
-      //                name: 'Felt Rejected',
-      //                color: vm.colors[1],
-      //                y: parseInt(vm.nimhData['neg_felt_rejected'])
-      //             }, {
-      //                name: 'Lack of Sleep',
-      //                color: vm.colors[2],
-      //                y: parseInt(vm.nimhData['neg_lack_of_sleep'])
-      //             }, {
-      //                name: 'No trigger',
-      //                color: vm.colors[3],
-      //                y: parseInt(vm.nimhData['neg_no_trigger'])
-      //             }, {
-      //                name: 'Other',
-      //                color: vm.colors[4],
-      //                y: parseInt(vm.nimhData['neg_other'])
-      //             }, {
-      //                name: 'Pain Or Bodiy Discomfort',
-      //                color: vm.colors[5],
-      //                y: parseInt(vm.nimhData['neg_pain_or_bodiy_discomfort'])
-      //             },{
-      //                name: 'Problem at Work or School',
-      //                color: vm.colors[6],
-      //                y: parseInt(vm.nimhData['neg_problem_at_work_or_school'])
-      //             }, {
-      //                name: 'Received Bad News',
-      //                color: vm.colors[7],
-      //                y: parseInt(vm.nimhData['neg_received_bad_news'])
-      //             },{
-      //                name: 'Stress',
-      //                color: vm.colors[8],
-      //                y: parseInt(vm.nimhData['neg_stress'])
-      //             },{
-      //                name: 'Upset/Mad at Myself',
-      //                color: vm.colors[9],
-      //                y: parseInt(vm.nimhData['neg_upset_mad_at_myself'])
-      //             }, {
-      //                name: 'Used Alcohol',
-      //                color: vm.colors[10],
-      //                y: parseInt(vm.nimhData['neg_used_alcohol'])
-      //             },{
-      //                name: 'Used Drugs',
-      //                color: vm.colors[11],
-      //                y: parseInt(vm.nimhData['neg_used_drugs'])
-      //             }, {
-      //                name: 'Used Prescribed Medications',
-      //                color: vm.colors[12],
-      //                y: parseInt(vm.nimhData['neg_used_prescribed_medications'])
-      //             }]
-      //          }]
+               options:{
+                  chart: {
+                     plotBackgroundColor: null,
+                     plotBorderWidth: null,
+                     plotShadow: false,
+                     type: 'pie'
+                  },
+                  title: {
+                     text: 'Negative Mood Change Triggers'
+                  },
+                  tooltip: {
+                     borderColor: null,
+                     pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
+                  },
+                  plotOptions: {
+                     pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                           enabled: true
+                        }
+                     }
+                  }
+               },
+               credits: {
+                  enabled: false
+               },
+               series: [{
+                  name: 'Negative Triggers',
+                  colorByPoint: true,
+                  data: [{
+                     name: 'Yes',
+                     color: vm.colors[1],
+                     y: 5
+                  }, {
+                     name: 'No',
+                     color: vm.colors[0],
+                     y: 2
+                  }]
+               }]
 
-      //       }// end of neg-mood breakdown graph
+            }// end of neg-mood breakdown graph
 
       //       vm.positiveMoodBreakdownGraph = {
 
