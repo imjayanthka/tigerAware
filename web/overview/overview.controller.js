@@ -10,7 +10,7 @@
    function OverviewController(ngScope,ngRootScope,http,OverviewConstants,timeout,location,LoginService){
 
             var vm=this;
-
+            console.log(ngScope.const);
             vm.initOverviewController=initOverviewController;
             //Wait for executing until dom
             timeout(initOverviewController,50);

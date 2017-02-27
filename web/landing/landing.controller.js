@@ -14,14 +14,19 @@
       vm.directToLogin=directToLogin;
       vm.initModal = initModal;
       vm.directToRegister=directToRegister;
+      vm.directToFirebaseLogin=directToFirebaseLogin;
       vm.showLoginModal=false;
       vm.showRegisterModal =false;
       vm.postLoginInfo =postLoginInfo;
       vm.postRegisterInfo = postRegisterInfo;
       vm.cancelClicked =cancelClicked;
+
+      ngScope.const = "test";
+
       LoginService.clearCredentials();
 
       initModal();
+      listenAuthEvents();
 
       //Initialize the modal
       function initModal(){
@@ -49,7 +54,38 @@
          vm.message ="";
          vm.showLoginModal=true;
          $('#modal1').modal('open');
+      }
 
+      function directToFirebaseLogin(){
+         console.log('directed');
+         var provider = new firebase.auth.GoogleAuthProvider();
+         firebase.auth().signInWithPopup(provider).then(function(result) {
+
+           var token = result.credential.accessToken;
+           // vm.user = result.user;
+
+         }).catch(function(error) {
+
+           var errorCode = error.code;
+           var errorMessage = error.message;
+           var email = error.email;
+           var credential = error.credential;
+
+         });
+      }
+
+      function listenAuthEvents(){
+         var user = firebase.auth().currentUser;
+
+         firebase.auth().onAuthStateChanged(function(user) {
+            vm.user = user;
+            if (user) {
+               // User is signed in.
+               console.log(vm.user)
+            } else {
+               // No user is signed in.
+            }
+         });
       }
 
       function directToRegister(){
