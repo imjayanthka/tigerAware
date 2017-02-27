@@ -31,7 +31,6 @@
          //Iterate through all study blueprints and save data
          blueprintRef.once('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-               vm.study_name = "innertest"
                var study_information = {}
                var childKey = childSnapshot.key;
                var childData = childSnapshot.val();
@@ -85,12 +84,9 @@
                      }
                   }
                }
-               chart.answers = answers
-               chart.graph = function(){
-                  if(chart.type == "yesNo"){
+               chart.answers = answers;
+               chart.graph = vm.nd;
 
-                  }
-               }
                survey_display_data[surveys[question].id] = chart;
             }
             vm.loadedResponses = survey_display_data;
@@ -112,33 +108,61 @@
           vm.showOverviewPageFlag=true;
         }
       }
+
+      vm.nd = {
+               options:{
+                  chart: {
+                     plotBackgroundColor: null,
+                     plotBorderWidth: null,
+                     plotShadow: false,
+                     type: 'pie'
+                  },
+                  title: {
+                     text: 'Negative Mood Change Triggers'
+                  },
+                  tooltip: {
+                     borderColor: null,
+                     pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
+                  },
+                  plotOptions: {
+                     pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                           enabled: true
+                        }
+                     }
+                  }
+               },
+               credits: {
+                  enabled: false
+               },
+               series: [{
+                  name: 'Negative Triggers',
+                  colorByPoint: true,
+                  data: [{
+                     name: 'Yes',
+                     color: vm.colors[1],
+                     y: 5
+                  }, {
+                     name: 'No',
+                     color: vm.colors[0],
+                     y: 2
+                  }]
+               }]
+            }// end of graph
+
       function initNIMHController(){
          vm.showOverviewPageFlag =true;
 
-             // vm.findAvgCompliance = AggregateService.getAverageCompliance(vm.nimhData.users);
-
-      //        vm.findTotal = function(property){
-      //          return AggregateService.getTotalValue(vm.nimhData.users,property);
-      //        }
 
       //        //Colors for the graph
-             vm.colors = ['#FF9655', '#adfc71', '#dd616e', '#454545', '#b3aee5', '#64E572', '#FFF263', '#66FFCC', '#51b93e'];
+         vm.colors = ['#FF9655', '#adfc71', '#dd616e', '#454545', '#b3aee5', '#64E572', '#FFF263', '#66FFCC', '#51b93e'];
 
       //        //Data for the graphs in desired format
-      //        vm.users = [];
-      //        vm.users.daysComplete = [];
-      //        vm.users.surveysComplete = [];
-      //        vm.users.totalMoodChanges = [];
-      //        vm.users.positiveMoodChanges = [];
-      //        vm.users.negativeMoodChanges = [];
-      //        angular.forEach(vm.nimhData.users, function(value, key) {
-      //             vm.users.push('USER ' + value.user);
-      //             vm.users.daysComplete.push(value['day-count']);
-      //             vm.users.surveysComplete.push(value['survey-count']);
-      //             vm.users.totalMoodChanges.push(value['total_mood_changes']);
-      //             vm.users.positiveMoodChanges.push(value['positive_changes']);
-      //             vm.users.negativeMoodChanges.push(value['negative_changes']);
-      //        });
+
+
+
       //        vm.navigateToUserPage = function(userId){
 
       //         vm.showOverviewPageFlag = false;
