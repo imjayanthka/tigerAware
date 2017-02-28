@@ -7,15 +7,14 @@
    .controller('OverviewController', OverviewController);
    OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','LoginService'];
 
-   function OverviewController(ngScope,ngRootScope,http,OverviewConstants,timeout,location,LoginService){
+   function OverviewController($scope,ngRootScope,http,OverviewConstants,timeout,location,LoginService){
 
             var vm=this;
-            console.log(ngScope.const);
+            console.log($scope);
             vm.initOverviewController=initOverviewController;
-            //Wait for executing until dom
+
             timeout(initOverviewController,50);
             function initOverviewController(){
-                console.log("hello");
 
                 $(".dropdown-button").dropdown();
                 $(".button-collapse").sideNav();

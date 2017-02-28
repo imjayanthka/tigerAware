@@ -7,6 +7,12 @@
    		  .config(config)
           .run(run);
 
+   angular.module('researchApp').factory("Auth", ["firebaseAuth",
+      function($firebaseAuth){
+         return $firebaseAuth();
+      }
+   ]);
+
     //Any new route(Page) added needs to be configured here by providiing it's details
    config.$inject = ['$routeProvider', '$locationProvider'];
     function config($routeProvider, $locationProvider) {

@@ -13,6 +13,12 @@
       initNIMHController();
       createStudiesObject();
 
+
+      var ref = firebase.database().ref();
+      // download the data into a local object
+      $scope.data = $firebaseObject(ref);
+      // putting a console.log here won't work, see below
+
       function createStudiesObject(){
          //Get current user. Retrieve all surveys corresponding to the user.
          var user_surveys = []
@@ -21,42 +27,42 @@
             snapshot.forEach(function(childSnapshot) {
                user_surveys.push(childSnapshot.val());
             });
-         });
-         vm.study_name = "createStudiesObject";
+         }).then(function(){
 
-         var demo_study
-         // Parse through data blueprint & retreive corresponding data
-         var blueprintRef = database.ref('blueprints/');
+            var demo_study;
+            // Parse through data blueprint & retreive corresponding data
+            var blueprintRef = firebase.database().ref('blueprints/');
+            var blueprints = {}
 
-         //Iterate through all study blueprints and save data
-         blueprintRef.once('value', function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-               var study_information = {}
-               var childKey = childSnapshot.key;
-               var childData = childSnapshot.val();
+            //Iterate through all study blueprints and save data
+            blueprintRef.once('value', function(snapshot) {
+               snapshot.forEach(function(childSnapshot) {
+                  var study_information = {}
+                  var childKey = childSnapshot.key;
+                  var childData = childSnapshot.val();
 
-               // Scope result to surveys owned by current user
-               if (-1 !== $.inArray(childSnapshot.key, user_surveys)){
-                  study_information['name'] = childData.name;
-                  study_information['survey'] = childData.survey;
+                  // Scope result to surveys owned by current user
+                  if (-1 !== $.inArray(childSnapshot.key, user_surveys)){
+                     study_information['name'] = childData.name;
+                     study_information['survey'] = childData.survey;
 
-                  shallow_dataRef = database.ref('data/' + childSnapshot.key);
-                  shallow_dataRef.once('value', function(snapshot_data){
-                     if (snapshot_data.val() != null){
-                        study_information['answers'] = snapshot_data.val().answers;
-                     }else{
-                        study_information['answers'] = null;
-                     }
-                  });
-
-                  blueprints[childKey] = study_information;
-               }
+                     shallow_dataRef = firebase.database().ref('data/' + childSnapshot.key);
+                     shallow_dataRef.once('value', function(snapshot_data){
+                        if (snapshot_data.val() != null){
+                           study_information['answers'] = snapshot_data.val().answers;
+                        }else{
+                           study_information['answers'] = null;
+                        }
+                     });
+                     blueprints[childKey] = study_information;
+                  }
+               });
+               $timeout(function() {
+                  parse_blueprint(blueprints);
+               });
             });
-
-            $timeout(function() {
-               parse_blueprint(blueprints);
-            });
          });
+
          function parse_blueprint(blueprints){
             vm.surveySchema = blueprints["-KaG7uz6fbY_rQPTx9kN"];
             vm.study_name = vm.surveySchema.name;
@@ -90,8 +96,8 @@
                survey_display_data[surveys[question].id] = chart;
             }
             vm.loadedResponses = survey_display_data;
+            }
          }
-      }
 
       vm.initiateLogOut = function(){
         vm.message = "You have logged out Successfully!";

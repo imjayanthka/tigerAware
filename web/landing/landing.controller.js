@@ -5,9 +5,9 @@
    angular
       .module('researchApp')
       .controller('LandingController', LandingController);
-   LandingController.$inject = ['$scope','$rootScope','$http','$location', 'LoginService'];
+   LandingController.$inject = ['$scope','$rootScope','$http','$location', 'LoginService', '$firebaseAuth',  "Auth"];
 
-   function LandingController(ngScope,ngRootScope,http,location,LoginService){
+   function LandingController($scope,ngRootScope,http,location,LoginService, $firebaseAuth, Auth){
 
 
       var vm = this;
@@ -21,7 +21,7 @@
       vm.postRegisterInfo = postRegisterInfo;
       vm.cancelClicked =cancelClicked;
 
-      ngScope.const = "test";
+      $scope.const = "test";
 
       LoginService.clearCredentials();
 
@@ -58,20 +58,33 @@
 
       function directToFirebaseLogin(){
          console.log('directed');
-         var provider = new firebase.auth.GoogleAuthProvider();
-         firebase.auth().signInWithPopup(provider).then(function(result) {
+         var auth = $firebaseAuth();
+         $scope.signIn = function() {
+            $scope.firebaseUser = null;
+            $scope.error = null;
 
-           var token = result.credential.accessToken;
-           // vm.user = result.user;
+            auth.$signInAnonymously().then(function(firebaseUser) {
+               $scope.firebaseUser = firebaseUser;
+      }).catch(function(error) {
+        $scope.error = error;
+      });
+    };
 
-         }).catch(function(error) {
 
-           var errorCode = error.code;
-           var errorMessage = error.message;
-           var email = error.email;
-           var credential = error.credential;
+         // var provider = new firebase.auth.GoogleAuthProvider();
+         // firebase.auth().signInWithPopup(provider).then(function(result) {
 
-         });
+         //   var token = result.credential.accessToken;
+         //   // vm.user = result.user;
+
+         // }).catch(function(error) {
+
+         //   var errorCode = error.code;
+         //   var errorMessage = error.message;
+         //   var email = error.email;
+         //   var credential = error.credential;
+
+         // });
       }
 
       function listenAuthEvents(){
@@ -100,7 +113,7 @@
          var requestURL = '../app/helpers/loginHelper.php';
 
 
-         var data = { username: ngScope.temp.username , password: ngScope.temp.password};
+         var data = { username: $scope.temp.username , password: $scope.temp.password};
 
          http({
              method: 'POST',
@@ -113,7 +126,7 @@
             console.log(response.data);
             vm.message = response.data.msg;
             if(response.data.status == true){
-               LoginService.setCredentials(ngScope.temp.username);
+               LoginService.setCredentials($scope.temp.username);
                Materialize.toast(vm.message, 3000, 'rounded');
                location.path('/overview');
                console.log("login yes");
@@ -132,7 +145,7 @@
          var requestURL = '../app/helpers/registerHelper.php';
 
 
-         var data = { username: ngScope.temp.registerUsername , password: ngScope.temp.registerPassword};
+         var data = { username: $scope.temp.registerUsername , password: $scope.temp.registerPassword};
          console.log(data);
          http({
              method: 'POST',
@@ -159,15 +172,15 @@
       //Clear form and set pristine
       function cancelClicked(){
          var master = { username: '' , password:''};
-         ngScope.temp = angular.copy(master);
+         $scope.temp = angular.copy(master);
 
-         ngScope.loginForm.$setPristine();
+         $scope.loginForm.$setPristine();
       }
       function registerCancelClicked(){
          var master = { registerUsername: '' , registerPassword:'', confirmPassword: ''};
-         ngScope.temp = angular.copy(master);
+         $scope.temp = angular.copy(master);
          vm.message = "";
-         ngScope.registerForm.$setPristine();
+         $scope.registerForm.$setPristine();
       }
    }
 })();

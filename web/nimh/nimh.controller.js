@@ -1,15 +1,15 @@
 (function(){
-   
+
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('NimhController',NimhController);
    NimhController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','LoginService','ColorConstants','graphService','AggregateService'];
 
-   function NimhController(ngScope,ngRootScope,$http,nimhAPI,window,location,LoginService,ColorConstants,graphService,AggregateService){
+   function NimhController($scope,ngRootScope,$http,nimhAPI,window,location,LoginService,ColorConstants,graphService,AggregateService){
 
       var vm = this;
       initNIMHController();
       vm.takeBack = takeBack;
-
+      console.log($scope);
 
       vm.initiateLogOut =function(){
 
@@ -28,7 +28,7 @@
         }
       }
       function initNIMHController(){
-         
+
           nimhAPI.getNIMHData().then(function (d){
 
              vm.nimhData = d.data;
@@ -44,7 +44,7 @@
              vm.findTotal = function(property){
                return AggregateService.getTotalValue(vm.nimhData.users,property);
              }
-             
+
              //Colors for the graph
              vm.colors = ['#FF9655', '#adfc71', '#dd616e', '#454545', '#b3aee5', '#64E572', '#FFF263', '#66FFCC', '#51b93e'];
 
@@ -64,7 +64,7 @@
                   vm.users.negativeMoodChanges.push(value['negative_changes']);
              });
              vm.navigateToUserPage = function(userId){
-            
+
               vm.showOverviewPageFlag = false;
               vm.showUserPageFlag=true;
               window.scrollTo(0,0);
@@ -130,12 +130,12 @@
 
                 } //end of user-mood-changes breakdown graph
              }
-             
+
              /** All the graphs on the OVERVIEW page **/
             vm.daysSurveysGraph = graphService.getDaysInStudyGraph(vm.users, vm.users.daysComplete, vm.users.surveysComplete); //end of days-surveys graphs
 
             vm.moodChangesGraph ={
-               options :{ 
+               options :{
 
                  chart: {
                      type: 'column'
@@ -330,7 +330,7 @@
                      y: parseInt(vm.nimhData['neg_used_prescribed_medications'])
                   }]
                }]
-               
+
             }// end of neg-mood breakdown graph
 
             vm.positiveMoodBreakdownGraph = {

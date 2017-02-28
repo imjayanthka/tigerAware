@@ -4,7 +4,7 @@
    angular.module('researchApp').controller('SluController',SluController);
    SluController.$inject = ['$scope','$rootScope','$http','$window','$location','LoginService','sluWatchAPI','graphService','ColorConstants','AggregateService'];
 
-   function SluController(ngScope,ngRootScope,$http,window,location,LoginService,sluWatchAPI,graphService,ColorConstants,AggregateService){
+   function SluController($scope,ngRootScope,$http,window,location,LoginService,sluWatchAPI,graphService,ColorConstants,AggregateService){
 
       var vm = this;
 
