@@ -1,7 +1,7 @@
 (function(){
 
     /***** SERVICE to Control Login *****/
-    
+
    angular.module('researchApp').service('LoginService',['$http', '$rootScope', '$cookies', function LoginService($http,$rootScope,$cookies){
 
    		var service = {};

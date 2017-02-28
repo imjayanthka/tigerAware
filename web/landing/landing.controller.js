@@ -5,49 +5,43 @@
    angular
       .module('researchApp')
       .controller('LandingController', LandingController);
-   LandingController.$inject = ['$scope','$rootScope','$http','$location', 'LoginService', '$firebaseAuth',  "Auth"];
+   LandingController.$inject = ['$scope','$rootScope','$http','$location', 'LoginService', '$firebaseAuth',];
 
-   function LandingController($scope,ngRootScope,http,location,LoginService, $firebaseAuth, Auth){
-
+   function LandingController($scope,$rootScope,http,location,LoginService, $firebaseAuth){
 
       var vm = this;
       vm.directToLogin=directToLogin;
       vm.initModal = initModal;
       vm.directToRegister=directToRegister;
-      vm.directToFirebaseLogin=directToFirebaseLogin;
       vm.showLoginModal=false;
       vm.showRegisterModal =false;
       vm.postLoginInfo =postLoginInfo;
       vm.postRegisterInfo = postRegisterInfo;
       vm.cancelClicked =cancelClicked;
 
-      $scope.const = "test";
-
       LoginService.clearCredentials();
+      $scope.auth = $firebaseAuth();
+      $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+         $rootScope.firebaseUser = firebaseUser;
+         console.log($rootScope.firebaseUser);
+      });
 
       initModal();
-      listenAuthEvents();
-
       //Initialize the modal
       function initModal(){
-            // $(document).ready(function(){
-            //    $('#preloader').fadeOut('fast');
-            // });
-
-            $('#modal1').modal();
-            $('#modal2').modal();
-            $('#modal1,#modal2').modal({
+         $('#modal1').modal();
+         $('#modal2').modal();
+         $('#modal1,#modal2').modal({
             dismissible: true,
             opacity: .5,
             in_duration: 300,
             out_duration: 200,
             starting_top: '4%',
             ending_top: '10%',
-            ready: function(modal, trigger) {
-            }
-          });
-            vm.showLoginModal=false;
-            vm.showRegisterModal =false;
+            ready: function(modal, trigger) {}
+         });
+         vm.showLoginModal=false;
+         vm.showRegisterModal =false;
       }
 
       function directToLogin(){
@@ -56,50 +50,23 @@
          $('#modal1').modal('open');
       }
 
-      function directToFirebaseLogin(){
-         console.log('directed');
+      vm.authUserGoogle = function() {
+
+         var provider = new firebase.auth.GoogleAuthProvider();
          var auth = $firebaseAuth();
-         $scope.signIn = function() {
-            $scope.firebaseUser = null;
-            $scope.error = null;
 
-            auth.$signInAnonymously().then(function(firebaseUser) {
-               $scope.firebaseUser = firebaseUser;
-      }).catch(function(error) {
-        $scope.error = error;
-      });
-    };
+         auth.$signInWithPopup(provider).then(function(result) {
+            location.path('/overview');
+            var user = result.user;
+           // ...
+         }).catch(function(error) {
 
-
-         // var provider = new firebase.auth.GoogleAuthProvider();
-         // firebase.auth().signInWithPopup(provider).then(function(result) {
-
-         //   var token = result.credential.accessToken;
-         //   // vm.user = result.user;
-
-         // }).catch(function(error) {
-
-         //   var errorCode = error.code;
-         //   var errorMessage = error.message;
-         //   var email = error.email;
-         //   var credential = error.credential;
-
-         // });
-      }
-
-      function listenAuthEvents(){
-         var user = firebase.auth().currentUser;
-
-         firebase.auth().onAuthStateChanged(function(user) {
-            vm.user = user;
-            if (user) {
-               // User is signed in.
-               console.log(vm.user)
-            } else {
-               // No user is signed in.
-            }
+           var errorCode = error.code;
+           var errorMessage = error.message;
+           var email = error.email;
+           var credential = error.credential;
          });
-      }
+      };
 
       function directToRegister(){
          vm.showRegisterModal = true;

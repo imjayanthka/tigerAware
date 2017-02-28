@@ -9,7 +9,6 @@
       var vm = this;
       initNIMHController();
       vm.takeBack = takeBack;
-      console.log($scope);
 
       vm.initiateLogOut =function(){
 
@@ -32,12 +31,10 @@
           nimhAPI.getNIMHData().then(function (d){
 
              vm.nimhData = d.data;
-             //console.log(vm.nimhData);
              vm.nimhData.users = vm.nimhData.participants;
              vm.showUserPageFlag =false;
              vm.showOverviewPageFlag =true;
              vm.userSelected = null;
-             console.log(vm.nimhData.users);
 
              vm.findAvgCompliance = AggregateService.getAverageCompliance(vm.nimhData.users);
 
@@ -70,7 +67,6 @@
               window.scrollTo(0,0);
               vm.currentUser=userId;
               vm.drawUserPageGraphs(vm.currentUser);
-              console.log(vm.currentUser);
 
              }
              /** Any graphs to be drawn on the USER view of NIMH page **/

@@ -7,10 +7,10 @@
    .controller('OverviewController', OverviewController);
    OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','LoginService'];
 
-   function OverviewController($scope,ngRootScope,http,OverviewConstants,timeout,location,LoginService){
+   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location,LoginService){
 
             var vm=this;
-            console.log($scope);
+            console.log($rootScope);
             vm.initOverviewController=initOverviewController;
 
             timeout(initOverviewController,50);
