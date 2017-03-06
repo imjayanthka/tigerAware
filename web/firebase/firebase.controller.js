@@ -96,6 +96,7 @@
                survey_display_data[surveys[question].id] = chart;
             }
             vm.loadedResponses = survey_display_data;
+            console.log(vm.loadedResponses);
             }
          }
 

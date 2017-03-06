@@ -15,8 +15,6 @@
       vm.directToRegister=directToRegister;
       vm.showLoginModal=false;
       vm.showRegisterModal =false;
-      vm.postLoginInfo =postLoginInfo;
-      vm.postRegisterInfo = postRegisterInfo;
       vm.cancelClicked =cancelClicked;
 
       LoginService.clearCredentials();
@@ -27,7 +25,6 @@
       });
 
       initModal();
-      //Initialize the modal
       function initModal(){
          $('#modal1').modal();
          $('#modal2').modal();
@@ -73,66 +70,26 @@
          $('#modal2').modal('open');
       }
 
-      //Check login by posting    to DB
-      function postLoginInfo(){
-
-
-         var requestURL = '../app/helpers/loginHelper.php';
-
-
-         var data = { username: $scope.temp.username , password: $scope.temp.password};
-
-         http({
-             method: 'POST',
-             url: requestURL,
-             data: $.param(data),
-             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-
-
-         }).then(function (response) {
-            console.log(response.data);
-            vm.message = response.data.msg;
-            if(response.data.status == true){
-               LoginService.setCredentials($scope.temp.username);
-               Materialize.toast(vm.message, 3000, 'rounded');
+      vm.loginWithEmail = function(){
+         $firebaseAuth().$signInWithEmailAndPassword($scope.temp.username, $scope.temp.password)
+            .then(function(firebaseUser){
                location.path('/overview');
-               console.log("login yes");
-            }
-            else{
-
-               Materialize.toast(vm.message, 3000, 'rounded');
-               cancelClicked();
-            }
+            })
+         .catch(function(error) {
+            Materialize.toast(error, 7000, 'rounded');
          });
       }
 
-      //Save userInfo to DB
-      function postRegisterInfo(){
+      vm.registerEmailPassword = function(){
+         $firebaseAuth().$createUserWithEmailAndPassword($scope.temp.registerUsername, $scope.temp.registerPassword)
+            .then(function(firebaseUser) {
+               $scope.message = "Hello! User created email: " + firebaseUser.email;
+               Materialize.toast($scope.message, 7000, 'rounded');
+               location.path('/overview')
+            }).catch(function(error) {
+               $scope.error = error;
+               Materialize.toast(error, 7000, 'rounded');
 
-         var requestURL = '../app/helpers/registerHelper.php';
-
-
-         var data = { username: $scope.temp.registerUsername , password: $scope.temp.registerPassword};
-         console.log(data);
-         http({
-             method: 'POST',
-             url: requestURL,
-             data: $.param(data),
-             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-
-
-         }).then(function (response) {
-            console.log(response);
-            vm.message = response.data.msg;
-            if(response.data.status === 2 || response.data.status == 0){
-               Materialize.toast(vm.message, 7000, 'rounded');
-               registerCancelClicked();
-            }
-            else{
-               Materialize.toast(vm.message, 7000, 'rounded');
-               registerCancelClicked();
-               $('#modal2').modal('close');
-            }
          });
       }
 
@@ -142,12 +99,6 @@
          $scope.temp = angular.copy(master);
 
          $scope.loginForm.$setPristine();
-      }
-      function registerCancelClicked(){
-         var master = { registerUsername: '' , registerPassword:'', confirmPassword: ''};
-         $scope.temp = angular.copy(master);
-         vm.message = "";
-         $scope.registerForm.$setPristine();
       }
    }
 })();
