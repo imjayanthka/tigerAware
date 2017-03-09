@@ -6,6 +6,9 @@
 
    function FirebaseController($scope,$rootScope,$http,nimhAPI,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth){
       var vm = this;
+      vm.auth = $firebaseAuth();
+      vm.firebaseUser = vm.auth.$getAuth();
+
       vm.takeBack = takeBack;
       vm.length = 10;
       vm.surveySchema = {}
@@ -20,9 +23,8 @@
 
 
       var ref = firebase.database().ref();
-      // download the data into a local object
       $scope.data = $firebaseObject(ref);
-      // putting a console.log here won't work, see below
+
 
       function createStudiesObject(){
          //Get current user. Retrieve all surveys corresponding to the user.

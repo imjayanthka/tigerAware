@@ -56,26 +56,33 @@
             .otherwise({ redirectTo: '/login' });
     }
 
-    function initPreloader(){
-         $(document).ready(function(){
-            $('#preloader').fadeOut('fast');
-         });
-    }
+ function initPreloader(){
+      $(document).ready(function(){
+         $('#preloader').fadeOut('fast');
+      });
+ }
 
-    // Add a listiner for changes in the auth state
-    run.$inject = ['$rootScope', '$location', '$firebaseAuth'];
-    function run($rootScope, $location, $firebaseAuth) {
-
+   // Add a listiner for changes in the auth state
+   run.$inject = ['$rootScope', '$location', '$firebaseAuth'];
+   function run($rootScope, $location, $firebaseAuth) {
+      var loggedIn = false;
       var auth = $firebaseAuth();
-      auth.$onAuthStateChanged(function(firebaseUser) {
-         console.log("state chenge");
-
-         if (firebaseUser) {
-            console.log("Signed in as:", firebaseUser.uid);
-         } else {
-            console.log("Signed out");
+      $rootScope.$on('$locationChangeStart', function (event, next, current) {
+         // redirect to login page if not logged in and trying to access a restricted page
+         var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
+         if (restrictedPage && !loggedIn) {
+            // $location.path('/login');
          }
       });
 
+      //Add listener for changes in auth status
+      auth.$onAuthStateChanged(function(firebaseUser) {
+         if (firebaseUser) {
+            loggedIn = true;
+         } else {
+            console.log("Signed out");
+            loggedIn = false;
+         }
+      });
    }
 }) ();

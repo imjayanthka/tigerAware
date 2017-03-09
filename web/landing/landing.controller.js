@@ -5,9 +5,9 @@
    angular
       .module('researchApp')
       .controller('LandingController', LandingController);
-   LandingController.$inject = ['$scope','$rootScope','$http','$location', 'LoginService', '$firebaseAuth',];
+   LandingController.$inject = ['$scope','$rootScope','$http','$location', '$firebaseAuth',];
 
-   function LandingController($scope,$rootScope,http,location,LoginService, $firebaseAuth){
+   function LandingController($scope,$rootScope,http,location, $firebaseAuth){
 
       var vm = this;
       vm.directToLogin=directToLogin;
@@ -16,9 +16,6 @@
       vm.showLoginModal=false;
       vm.showRegisterModal =false;
       vm.cancelClicked =cancelClicked;
-
-      // LoginService.clearCredentials();
-
 
       initModal();
       function initModal(){
@@ -48,17 +45,12 @@
       }
 
       vm.authUserGoogle = function() {
-
          var provider = new firebase.auth.GoogleAuthProvider();
          var auth = $firebaseAuth();
 
          auth.$signInWithPopup(provider).then(function(firebaseUser) {
-            LoginService.setCredentials(firebaseUser);
             location.path('/overview');
-            var user = result.user;
-           // ...
          }).catch(function(error) {
-
            var errorCode = error.code;
            var errorMessage = error.message;
            var email = error.email;
@@ -66,11 +58,9 @@
          });
       };
 
-
       vm.loginWithEmail = function(){
          $firebaseAuth().$signInWithEmailAndPassword($scope.temp.username, $scope.temp.password)
             .then(function(firebaseUser){
-               LoginService.setCredentials(firebaseUser);
                location.path('/overview');
             })
          .catch(function(error) {

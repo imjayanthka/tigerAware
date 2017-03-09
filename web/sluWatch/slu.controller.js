@@ -3,9 +3,9 @@
    'use strict';
    /** Controller for the whole SLU WATCH page **/
    angular.module('researchApp').controller('SluController',SluController);
-   SluController.$inject = ['$scope','$rootScope','$http','$window','$location','LoginService','sluWatchAPI','graphService','ColorConstants','AggregateService', '$firebaseAuth'];
+   SluController.$inject = ['$scope','$rootScope','$http','$window','$location','sluWatchAPI','graphService','ColorConstants','AggregateService', '$firebaseAuth'];
 
-   function SluController($scope,ngRootScope,$http,window,location,LoginService,sluWatchAPI,graphService,ColorConstants,AggregateService, $firebaseAuth){
+   function SluController($scope,ngRootScope,$http,window,location,sluWatchAPI,graphService,ColorConstants,AggregateService, $firebaseAuth){
 
       var vm = this;
 
@@ -35,7 +35,6 @@
           initSluController();
           vm.showOverviewPageFlag=true;
         }
-
       }
 
       /*** Initialize SLU controller where the get call and main functionality happens ***/

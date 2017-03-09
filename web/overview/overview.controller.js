@@ -1,20 +1,17 @@
 (function(){
 
   /***** Controller for Overview page *****/
-
    "use strict";
    angular.module('researchApp')
    .controller('OverviewController', OverviewController);
-   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','LoginService','$firebaseAuth'];
+   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','$firebaseAuth'];
 
-   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location,LoginService, $firebaseAuth){
+   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location, $firebaseAuth){
 
             var vm=this;
             vm.initOverviewController=initOverviewController;
-
             vm.auth = $firebaseAuth();
             vm.firebaseUser = vm.auth.$getAuth();
-
 
             timeout(initOverviewController,50);
             function initOverviewController(){
@@ -26,7 +23,6 @@
                    history.go(-1);
                 });
                 vm.studyConstants=OverviewConstants;
-
             }
             vm.directToStudy = function(link) {
                 location.path('/'+link);
@@ -38,6 +34,4 @@
                 Materialize.toast(vm.message, 7000, 'rounded');
             }
     }
-
 })();
-
