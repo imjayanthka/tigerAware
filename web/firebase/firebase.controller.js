@@ -2,9 +2,9 @@
 
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('FirebaseController',FirebaseController);
-   FirebaseController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','LoginService','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout"];
+   FirebaseController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth"];
 
-   function FirebaseController($scope,$rootScope,$http,nimhAPI,$window,$location,LoginService,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout){
+   function FirebaseController($scope,$rootScope,$http,nimhAPI,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth){
       var vm = this;
       vm.takeBack = takeBack;
       vm.length = 10;
@@ -12,6 +12,11 @@
 
       initNIMHController();
       createStudiesObject();
+      $(".dropdown-button").dropdown();
+      $(".button-collapse").sideNav();
+      $("#navBack").click(function(){
+         history.go(-1);
+      });
 
 
       var ref = firebase.database().ref();
@@ -101,10 +106,10 @@
          }
 
       vm.initiateLogOut = function(){
-        vm.message = "You have logged out Successfully!";
-        LoginService.clearCredentials();
-        Materialize.toast(vm.message, 7000, 'rounded');
-        location.path('/login');
+          vm.auth.$signOut();
+          location.path('/logout');
+          vm.message = "You have Logged out successfully!"
+          Materialize.toast(vm.message, 7000, 'rounded');
       }
       function takeBack(){
         if(!vm.showUserPageFlag){
@@ -150,7 +155,7 @@
                   data: [{
                      name: 'Yes',
                      color: vm.colors[1],
-                     y: 5
+                     y: 2
                   }, {
                      name: 'No',
                      color: vm.colors[0],

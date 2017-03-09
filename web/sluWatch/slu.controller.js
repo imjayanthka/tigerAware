@@ -1,10 +1,11 @@
+
 (function(){
    'use strict';
    /** Controller for the whole SLU WATCH page **/
    angular.module('researchApp').controller('SluController',SluController);
-   SluController.$inject = ['$scope','$rootScope','$http','$window','$location','LoginService','sluWatchAPI','graphService','ColorConstants','AggregateService'];
+   SluController.$inject = ['$scope','$rootScope','$http','$window','$location','LoginService','sluWatchAPI','graphService','ColorConstants','AggregateService', '$firebaseAuth'];
 
-   function SluController($scope,ngRootScope,$http,window,location,LoginService,sluWatchAPI,graphService,ColorConstants,AggregateService){
+   function SluController($scope,ngRootScope,$http,window,location,LoginService,sluWatchAPI,graphService,ColorConstants,AggregateService, $firebaseAuth){
 
       var vm = this;
 
@@ -13,14 +14,15 @@
       vm.showOverviewPageFlag = true;
       vm.showUserPageFlag = false;
       vm.findAvgCompliance = null;
+      vm.auth = $firebaseAuth();
+      vm.firebaseUser = vm.auth.$getAuth();
+
       /** Initiate LogOut **/
       vm.initiateLogOut = function(){
-
-        vm.message = "You have logged out Successfully!";
-        LoginService.clearCredentials();
-        Materialize.toast(vm.message, 7000, 'rounded');
-        location.path('/login');
-
+         vm.auth.$signOut();
+         location.path('/logout');
+         vm.message = "You have Logged out successfully!"
+         Materialize.toast(vm.message, 7000, 'rounded');
       }
       /** Take back to previous window **/
       function takeBack(){
@@ -39,6 +41,11 @@
       /*** Initialize SLU controller where the get call and main functionality happens ***/
       function initSluController(){
 
+         $(".dropdown-button").dropdown();
+         $(".button-collapse").sideNav();
+         $("#navBack").click(function(){
+            history.go(-1);
+         });
 
         sluWatchAPI.getsluWatchData().then(function (response){
 

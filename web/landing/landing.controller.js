@@ -17,12 +17,8 @@
       vm.showRegisterModal =false;
       vm.cancelClicked =cancelClicked;
 
-      LoginService.clearCredentials();
-      $scope.auth = $firebaseAuth();
-      $scope.auth.$onAuthStateChanged(function(firebaseUser) {
-         $rootScope.firebaseUser = firebaseUser;
-         console.log($rootScope.firebaseUser);
-      });
+      // LoginService.clearCredentials();
+
 
       initModal();
       function initModal(){
@@ -46,13 +42,18 @@
          vm.showLoginModal=true;
          $('#modal1').modal('open');
       }
+      function directToRegister(){
+         vm.showRegisterModal = true;
+         $('#modal2').modal('open');
+      }
 
       vm.authUserGoogle = function() {
 
          var provider = new firebase.auth.GoogleAuthProvider();
          var auth = $firebaseAuth();
 
-         auth.$signInWithPopup(provider).then(function(result) {
+         auth.$signInWithPopup(provider).then(function(firebaseUser) {
+            LoginService.setCredentials(firebaseUser);
             location.path('/overview');
             var user = result.user;
            // ...
@@ -65,14 +66,11 @@
          });
       };
 
-      function directToRegister(){
-         vm.showRegisterModal = true;
-         $('#modal2').modal('open');
-      }
 
       vm.loginWithEmail = function(){
          $firebaseAuth().$signInWithEmailAndPassword($scope.temp.username, $scope.temp.password)
             .then(function(firebaseUser){
+               LoginService.setCredentials(firebaseUser);
                location.path('/overview');
             })
          .catch(function(error) {
@@ -85,11 +83,9 @@
             .then(function(firebaseUser) {
                $scope.message = "Hello! User created email: " + firebaseUser.email;
                Materialize.toast($scope.message, 7000, 'rounded');
-               location.path('/overview')
             }).catch(function(error) {
                $scope.error = error;
                Materialize.toast(error, 7000, 'rounded');
-
          });
       }
 

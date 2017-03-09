@@ -5,13 +5,16 @@
    "use strict";
    angular.module('researchApp')
    .controller('OverviewController', OverviewController);
-   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','LoginService'];
+   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','LoginService','$firebaseAuth'];
 
-   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location,LoginService){
+   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location,LoginService, $firebaseAuth){
 
             var vm=this;
-            console.log($rootScope);
             vm.initOverviewController=initOverviewController;
+
+            vm.auth = $firebaseAuth();
+            vm.firebaseUser = vm.auth.$getAuth();
+
 
             timeout(initOverviewController,50);
             function initOverviewController(){
@@ -29,9 +32,9 @@
                 location.path('/'+link);
             }
             vm.initiateLogOut = function(){
-                vm.message = "You have Logged out successfully!"
-                LoginService.clearCredentials();
+                vm.auth.$signOut();
                 location.path('/logout');
+                vm.message = "You have Logged out successfully!"
                 Materialize.toast(vm.message, 7000, 'rounded');
             }
     }

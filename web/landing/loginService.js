@@ -13,14 +13,14 @@
         return service;
 
 
-        function setCredentials(username) {
-
+        function setCredentials(firebaseUser) {
+            console.log('cradentials set')
             $rootScope.globals = {
                 currentUser: {
-                    username: username,
+                    firebaseUser: firebaseUser,
                 }
             };
-
+            // console.log($rootScope.globals['currentUser']);
 
             // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
             var cookieExp = new Date();

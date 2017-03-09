@@ -2,20 +2,27 @@
 
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('NimhController',NimhController);
-   NimhController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','LoginService','ColorConstants','graphService','AggregateService'];
+   NimhController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseAuth'];
 
-   function NimhController($scope,ngRootScope,$http,nimhAPI,window,location,LoginService,ColorConstants,graphService,AggregateService){
+   function NimhController($scope,ngRootScope,$http,nimhAPI,window,location,ColorConstants,graphService,AggregateService, $firebaseAuth){
 
       var vm = this;
       initNIMHController();
       vm.takeBack = takeBack;
+      vm.auth = $firebaseAuth();
+      vm.firebaseUser = vm.auth.$getAuth();
+
+      $(".dropdown-button").dropdown();
+      $(".button-collapse").sideNav();
+      $("#navBack").click(function(){
+         history.go(-1);
+      });
 
       vm.initiateLogOut =function(){
-
-        vm.message = "You have logged out Successfully!";
-        LoginService.clearCredentials();
-        Materialize.toast(vm.message, 7000, 'rounded');
-        location.path('/login');
+          vm.auth.$signOut();
+          location.path('/logout');
+          vm.message = "You have Logged out successfully!"
+          Materialize.toast(vm.message, 7000, 'rounded');
       }
       function takeBack(){
         if(!vm.showUserPageFlag){

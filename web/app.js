@@ -5,7 +5,7 @@
    // initPreloader();
    angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies', "firebase"])
    		  .config(config)
-          // .run(run);
+          .run(run);
 
     //Any new route(Page) added needs to be configured here by providiing it's details
    config.$inject = ['$routeProvider', '$locationProvider'];
@@ -61,18 +61,21 @@
             $('#preloader').fadeOut('fast');
          });
     }
-    //This takes care of enforcing the login while accessing the routes
-    // run.$inject = ['$rootScope', '$location', '$http','$cookies'];
-    // function run($rootScope, $location, $http,$cookies) {
 
-    //     $rootScope.globals = $cookies.getObject('globals') || {};
-    //     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-    //         // redirect to login page if not logged in and trying to access a restricted page
-    //             var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
-    //             var loggedIn = $rootScope.globals.currentUser;
-    //             if (restrictedPage && !loggedIn) {
-    //                 $location.path('/login');
-    //             }
-    //         });
-    //     }
+    // Add a listiner for changes in the auth state
+    run.$inject = ['$rootScope', '$location', '$firebaseAuth'];
+    function run($rootScope, $location, $firebaseAuth) {
+
+      var auth = $firebaseAuth();
+      auth.$onAuthStateChanged(function(firebaseUser) {
+         console.log("state chenge");
+
+         if (firebaseUser) {
+            console.log("Signed in as:", firebaseUser.uid);
+         } else {
+            console.log("Signed out");
+         }
+      });
+
+   }
 }) ();
