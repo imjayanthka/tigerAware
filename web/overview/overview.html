@@ -47,8 +47,30 @@
                  </div>
                </div>
            </div>
-
     </div>
+
+      <div ng-show="vm.user_surveys_grid">
+         <div ng-repeat="row in vm.user_surveys_grid">
+            <div ng-repeat="study in row">
+            <h1>There is a study here</h1>
+               <div class="overview-card card medium sticky-action col s12 m3 z-depth-2">
+                 <div class="card-image waves-effect waves-block waves-light">
+                   <img class="activator" ng-src="{{study.imageLink}}">
+                 </div>
+                 <div class="card-content">
+                   <span class="card-title activator grey-text text-darken-4 "><a ng-click="vm.directToStudy(study.link)">{{study.name}}</a><i class="material-icons right">more_vert</i></span>
+                   <p><a ng-click="vm.directToStudy(study.link)">View {{study.nameOfStudy}} Data</a></p>
+                 </div>
+                 <div class="card-reveal">
+                   <span class="card-title grey-text text-darken-4"><a ng-click="vm.directToNIMHView()">{{study.nameOfStudy}}</a><i class="material-icons right">close</i></span>
+                   <p>{{study.description}}</p>
+                 </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
     <div class="parallax-container">
        <div class="parallax"><img src="resources/images/man-field-smartphone-yellow.jpg"></div>
     </div>

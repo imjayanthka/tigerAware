@@ -6,7 +6,7 @@
 
          getAverageCompliance: getAverageCompliance,
          getTotalValue: getTotalValue
-         
+
 
       };
 

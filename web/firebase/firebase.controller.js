@@ -2,9 +2,9 @@
 
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('FirebaseController',FirebaseController);
-   FirebaseController.$inject = ['$scope','$rootScope','$http','nimhAPI','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth"];
+   FirebaseController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService"];
 
-   function FirebaseController($scope,$rootScope,$http,nimhAPI,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth){
+   function FirebaseController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService){
       var vm = this;
       vm.auth = $firebaseAuth();
       vm.firebaseUser = vm.auth.$getAuth();
@@ -21,10 +21,8 @@
          history.go(-1);
       });
 
-
       var ref = firebase.database().ref();
       $scope.data = $firebaseObject(ref);
-
 
       function createStudiesObject(){
          //Get current user. Retrieve all surveys corresponding to the user.
@@ -98,7 +96,7 @@
                   }
                }
                chart.answers = answers;
-               chart.graph = vm.nd;
+               chart.graph = dynamicGraphService.getSurveyGraph(chart);
 
                survey_display_data[surveys[question].id] = chart;
             }
@@ -123,55 +121,54 @@
         }
       }
 
-      vm.nd = {
-               options:{
-                  chart: {
-                     plotBackgroundColor: null,
-                     plotBorderWidth: null,
-                     plotShadow: false,
-                     type: 'pie'
-                  },
-                  title: {
-                     text: 'Negative Mood Change Triggers'
-                  },
-                  tooltip: {
-                     borderColor: null,
-                     pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
-                  },
-                  plotOptions: {
-                     pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                           enabled: true
-                        }
-                     }
-                  }
-               },
-               credits: {
-                  enabled: false
-               },
-               series: [{
-                  name: 'Negative Triggers',
-                  colorByPoint: true,
-                  data: [{
-                     name: 'Yes',
-                     color: vm.colors[1],
-                     y: 2
-                  }, {
-                     name: 'No',
-                     color: vm.colors[0],
-                     y: 2
-                  }]
-               }]
-            }// end of graph
+      // vm.nd = {
+      //          options:{
+      //             chart: {
+      //                plotBackgroundColor: null,
+      //                plotBorderWidth: null,
+      //                plotShadow: false,
+      //                type: 'pie'
+      //             },
+      //             title: {
+      //                text: 'Negative Mood Change Triggers'
+      //             },
+      //             tooltip: {
+      //                borderColor: null,
+      //                pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
+      //             },
+      //             plotOptions: {
+      //                pie: {
+      //                   allowPointSelect: true,
+      //                   cursor: 'pointer',
+      //                   dataLabels: {
+      //                      enabled: true
+      //                   }
+      //                }
+      //             }
+      //          },
+      //          credits: {
+      //             enabled: false
+      //          },
+      //          series: [{
+      //             name: 'Negative Triggers',
+      //             colorByPoint: true,
+      //             data: [{
+      //                name: 'Yes',
+      //                color: vm.colors[1],
+      //                y: 2
+      //             }, {
+      //                name: 'No',
+      //                color: vm.colors[0],
+      //                y: 2
+      //             }]
+      //          }]
+      //       }// end of graph
 
       function initNIMHController(){
          vm.showOverviewPageFlag =true;
 
 
       //        //Colors for the graph
-         vm.colors = ['#FF9655', '#adfc71', '#dd616e', '#454545', '#b3aee5', '#64E572', '#FFF263', '#66FFCC', '#51b93e'];
 
       //        //Data for the graphs in desired format
 
@@ -358,50 +355,50 @@
 
       //       } //end of mood-changes breakdown graph
 
-            vm.negativeMoodBreakdownGraph = {
+            // vm.negativeMoodBreakdownGraph = {
 
-               options:{
-                  chart: {
-                     plotBackgroundColor: null,
-                     plotBorderWidth: null,
-                     plotShadow: false,
-                     type: 'pie'
-                  },
-                  title: {
-                     text: 'Negative Mood Change Triggers'
-                  },
-                  tooltip: {
-                     borderColor: null,
-                     pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
-                  },
-                  plotOptions: {
-                     pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                           enabled: true
-                        }
-                     }
-                  }
-               },
-               credits: {
-                  enabled: false
-               },
-               series: [{
-                  name: 'Negative Triggers',
-                  colorByPoint: true,
-                  data: [{
-                     name: 'Yes',
-                     color: vm.colors[1],
-                     y: 5
-                  }, {
-                     name: 'No',
-                     color: vm.colors[0],
-                     y: 2
-                  }]
-               }]
+            //    options:{
+            //       chart: {
+            //          plotBackgroundColor: null,
+            //          plotBorderWidth: null,
+            //          plotShadow: false,
+            //          type: 'pie'
+            //       },
+            //       title: {
+            //          text: 'Negative Mood Change Triggers'
+            //       },
+            //       tooltip: {
+            //          borderColor: null,
+            //          pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
+            //       },
+            //       plotOptions: {
+            //          pie: {
+            //             allowPointSelect: true,
+            //             cursor: 'pointer',
+            //             dataLabels: {
+            //                enabled: true
+            //             }
+            //          }
+            //       }
+            //    },
+            //    credits: {
+            //       enabled: false
+            //    },
+            //    series: [{
+            //       name: 'Negative Triggers',
+            //       colorByPoint: true,
+            //       data: [{
+            //          name: 'Yes',
+            //          color: vm.colors[1],
+            //          y: 5
+            //       }, {
+            //          name: 'No',
+            //          color: vm.colors[0],
+            //          y: 2
+            //       }]
+            //    }]
 
-            }// end of neg-mood breakdown graph
+            // }// end of neg-mood breakdown graph
 
       //       vm.positiveMoodBreakdownGraph = {
 
