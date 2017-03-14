@@ -33,6 +33,7 @@
             function retrieveUserSurveys(){
                //Get current user. Retrieve all surveys corresponding to the user.
                var user_surveys = []
+               // This needs to be scoped to the current user e.g (users/ ' current userid' + surveys)
                var userRef = firebase.database().ref('users/user1/surveys/');
                userRef.once('value', function(snapshot) {
                   snapshot.forEach(function(childSnapshot) {
@@ -47,7 +48,9 @@
 
                   //Iterate through all study blueprints and save data
                   blueprintRef.once('value', function(snapshot) {
-                     snapshot.forEach(function(childSnapshot) {
+                     var img_index = 1;
+                     snapshot.forEach(function(childSnapshot, i) {
+                        console.log(i);
                         var study_information = {}
                         var childKey = childSnapshot.key;
                         var childData = childSnapshot.val();
@@ -66,6 +69,8 @@
                                  study_information['num_responses'] = 0;
                               }
                            });
+                           study_information['img_url'] = "resources/images/stock/stock" + img_index + ".jpeg";
+                           img_index += 1;
                            blueprints.push(study_information);
                         }
                      });
