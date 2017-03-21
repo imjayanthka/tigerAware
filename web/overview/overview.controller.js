@@ -13,14 +13,14 @@
             vm.auth = $firebaseAuth();
             vm.firebaseUser = vm.auth.$getAuth();
             vm.user_surveys_grid = retrieveUserSurveys();
-            console.log(vm.user_surveys_grid);
 
 
             var ref = firebase.database().ref();
+            // This needs to be fixed, hardcoded async time not good.
+            timeout(initOverviewController,2000);
 
-            timeout(initOverviewController,500);
+
             function initOverviewController(){
-
                 $(".dropdown-button").dropdown();
                 $(".button-collapse").sideNav();
                 $('.parallax').parallax();
@@ -48,9 +48,8 @@
 
                   //Iterate through all study blueprints and save data
                   blueprintRef.once('value', function(snapshot) {
-                     var img_index = 1;
+                     var survey_id = 1;
                      snapshot.forEach(function(childSnapshot, i) {
-                        console.log(i);
                         var study_information = {}
                         var childKey = childSnapshot.key;
                         var childData = childSnapshot.val();
@@ -69,8 +68,9 @@
                                  study_information['num_responses'] = 0;
                               }
                            });
-                           study_information['img_url'] = "resources/images/stock/stock" + img_index + ".jpeg";
-                           img_index += 1;
+                           study_information['img_url'] = "resources/images/stock/stock" + survey_id + ".jpeg";
+                           study_information['survey_id'] = survey_id;
+                           survey_id += 1;
                            blueprints.push(study_information);
                         }
                      });
@@ -81,7 +81,6 @@
                         if(key % 4 == 0){
                            survey_row = [];
                            survey_row.push(survey);
-                           console.log(survey, key);
                         }
                         else if ((key % 4) - 1 == 0){
                            survey_row.push(survey);
@@ -91,16 +90,23 @@
                            survey_row.push(survey);
                         }
                      });
-                     console.log(vm.user_surveys_grid);
                   });
                })
             }
 
-            function create_studies_grid(){
-            }
+            vm.directToStudy = function(survey_id) {
+               // hard code routing for dummy site
+               if (survey_id == "safety" || survey_id == "satisfaction"){
+                  console.log(survey_id);
+                  location.path(survey_id);
+               }else if (survey_id == "alcoholCravingStudy.html" || survey_id == "moodDesregulationStudy.html"){
+                  location.path('/overview');
+               }
 
-            vm.directToStudy = function(link) {
-                location.path('/'+link);
+               else{
+                  location.path('/surveys/'+survey_id);
+               }
+
             }
             vm.initiateLogOut = function(){
                 vm.auth.$signOut();

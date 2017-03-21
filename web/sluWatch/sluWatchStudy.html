@@ -15,7 +15,7 @@
                 <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
                 <ul class="right hide-on-med-and-down">
                     <li><a href="overview.html">Studies</a></li>
-                    <li><a href="about.html">About</a></li>
+                    <li><a href="#!">About</a></li>
                     <!-- Dropdown Trigger -->
                     <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
                 </ul>
@@ -71,7 +71,7 @@
 
                 </div>
                 <div class="card-content">
-                <div ><p class="missed"><strong>Total missed surveys: </strong></p></div>
+                <div ><p class="missed"><strong>Total missed surveys: 301</strong></p></div>
                  <br>
                  <div><p class="compliance"><strong>Avg participant compliance: {{vm.findAvgCompliance}}</strong></p></div>
                 </div>
@@ -81,7 +81,7 @@
       </div>
       </div>
       <div class= "col s9">
-         <h1 class = 'section-header center' id="mood-changes-header">SLU Watch Overview</h1>
+         <h1 class = 'section-header center' id="mood-changes-header">Campus Safety Survey Overview</h1>
          <div class='col s12 study-module study-stats z-depth-2'>
             <highchart config="vm.daysSurveysGraph"></highchart>
          </div>
@@ -89,13 +89,13 @@
    </div>
 
    <div class='row'>
-      <h1 class = 'section-header center'>Mood Changes</h1>
+      <h1 class = 'section-header center'>Safety Reports</h1>
       <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
         <highchart config="vm.averageValuesGraph"></highchart>
       </div>
    </div>
     <div class='row'>
-      <h1 class = 'section-header center'>Response Summary</h1>
+      <h1 class = 'section-header center'>Number of People Present During Report</h1>
       <div class="col s12 highcharts-background study-module study-stats z-depth-2">
         <highchart config="vm.cigsDrinksGraph"></highchart>
       </div>

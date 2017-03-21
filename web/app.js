@@ -29,23 +29,23 @@
                 controllerAs: 'vm'
             })
 
-            .when('/sluWatch', {
-                title: 'Mood Toolkit',
+            .when('/safety', {
+                title: 'Campus Safety',
                 controller: 'SluController',
                 templateUrl: 'sluWatch/sluWatchStudy.html',
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
             })
 
-            .when('/nimh', {
-                title: 'Mood Toolkit',
+            .when('/satisfaction', {
+                title: 'Campus Satisfaction',
                 controller: 'NimhController',
                 templateUrl: 'nimh/nimhStudy.html',
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
             })
 
-            .when('/firebase', {
+            .when('/surveys/:id', {
                 title: 'Firebase demo',
                 controller: 'FirebaseController',
                 templateUrl: 'firebase/firebase.html',

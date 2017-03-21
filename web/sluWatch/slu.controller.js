@@ -48,8 +48,6 @@
 
         sluWatchAPI.getsluWatchData().then(function (response){
 
-            console.log(response.data);
-
             vm.users = [];
             vm.cigs = [];
             vm.drinks = [];
@@ -71,7 +69,7 @@
 
             angular.forEach(vm.sluData.users, function(value, key){
 
-              vm.users.push('USER ' + value.user);
+              vm.users.push('Student ' + value.user);
               vm.cigs.push(value['cigarettes']);
               vm.drinks.push(value['drinksConsumed']);
               vm.posAvg.push(value['posAvg']);
@@ -93,8 +91,6 @@
             vm.findTotal = function(property){
                return AggregateService.getTotalValue(vm.sluData.users,property);
              }
-            console.log(vm.findAvgCompliance);
-
 
             /** Sets flags and initiates route to SLU user view **/
 
@@ -104,10 +100,9 @@
                 vm.showUserPageFlag=true;
                 window.scrollTo(0,0);
                 vm.currentUser=userId;
-                console.log(vm.currentUser);
 
                angular.forEach(vm.sluData.users, function(value, key){
-                  vm.users.push('USER ' + value.user);
+                  vm.users.push('Student ' + value.user);
                   vm.cigs.push(value['cigarettes']);
                   vm.drinks.push(value['drinksConsumed']);
                   vm.posAvg.push(value['posAvg']);
@@ -186,20 +181,20 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Substance Stats'
+                        text: 'How many people were you with?'
                     },
                     xAxis: {
                         min: 8,
                         categories: vm.users,
                         title: {
-                          text: 'Users'
+                          text: 'Students'
                         }
                     },
                     yAxis: {
 
                         allowDecimals: false,
                         title: {
-                            text: 'Average quantity'
+                            text: 'Avg people present'
                         },
                         tickInterval: 2
                     },
@@ -221,13 +216,13 @@
                     }
                 },
                 series: [{
-                    name: 'Cigarettes',
+                    name: 'Number people when felt unsafe',
                     color: vm.colors[1],
                     data: vm.cigsAvg,
                     stack: 'male'
 
                 }, {
-                    name: 'Drinks',
+                    name: 'Number people when felt safe',
                     color: vm.colors[0],
                     data: vm.drinksAvg,
                     stack: 'male'
@@ -247,23 +242,23 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Pos, Neg and Impulsivity Response Averages'
+                    text: 'Feel Safe, Feel Unsafe, and  Feel Neutral Response Averages'
                 },
                 subtitle: {
-                    text: 'Across all patients'
+                    text: 'On a scale 1-5'
                 },
                 xAxis: {
                     min: 12,
                     categories: vm.users,
                     title: {
-                        text: 'USERS'
+                        text: 'Students'
                     },
                     crosshair: true
                 },
                 yAxis: {
 
                     title: {
-                        text: 'Avg value'
+                        text: 'Avg rating'
                     },
                     tickInterval: 0.50
                 },
@@ -287,17 +282,17 @@
                 }
               },
               series: [{
-                    name: 'Positive Avg',
+                    name: 'Safe Avg',
                     data: vm.posAvg,
                     color: ColorConstants.Colors['AquaMarine'],
                     stack: 'male'
                 }, {
-                    name: 'Negative Avg',
+                    name: 'Unsafe Avg',
                     data: vm.negAvg,
                     color: ColorConstants.Colors['Roman'],
                     stack: 'female'
                 }, {
-                    name: 'Impulsivity',
+                    name: 'Neutral Avg',
                     data: vm.impulsivityAvg,
                     color: ColorConstants.Colors['Tundora'],
                     stack: 'female'
@@ -550,11 +545,11 @@
                          type: 'column'
                      },
                      title: {
-                         text: 'User Substance Consumption Data'
+                         text: 'How many people were you with?'
                      },
 
                      xAxis: {
-                         categories: ["USER "+ currentUser.user ],
+                         categories: ["Student "+ currentUser.user ],
                          crosshair: true
                      },
                      yAxis: {
@@ -579,11 +574,11 @@
                      }
                    },
                    series: [{
-                      name: 'Cigarettes',
+                      name: 'Num people when felt unsafe',
                       color: vm.colors[1],
                       data: [currentUser['cigarettes']]
                    }, {
-                      name: 'Drinks',
+                      name: 'Num people when felt safe',
                       color: vm.colors[0],
                       data: [currentUser['drinksConsumed']]
                    }],
@@ -600,12 +595,12 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Pos, Neg and Impulsivity Response Averages'
+                    text: 'Feel Safe, Feel Unsafe, and  Feel Neutral Response Averages'
                 },
 
                 xAxis: {
 
-                    categories: ["USER "+ currentUser.user ],
+                    categories: ["Student "+ currentUser.user ],
                     crosshair: true
                 },
                 yAxis: {
@@ -635,17 +630,17 @@
                 }
               },
               series: [{
-                    name: 'Positive Avg',
+                    name: 'Safe Avg',
                     data: [currentUser['posAvg']],
                     color: vm.colors[7],
                     stack: 'male'
                 }, {
-                    name: 'Negative Avg',
+                    name: 'Unsafe Avg',
                     data: [currentUser['negAvg']],
                     color: vm.colors[2],
                     stack: 'female'
                 }, {
-                    name: 'Impulsivity',
+                    name: 'Neutral Avg',
                     data: [currentUser['impulsivityAvg']],
                     color: vm.colors[3],
                     stack: 'female'
@@ -694,7 +689,7 @@
                       }
                   },
                   series: [{
-                      name: 'USER ' + vm.currentUser.user,
+                      name: 'Student ' + vm.currentUser.user,
                       data: vm.currentUser.complianceDailySeries
 
                   }]

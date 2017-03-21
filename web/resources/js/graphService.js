@@ -29,13 +29,13 @@
                      labels: {
                          format: '{value} Days',
                          style: {
-                             color: ColorConstants.Colors['AppleGreen']
+                             color: ColorConstants.Colors["Roman"]
                          }
                      },
                      title: {
                          text: 'Days in Study',
                          style: {
-                             color: ColorConstants.Colors['AppleGreen']
+                             color: ColorConstants.Colors["Roman"]
                          }
                      }
                   }, { // Secondary yAxis
@@ -88,7 +88,7 @@
                   tooltip: {
                       valueSuffix: ' days'
                   },
-                  color: ColorConstants.Colors['AppleGreen']
+                  color: ColorConstants.Colors["Roman"]
                }]
             } //end of days-surveys graphs
 

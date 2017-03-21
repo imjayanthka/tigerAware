@@ -2,12 +2,15 @@
 
    /** Controller for the whole NIMH page **/
    angular.module('researchApp').controller('FirebaseController',FirebaseController);
-   FirebaseController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService"];
+   FirebaseController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService", "$routeParams"];
 
-   function FirebaseController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService){
+   function FirebaseController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService, $routeParams){
       var vm = this;
       vm.auth = $firebaseAuth();
       vm.firebaseUser = vm.auth.$getAuth();
+      var myParams = $routeParams;
+      console.log($routeParams['id'])
+
 
       vm.takeBack = takeBack;
       vm.length = 10;
@@ -63,6 +66,7 @@
                   }
                });
                $timeout(function() {
+                  console.log(blueprints);
                   parse_blueprint(blueprints);
                });
             });
@@ -120,49 +124,6 @@
           vm.showOverviewPageFlag=true;
         }
       }
-
-      // vm.nd = {
-      //          options:{
-      //             chart: {
-      //                plotBackgroundColor: null,
-      //                plotBorderWidth: null,
-      //                plotShadow: false,
-      //                type: 'pie'
-      //             },
-      //             title: {
-      //                text: 'Negative Mood Change Triggers'
-      //             },
-      //             tooltip: {
-      //                borderColor: null,
-      //                pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
-      //             },
-      //             plotOptions: {
-      //                pie: {
-      //                   allowPointSelect: true,
-      //                   cursor: 'pointer',
-      //                   dataLabels: {
-      //                      enabled: true
-      //                   }
-      //                }
-      //             }
-      //          },
-      //          credits: {
-      //             enabled: false
-      //          },
-      //          series: [{
-      //             name: 'Negative Triggers',
-      //             colorByPoint: true,
-      //             data: [{
-      //                name: 'Yes',
-      //                color: vm.colors[1],
-      //                y: 2
-      //             }, {
-      //                name: 'No',
-      //                color: vm.colors[0],
-      //                y: 2
-      //             }]
-      //          }]
-      //       }// end of graph
 
       function initNIMHController(){
          vm.showOverviewPageFlag =true;
