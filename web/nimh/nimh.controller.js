@@ -17,7 +17,6 @@
       $("#navBack").click(function(){
          history.go(-1);
       });
-
       vm.initiateLogOut =function(){
           vm.auth.$signOut();
           location.path('/logout');
@@ -60,7 +59,7 @@
              vm.users.positiveMoodChanges = [];
              vm.users.negativeMoodChanges = [];
              angular.forEach(vm.nimhData.users, function(value, key) {
-                  vm.users.push('USER ' + value.user);
+                  vm.users.push('Student ' + value.user);
                   vm.users.daysComplete.push(value['day-count']);
                   vm.users.surveysComplete.push(value['survey-count']);
                   vm.users.totalMoodChanges.push(value['total_mood_changes']);
@@ -76,7 +75,7 @@
               vm.drawUserPageGraphs(vm.currentUser);
 
              }
-             /** Any graphs to be drawn on the USER view of NIMH page **/
+             /** Any graphs to be drawn on the Student view of NIMH page **/
              vm.drawUserPageGraphs = function(currentUser){
 
                 vm.totalUserMoodBreakdownGraph = {
@@ -86,17 +85,17 @@
                          type: 'column'
                      },
                      title: {
-                         text: 'Overall User Moodchange Data'
+                         text: 'Overall User Report Data'
                      },
 
                      xAxis: {
-                         categories: ["USER "+ currentUser.user ],
+                         categories: ["Student "+ currentUser.user ],
                          crosshair: true
                      },
                      yAxis: {
                          min: 0,
                          title: {
-                             text: 'Changes'
+                             text: 'Ratings'
                          }
                      },
                      tooltip: {
@@ -115,15 +114,15 @@
                      }
                    },
                    series: [{
-                      name: 'Total Changes',
+                      name: 'Total Ratings',
                       color: vm.colors[3],
                       data: [currentUser['total_mood_changes']]
                    }, {
-                      name: 'Positive Changes',
+                      name: 'Positive Ratings',
                       color: vm.colors[7],
                       data: [currentUser['positive_changes']]
                    }, {
-                      name: 'Negative Changes',
+                      name: 'Negative Ratings',
                       color: vm.colors[2],
                       data: [currentUser['negative_changes']]
                    }],
@@ -144,7 +143,7 @@
                      type: 'column'
                  },
                  title: {
-                     text: 'Positive and Negative Mood Changes Across Participants'
+                     text: 'Do you feel generally satisfied with MU?'
                  },
                  xAxis: {
                      categories: vm.users
@@ -153,7 +152,7 @@
                      allowDecimals: false,
                      min: 0,
                      title: {
-                         text: 'Number of changes'
+                         text: 'Number of reports'
                      }
                  },
                  tooltip: {
@@ -175,17 +174,17 @@
                },
 
               series: [{
-                  name: 'Total Changes',
+                  name: 'Total Ratings',
                   color: vm.colors[3],
                   data: vm.users.totalMoodChanges,
                   stack: 'male'
               }, {
-                  name: 'Positive Changes',
+                  name: 'Positive Ratings',
                   color: vm.colors[7],
                   data: vm.users.positiveMoodChanges,
                   stack: 'female'
               }, {
-                  name: 'Negative Changes',
+                  name: 'Negative Ratings',
                   color: vm.colors[2],
                   data: vm.users.negativeMoodChanges,
                   stack: 'female'
@@ -200,17 +199,17 @@
                      type: 'column'
                  },
                  title: {
-                     text: 'Overall Moodchange Data'
+                     text: 'Overall Report Summary'
                  },
 
                  xAxis: {
-                     categories: ['Participants'],
+                     categories: ['Students'],
                      crosshair: true
                  },
                  yAxis: {
                      min: 0,
                      title: {
-                         text: 'Changes'
+                         text: 'Ratings'
                      }
                  },
                  tooltip: {
@@ -229,15 +228,15 @@
                  }
                },
                series: [{
-                  name: 'Total Changes',
+                  name: 'Total Ratings',
                   color: vm.colors[3],
                   data: [parseInt(vm.findTotal('total_mood_changes'))]
                }, {
-                  name: 'Positive Changes',
+                  name: 'Positive Ratings',
                   color: vm.colors[7],
                   data: [parseInt(vm.findTotal('positive_changes'))]
                }, {
-                  name: 'Negative Changes',
+                  name: 'Negative Ratings',
                   color: vm.colors[2],
                   data: [parseInt(vm.findTotal('negative_changes'))]
                }],
@@ -257,7 +256,7 @@
                      type: 'pie'
                   },
                   title: {
-                     text: 'Negative Mood Change Triggers'
+                     text: 'Why are you not currently satisfied with MU?'
                   },
                   tooltip: {
                      borderColor: null,
@@ -268,8 +267,9 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                           enabled: true
-                        }
+                           enabled: false
+                        },
+                        showInLegend: true
                      }
                   }
                },
@@ -277,22 +277,22 @@
                   enabled: false
                },
                series: [{
-                  name: 'Negative Triggers',
+                  name: 'Unsatisfied causes',
                   colorByPoint: true,
                   data: [{
-                     name: 'Argument or Conflict',
+                     name: 'Disconnected from others',
                      color: vm.colors[0],
                      y: parseInt(vm.nimhData['neg_argument_or_conflict'])
                   }, {
-                     name: 'Felt Rejected',
+                     name: 'Workload',
                      color: vm.colors[1],
                      y: parseInt(vm.nimhData['neg_felt_rejected'])
                   }, {
-                     name: 'Lack of Sleep',
+                     name: 'No parking',
                      color: vm.colors[2],
                      y: parseInt(vm.nimhData['neg_lack_of_sleep'])
                   }, {
-                     name: 'No trigger',
+                     name: 'Weather',
                      color: vm.colors[3],
                      y: parseInt(vm.nimhData['neg_no_trigger'])
                   }, {
@@ -300,15 +300,15 @@
                      color: vm.colors[4],
                      y: parseInt(vm.nimhData['neg_other'])
                   }, {
-                     name: 'Pain Or Bodiy Discomfort',
+                     name: 'Argument with students',
                      color: vm.colors[5],
                      y: parseInt(vm.nimhData['neg_pain_or_bodiy_discomfort'])
                   },{
-                     name: 'Problem at Work or School',
+                     name: 'Argument with faculty',
                      color: vm.colors[6],
                      y: parseInt(vm.nimhData['neg_problem_at_work_or_school'])
                   }, {
-                     name: 'Received Bad News',
+                     name: 'Lack of community',
                      color: vm.colors[7],
                      y: parseInt(vm.nimhData['neg_received_bad_news'])
                   },{
@@ -320,15 +320,15 @@
                      color: vm.colors[9],
                      y: parseInt(vm.nimhData['neg_upset_mad_at_myself'])
                   }, {
-                     name: 'Used Alcohol',
+                     name: 'Class sizes',
                      color: vm.colors[10],
                      y: parseInt(vm.nimhData['neg_used_alcohol'])
                   },{
-                     name: 'Used Drugs',
+                     name: 'Campus size',
                      color: vm.colors[11],
                      y: parseInt(vm.nimhData['neg_used_drugs'])
                   }, {
-                     name: 'Used Prescribed Medications',
+                     name: 'Class schedule',
                      color: vm.colors[12],
                      y: parseInt(vm.nimhData['neg_used_prescribed_medications'])
                   }]
@@ -346,7 +346,7 @@
                      type: 'pie'
                   },
                   title: {
-                     text: 'Positive Mood Change Triggers'
+                     text: 'Why are you currently satisfied with MU?'
                   },
                   tooltip: {
                      pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
@@ -369,23 +369,23 @@
                   name: 'Positive Triggers',
                   colorByPoint: true,
                   data: [{
-                     name: 'Exercised',
+                     name: 'Feel accepted',
                      color: vm.colors[0],
                      y: parseInt(vm.nimhData['pos_exercised'])
                   },{
-                     name: 'Felt Accepted and Supported',
+                     name: 'Get along with students',
                      color: vm.colors[2],
                      y: parseInt(vm.nimhData['pos_felt_accepted_and_supported'])
                   }, {
-                     name: 'Had Nice Day or Evening',
+                     name: 'Get along with faculty',
                      color: vm.colors[3],
                      y: parseInt(vm.nimhData['pos_had_nice_day_or_evening'])
                   }, {
-                     name: 'Had Sex',
+                     name: 'Good parking',
                      color: vm.colors[4],
                      y: parseInt(vm.nimhData['pos_had_sex'])
                   }, {
-                     name: 'No Trigger',
+                     name: 'Good class schedule',
                      color: vm.colors[5],
                      y: parseInt(vm.nimhData['pos_no_trigger'])
                   },{
@@ -393,29 +393,25 @@
                      color: vm.colors[6],
                      y: parseInt(vm.nimhData['pos_other'])
                   }, {
-                     name: 'Received Good News',
+                     name: 'Campus climate',
                      color: vm.colors[7],
                      y: parseInt(vm.nimhData['pos_received_good_news'])
                   },{
-                     name: 'Someone Complemented Me',
+                     name: 'Weather',
                      color: vm.colors[8],
                      y: parseInt(vm.nimhData['pos_someone_complimented_me'])
                   },{
-                     name: 'Spent Time with Someone Close',
+                     name: 'Recieved good grade',
                      color: vm.colors[9],
                      y: parseInt(vm.nimhData['pos_spent_time_with_someone_close'])
                   }, {
-                     name: 'Used Alcohol',
+                     name: 'Parent support',
                      color: vm.colors[10],
                      y: parseInt(vm.nimhData['pos_used_alcohol'])
                   },{
-                     name: 'Used Drugs',
+                     name: 'Learned something new',
                      color: vm.colors[11],
                      y: parseInt(vm.nimhData['pos_used_drugs'])
-                  }, {
-                     name: 'Used Prescribed Medications',
-                     color: vm.colors[12],
-                     y: parseInt(vm.nimhData['pos_used_prescribed_medications'])
                   }]
                }]
 

@@ -73,7 +73,7 @@
          });
 
          function parse_blueprint(blueprints){
-            vm.surveySchema = blueprints["-KaG7uz6fbY_rQPTx9kN"];
+            vm.surveySchema = blueprints["-KfmvoqJjFO75T7m63gw"];
             vm.study_name = vm.surveySchema.name;
             vm.number_responses = Object.keys(vm.surveySchema.answers).length;
 

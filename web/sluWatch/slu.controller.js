@@ -311,7 +311,7 @@
                         height: 600
                      },
                      title: {
-                        text: 'Hourly Averages of Physiological Data'
+                        text: 'Hourly Averages of Divice Data'
                      },
                      subtitle: {
                         text: 'Specifics During Study Period'
@@ -329,7 +329,7 @@
                            }
                         },
                         title: {
-                           text: 'Skin Temperature',
+                           text: 'Device Temperature',
                            style: {
                               color: Highcharts.getOptions().colors[7]
                            }
@@ -339,13 +339,13 @@
                       }, { // Secondary yAxis
                         gridLineWidth: 0,
                         title: {
-                           text: 'GSR',
+                           text: 'Miles traveled',
                            style: {
                                  color: Highcharts.getOptions().colors[2]
                               }
                           },
                           labels: {
-                              format: '{value} uS',
+                              format: '{value} miles',
                               style: {
                                   color: Highcharts.getOptions().colors[2]
                               }
@@ -354,13 +354,13 @@
                       }, { // Tertiary yAxis
                           gridLineWidth: 0,
                           title: {
-                              text: 'Heart Rate',
+                              text: 'Minutes Using Phone',
                               style: {
                                  color: Highcharts.getOptions().colors[1]
                               }
                           },
                           labels: {
-                              format: '{value} bpm',
+                              format: '{value} minutes',
                               style: {
                                  color: Highcharts.getOptions().colors[1]
                               }
@@ -391,16 +391,16 @@
                   },
                   //  close options
                   series: [{
-                        name: 'GSR',
+                        name: 'Miles traveled',
                         type: 'spline',
                         yAxis: 1,
                         data: currentUser.gsrHourlySeries,
                         color: Highcharts.getOptions().colors[2],
                         tooltip: {
-                           valueSuffix: ' uS'
+                           valueSuffix: ' miles'
                         }
                      }, {
-                        name: 'Heart Rate',
+                        name: 'Minutes Using Phone',
                         type: 'spline',
                         yAxis: 2,
                         data: currentUser.heartRateHourlySeries,
@@ -410,10 +410,10 @@
                         },
                         dashStyle: 'shortdot',
                         tooltip: {
-                           valueSuffix: ' bpm'
+                           valueSuffix: ' minutes'
                         }
                       }, {
-                        name: 'Skin Temp',
+                        name: 'Divice Temp',
                         type: 'spline',
                         data: currentUser.skinTempHourlySeries,
                         color: Highcharts.getOptions().colors[7],
@@ -429,7 +429,7 @@
                         zoomType: 'xy'
                      },
                      title: {
-                        text: 'Daily Averages of Physiological Data'
+                        text: 'Daily Averages of Divice Data'
                      },
                      subtitle: {
                         text: 'Overview of Study Period'
@@ -447,7 +447,7 @@
                            }
                         },
                         title: {
-                           text: 'Skin Temperature',
+                           text: 'Device Temperature',
                            style: {
                               color: Highcharts.getOptions().colors[7]
                            }
@@ -457,13 +457,13 @@
                       }, { // Secondary yAxis
                         gridLineWidth: 0,
                         title: {
-                           text: 'GSR',
+                           text: 'Miles traveled',
                            style: {
                                  color: Highcharts.getOptions().colors[2]
                               }
                           },
                           labels: {
-                              format: '{value} uS',
+                              format: '{value} miles',
                               style: {
                                   color: Highcharts.getOptions().colors[2]
                               }
@@ -472,13 +472,13 @@
                       }, { // Tertiary yAxis
                           gridLineWidth: 0,
                           title: {
-                              text: 'Heart Rate',
+                              text: 'Minutes Using Phone',
                               style: {
                                  color: Highcharts.getOptions().colors[1]
                               }
                           },
                           labels: {
-                              format: '{value} bpm',
+                              format: '{value} minutes',
                               style: {
                                  color: Highcharts.getOptions().colors[1]
                               }
@@ -504,16 +504,16 @@
                   },
                   //  close options
                   series: [{
-                        name: 'GSR',
+                        name: 'Miles traveled',
                         type: 'spline',
                         yAxis: 1,
                         data: currentUser.gsrDailySeries,
                         color: Highcharts.getOptions().colors[2],
                         tooltip: {
-                           valueSuffix: ' uS'
+                           valueSuffix: ' miles'
                         }
                      }, {
-                        name: 'Heart Rate',
+                        name: 'Minutes Using Phone',
                         type: 'spline',
                         yAxis: 2,
                         data: currentUser.heartRateDailySeries,
@@ -523,10 +523,10 @@
                         },
                         dashStyle: 'shortdot',
                         tooltip: {
-                           valueSuffix: ' bpm'
+                           valueSuffix: ' minutes'
                         }
                       }, {
-                        name: 'Skin Temp',
+                        name: 'Divice Temp',
                         type: 'spline',
                         data: currentUser.skinTempDailySeries,
                         color: Highcharts.getOptions().colors[7],
