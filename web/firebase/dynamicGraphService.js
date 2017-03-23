@@ -8,7 +8,6 @@
 
       function getSurveyGraph(survey){
          //conditional binding logic goes here
-         console.log(survey.type);
          if( survey.type ===  "yesNo"){
             return createYesNoPieGraph(survey);
          }

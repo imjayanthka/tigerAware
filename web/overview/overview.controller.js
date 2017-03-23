@@ -4,115 +4,66 @@
    "use strict";
    angular.module('researchApp')
    .controller('OverviewController', OverviewController);
-   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','$firebaseAuth'];
+   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','$firebaseAuth', 'StudyNavService'];
 
-   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location, $firebaseAuth){
+   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location, $firebaseAuth, StudyNavService){
 
-            var vm=this;
-            vm.initOverviewController=initOverviewController;
-            vm.auth = $firebaseAuth();
-            vm.firebaseUser = vm.auth.$getAuth();
-            vm.user_surveys_grid = retrieveUserSurveys();
+      var vm=this;
+      vm.initOverviewController=initOverviewController;
+      vm.auth = $firebaseAuth();
 
+      StudyNavService.setUserSurveys('user1', function(blueprints){
 
-            var ref = firebase.database().ref();
-            // This needs to be fixed, hardcoded async time not good.
-            timeout(initOverviewController,2000);
+         vm.user_surveys_grid = []
+         var survey_row = [];
+         var index = 0;
 
-
-            function initOverviewController(){
-                $(".dropdown-button").dropdown();
-                $(".button-collapse").sideNav();
-                $('.parallax').parallax();
-                $("#navBack").click(function(){
-                   history.go(-1);
-                });
-                vm.studyConstants=OverviewConstants;
-            }
-
-            function retrieveUserSurveys(){
-               //Get current user. Retrieve all surveys corresponding to the user.
-               var user_surveys = []
-               // This needs to be scoped to the current user e.g (users/ ' current userid' + surveys)
-               var userRef = firebase.database().ref('users/user1/surveys/');
-               userRef.once('value', function(snapshot) {
-                  snapshot.forEach(function(childSnapshot) {
-                     user_surveys.push(childSnapshot.val());
-                  });
-               }).then(function(){
-
-                  var demo_study;
-                  // Parse through data blueprint & retreive corresponding data
-                  var blueprintRef = firebase.database().ref('blueprints/');
-                  var blueprints = []
-
-                  //Iterate through all study blueprints and save data
-                  blueprintRef.once('value', function(snapshot) {
-                     var survey_id = 1;
-                     snapshot.forEach(function(childSnapshot, i) {
-                        var study_information = {}
-                        var childKey = childSnapshot.key;
-                        var childData = childSnapshot.val();
-
-                        // Scope result to surveys owned by current user
-                        if (-1 !== $.inArray(childSnapshot.key, user_surveys)){
-                           study_information['name'] = childData.name;
-                           study_information['survey'] = childData.survey;
-
-                           firebase.database().ref('data/' + childSnapshot.key).once('value', function(snapshot_data){
-                              if (snapshot_data.val() != null){
-                                 study_information['answers'] = snapshot_data.val().answers;
-                                 study_information['num_responses'] = Object.keys(snapshot_data.val().answers).length;
-                              }else{
-                                 study_information['answers'] = null;
-                                 study_information['num_responses'] = 0;
-                              }
-                           });
-                           study_information['img_url'] = "resources/images/stock/stock" + survey_id + ".jpeg";
-                           study_information['survey_id'] = survey_id;
-                           survey_id += 1;
-                           blueprints.push(study_information);
-                        }
-                     });
-
-                     vm.user_surveys_grid = []
-                     var survey_row = [];
-                     blueprints.forEach(function(survey, key){
-                        if(key % 4 == 0){
-                           survey_row = [];
-                           survey_row.push(survey);
-                        }
-                        else if ((key % 4) - 1 == 0){
-                           survey_row.push(survey);
-                           vm.user_surveys_grid.push(survey_row)
-                        }
-                        else{
-                           survey_row.push(survey);
-                        }
-                     });
-                  });
-               })
-            }
-
-            vm.directToStudy = function(survey_id) {
-               // hard code routing for dummy site
-               if (survey_id == "safety" || survey_id == "satisfaction"){
-                  console.log(survey_id);
-                  location.path(survey_id);
-               }else if (survey_id == "alcoholCravingStudy.html" || survey_id == "moodDesregulationStudy.html"){
-                  location.path('/overview');
+         for (var key in blueprints) {
+            if (blueprints.hasOwnProperty(key)) {
+               if(index % 4 == 0){
+                  survey_row = [];
+                  survey_row.push(blueprints[key]);
                }
-
+               else if ((index % 4) - 1 == 0){
+                  survey_row.push(blueprints[key]);
+                  vm.user_surveys_grid.push(survey_row);
+               }
                else{
-                  location.path('/surveys/'+survey_id);
+                  survey_row.push(blueprints[key]);
                }
+            }
+            index += 1;
+         }
+      });
+      // This needs to be fixed, hardcoded async time not good.
+      timeout(initOverviewController,1000);
 
-            }
-            vm.initiateLogOut = function(){
-                vm.auth.$signOut();
-                location.path('/logout');
-                vm.message = "You have Logged out successfully!"
-                Materialize.toast(vm.message, 7000, 'rounded');
-            }
+      function initOverviewController(){
+         $(".dropdown-button").dropdown();
+         $(".button-collapse").sideNav();
+         $('.parallax').parallax();
+         $("#navBack").click(function(){
+            history.go(-1);
+         });
+         vm.studyConstants=OverviewConstants;
+      }
+
+      vm.directToStudy = function(survey_id) {
+         // hard code routing for dummy site
+         if (survey_id == "safety" || survey_id == "satisfaction"){
+            location.path(survey_id);
+         }else if (survey_id == "alcoholCravingStudy.html" || survey_id == "moodDesregulationStudy.html"){
+            location.path('/overview');
+         }
+         else{
+            location.path('/surveys/'+survey_id);
+         }
+      }
+      vm.initiateLogOut = function(){
+         vm.auth.$signOut();
+         location.path('/logout');
+         vm.message = "You have Logged out successfully!"
+         Materialize.toast(vm.message, 7000, 'rounded');
+      }
     }
 })();
