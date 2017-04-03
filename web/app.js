@@ -51,6 +51,7 @@
                 templateUrl: 'firebase/firebase.html',
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
+
             })
 
             .otherwise({ redirectTo: '/login' });

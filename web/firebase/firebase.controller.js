@@ -26,10 +26,10 @@
       $scope.data = $firebaseObject(ref);
 
       StudyNavService.getSurveyByInd($routeParams['id'], function(blueprint){
-
+         console.log(blueprint);
          vm.surveySchema = blueprint;
          vm.study_name = vm.surveySchema.name;
-         vm.number_responses = Object.keys(vm.surveySchema.answers).length;
+         // vm.number_responses = Object.keys(vm.surveySchema.answers).length;
 
          var surveys = vm.surveySchema.survey;
          var survey_display_data = {}

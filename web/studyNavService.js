@@ -12,15 +12,20 @@
 
       function getSurveyByInd(index, callback){
          // This could be used by storing blueprints in controller scope too
+         console.log("get surveys");
+         blueprint = {};
          setUserSurveys('user1', function(blueprints){
             for (var key in blueprints) {
                if (blueprints.hasOwnProperty(key)){
                   if(blueprints[key]['survey_id'] == index){
+                     console.log(blueprints[key]);
+                     blueprint = blueprints[key];
                      callback(blueprints[key]);
                   }
                }
             }
          });
+         callback(blueprint);
       }
 
       function setUserSurveys(username, callback){
