@@ -1,20 +1,18 @@
 (function(){
 
    /** Controller for the whole NIMH page **/
-   angular.module('researchApp').controller('FirebaseController',FirebaseController);
-   FirebaseController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService", "$routeParams", "StudyNavService"];
+   angular.module('researchApp').controller('surveyDisplayController',surveyDisplayController);
+   surveyDisplayController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService", "$routeParams", "StudyNavService"];
 
-   function FirebaseController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService, $routeParams, StudyNavService){
+   function surveyDisplayController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService, $routeParams, StudyNavService){
       var vm = this;
       vm.auth = $firebaseAuth();
       vm.firebaseUser = vm.auth.$getAuth();
       vm.showOverviewPageFlag =true;
       vm.showOverviewPageFlag =true;
-
       vm.takeBack = takeBack;
-      vm.length = 10;
-      vm.surveySchema = {}
 
+      vm.surveySchema = {}
 
       $(".dropdown-button").dropdown();
       $(".button-collapse").sideNav();
@@ -24,13 +22,11 @@
 
       var ref = firebase.database().ref();
       $scope.data = $firebaseObject(ref);
+      initSurveyController();
 
-      StudyNavService.getSurveyByInd($routeParams['id'], function(blueprint){
-         console.log(blueprint);
-         vm.surveySchema = blueprint;
+      function initSurveyController(){
+         vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['id']);
          vm.study_name = vm.surveySchema.name;
-         // vm.number_responses = Object.keys(vm.surveySchema.answers).length;
-
          var surveys = vm.surveySchema.survey;
          var survey_display_data = {}
          for(var question in surveys){
@@ -55,13 +51,10 @@
             }
             chart.answers = answers;
             chart.graph = dynamicGraphService.getSurveyGraph(chart);
-
             survey_display_data[surveys[question].id] = chart;
          }
          vm.loadedResponses = survey_display_data;
-
-      });
-
+      }
 
       vm.initiateLogOut = function(){
           vm.auth.$signOut();
@@ -78,8 +71,6 @@
           vm.showOverviewPageFlag=true;
         }
       }
-
-
 
    }//end of controller
 

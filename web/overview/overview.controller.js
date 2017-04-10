@@ -1,3 +1,4 @@
+
 (function(){
 
   /***** Controller for Overview page *****/
@@ -33,6 +34,9 @@
                }
             }
             index += 1;
+         }
+         if( index % 4 != 0){
+            vm.user_surveys_grid.push(survey_row);
          }
       });
       // This needs to be fixed, hardcoded async time not good.

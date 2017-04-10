@@ -1,35 +1,28 @@
+
 /** Custom Service to help highcharts config object, to be hsared for similar graphs across the studies **/
 (function(){
-   angular.module('researchApp').service('StudyNavService',['$http', function StudyNavService($http){
+   angular.module('researchApp').service('StudyNavService',['$http', 'dynamicGraphService', 'localStorageService', function StudyNavService($http, dynamicGraphService, localStorageService){
 
       var blueprints = {};
-      var survey_blueprints = {};
+      var user_blueprints = {};
 
       return{
          setUserSurveys: setUserSurveys,
          getSurveyByInd: getSurveyByInd
       };
 
-      function getSurveyByInd(index, callback){
-         // This could be used by storing blueprints in controller scope too
-         console.log("get surveys");
-         blueprint = {};
-         setUserSurveys('user1', function(blueprints){
-            for (var key in blueprints) {
-               if (blueprints.hasOwnProperty(key)){
-                  if(blueprints[key]['survey_id'] == index){
-                     console.log(blueprints[key]);
-                     blueprint = blueprints[key];
-                     callback(blueprints[key]);
-                  }
+      function getSurveyByInd(index){
+         var user_blueprints = localStorageService.get('usersurveys');
+         for (var key in user_blueprints) {
+            if (user_blueprints.hasOwnProperty(key)){
+               if(user_blueprints[key]['survey_id'] == index){
+                  return user_blueprints[key];
                }
             }
-         });
-         callback(blueprint);
+         }
       }
 
       function setUserSurveys(username, callback){
-
          var user_surveys = []
          var userRef = firebase.database().ref('users/' + username + '/surveys/');
          userRef.once('value', function(snapshot) {
@@ -68,7 +61,9 @@
                   }
                   survey_id += 1;
                });
-               survey_blueprints = blueprints;
+               user_blueprints = blueprints;
+               localStorageService.set('usersurveys', user_blueprints);
+
                callback(blueprints);
             });
          })
