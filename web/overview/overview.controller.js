@@ -21,6 +21,7 @@
 
          for (var key in blueprints) {
             if (blueprints.hasOwnProperty(key)) {
+               console.log(blueprints[key]);
                if(index % 4 == 0){
                   survey_row = [];
                   survey_row.push(blueprints[key]);
@@ -40,7 +41,8 @@
          }
       });
       // This needs to be fixed, hardcoded async time not good.
-      timeout(initOverviewController,1000);
+      timeout(initOverviewController,3000);
+
 
       function initOverviewController(){
          $(".dropdown-button").dropdown();

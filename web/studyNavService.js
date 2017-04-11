@@ -8,8 +8,13 @@
 
       return{
          setUserSurveys: setUserSurveys,
+         getUserSurveys: getUserSurveys,
          getSurveyByInd: getSurveyByInd
       };
+
+      function getUserSurveys(){
+         return localStorageService.get('usersurveys');
+      }
 
       function getSurveyByInd(index){
          var user_blueprints = localStorageService.get('usersurveys');
@@ -52,9 +57,12 @@
                      shallow_dataRef = firebase.database().ref('data/' + childSnapshot.key);
                      shallow_dataRef.once('value', function(snapshot_data){
                         if (snapshot_data.val() != null){
+                           console.log()
                            study_information['answers'] = snapshot_data.val().answers;
+                           study_information['num_responses'] = Object.keys(snapshot_data.val().answers).length;
                         }else{
                            study_information['answers'] = null;
+                           study_information['num_responses'] = 0;
                         }
                      });
                      blueprints[childKey] = study_information;
