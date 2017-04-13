@@ -58,7 +58,7 @@
 
       vm.initiateLogOut = function(){
           vm.auth.$signOut();
-          location.path('/logout');
+          $location.path('/logout');
           vm.message = "You have Logged out successfully!"
           Materialize.toast(vm.message, 7000, 'rounded');
       }

@@ -1,0 +1,135 @@
+
+<div>
+   <!-- navigation -->
+   <!-- Dropdown Structure -->
+   <ul id="dropdown1" class="dropdown-content">
+      <li><a href="#!">Contact Info</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Add Patient</a></li>
+      <li class="divider"></li>
+      <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+   </ul>
+   <div class="navbar-fixed">
+      <nav>
+         <div class="nav-wrapper" id="topNav">
+            <a class="btn-floating btn-large grey lighten-3" id="navBack">
+               <i class="material-icons" id="navBack">arrow_back</i></a>
+            <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
+            <ul class="right hide-on-med-and-down">
+               <li><a href="overview.html">Studies</a></li>
+               <li><a href="#!">About</a></li>
+               <!-- Dropdown Trigger -->
+               <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+            </ul>
+         </div>
+      </nav>
+   </div>
+   <!-- end navigation -->
+   <!-- page content -->
+   <div class="section grey lighten-2" id="index-banner">
+      <div class="wrapper white z-depth-1 container">
+         <div class="row">
+            <div class="input-field col s12">
+                  <h5 class= "center">Survey Builder</h5>
+               <div class = "row">
+                  <div class="col s8 offset-s2 survey-title input-field grey lighten-5 z-depth-1">
+                     <input placeholder="Survey Name" id="name" type="text" class="validate">
+                  </div>
+               </div>
+               <table class="highlight">
+                  <thead>
+                     <tr>
+                        <th class = "center" style='width:50%' data-field="data">ID</th>
+                        <th class = "center" style='width:30%' data-field="date">Type</th>
+                        <th class = "center" style='width:10%' data-field="contrib">Delete</th>
+                        <th class = "center" style='width:10%' data-field="contrib">Edit</th>
+                     </tr>
+                  </thead>
+                  <tbody style='padding: 50px 30px 50px 80px;' id='mainTable'>
+                  </tbody>
+               </table>
+               <br>
+               <br>
+               <div class="right-align">
+                  <a ng-click="vm.openQuestionModal()" class="add-btn btn-floating btn-large waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
+               </div>
+               <br>
+               <br>
+               <br>
+               <a class="waves-effect waves-light btn red accent-1">Cancel</a>
+               <a class="waves-effect waves-light btn grey darken-2">Save</a>
+               <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Deploy</a>
+            </div>
+         </div>
+         <br>
+         <br>
+      </div>
+   </div>
+   <!-- Modal for making new question. Opens when plus button on main page clicked -->
+   <div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
+      <div class="modal-content">
+         <div class="white z-depth-1 container" style='padding: 1% 1% 1% 1%;'>
+            <form id="questionForm" name="questionForm" class="row" novalidate>
+               <h5 class="center">Create Question</h5>
+               <div class="input-field col s12">
+                  <input required id="qlabel" type="text" class="validate" ng-model="question.label">
+                  <label for="qlabel">Question Label</label>
+               </div>
+               <div class="input-field col s12">
+                  <input required id="title" type="text" class="validate" ng-model="question.title">
+                  <label for="title">Title</label>
+               </div>
+               <div class="input-field col s12">
+                  <input required id="Subtitle" type="text" class="validate" ng-model="question.subtitle">
+                  <label for="Subtitle">Subtitle</label>
+               </div>
+            <div class="input-field col s12">
+               <select required id='type' ng-model="question.type">
+                  <option value="" disabled selected>Select</option>
+                  <option value="yesNo">Yes or No</option>
+                  <option value="dateTime">Date and Time</option>
+                  <option value="textSlide">Text Slide</option>
+                  <option value="textField">Text Field</option>
+                  <option value="timeInt">Time Interval</option>
+               </select>
+               <label>Question Type</label>
+            </div>
+            </form>
+            <div class="row center">
+            </div>
+            <br>
+            <br>
+         </div>
+      </div><!-- close modal content -->
+      <div class="modal-footer">
+         <button id = "newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion(question)'>Add</button>
+         <button id = "newQuestionCancel" class="waves-effect waves-light btn red accent-1" ng-click='vm.cancelNewQuestion()'>Cancel</button>
+      </div>
+   </div>
+   <!-- Footer start -->
+   <footer class="page-footer">
+      <!-- <div class="container"> -->
+      <div class="row footer-wrapper">
+         <div class="col s5 offset-s1 footer-content">
+            <h5 class="white-text">Tiger Aware</h5>
+            <p class="grey-text text-lighten-4">Tiger Aware is a collaberative effort between University of Missouri campus administrators and Computer Science department. It can be used to build re-configurable surveys and data processing for mobile-based campus climate studies.</p>
+         </div>
+         <div class="col s3 offset-s2 footer-content">
+            <h5 class="white-text">Learn More</h5>
+            <ul>
+               <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+               <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+               <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+               <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+            </ul>
+         </div>
+      </div>
+      <!-- </div> -->
+      <div class="footer-copyright">
+         <div class="container">
+            © 2017 Tiger Aware
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+         </div>
+      </div>
+   </footer>
+

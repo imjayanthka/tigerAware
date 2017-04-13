@@ -28,6 +28,26 @@ hr{
    line-height: 1px;
 }
 
+
+.survey-title{
+   border: solid black 1px;
+   margin-bottom: 20px;
+   margin-top: 20px;
+}
+
+#newQuestionCancel{
+   margin-right: 20px;
+}
+.add-btn:hover{
+   background-color: #E7E247;
+}
+.wrapper{
+   padding: 1% 1% 1% 1%;
+}
+.add-icon{
+   color: #031926;
+}
+
 .contact{
    border-radius: 1px;
    border-style: solid;
@@ -68,6 +88,23 @@ hr{
    margin-left: 75%;
 }
 
+/*Registration & Login form components styling*/
+.input-field input[type=text]:focus + label {
+  color: #031926;
+}
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #031926;
+  box-shadow: 0 1px 0 0 #031926;
+}
+.input-field input[type=text].valid {
+  border-bottom: 1px solid #E7E247;
+  box-shadow: 0 1px 0 0 #E7E247;
+}
+.input-field input[type=password].valid {
+  border-bottom: 1px solid #E7E247;
+  box-shadow: 0 1px 0 0 #E7E247;
+}
+
 .btn-floating{
    margin-left: 12px;
 }
@@ -90,6 +127,11 @@ hr{
 #study-cards{
    padding-top: 20px;
    padding-bottom: 30px;
+}
+#modal-question{
+   width: 50%!important;
+   height: 80%!important;
+   max-height: 80%!important;
 }
 
 .badge{

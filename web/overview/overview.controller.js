@@ -21,7 +21,6 @@
 
          for (var key in blueprints) {
             if (blueprints.hasOwnProperty(key)) {
-               console.log(blueprints[key]);
                if(index % 4 == 0){
                   survey_row = [];
                   survey_row.push(blueprints[key]);
@@ -64,6 +63,9 @@
          else{
             location.path('/surveys/'+survey_id);
          }
+      }
+      vm.directToBuilder = function(){
+         location.path('/builder');
       }
       vm.initiateLogOut = function(){
          vm.auth.$signOut();
