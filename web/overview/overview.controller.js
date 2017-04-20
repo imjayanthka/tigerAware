@@ -5,15 +5,16 @@
    "use strict";
    angular.module('researchApp')
    .controller('OverviewController', OverviewController);
-   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','$firebaseAuth', 'StudyNavService'];
+   OverviewController.$inject = ['$scope','$rootScope','$http','OverviewConstants','$timeout','$location','$firebaseAuth', 'StudyNavService', 'localStorageService', '$firebaseObject'];
 
-   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location, $firebaseAuth, StudyNavService){
+   function OverviewController($scope,$rootScope,http,OverviewConstants,timeout,location, $firebaseAuth, StudyNavService, localStorageService, $firebaseObject){
 
       var vm=this;
       vm.initOverviewController=initOverviewController;
       vm.auth = $firebaseAuth();
 
       StudyNavService.setUserSurveys('user1', function(blueprints){
+         localStorageService.set('usersurveys', blueprints);
 
          vm.user_surveys_grid = []
          var survey_row = [];
@@ -21,13 +22,10 @@
 
          for (var key in blueprints) {
             if (blueprints.hasOwnProperty(key)) {
-               if(index % 4 == 0){
-                  survey_row = [];
-                  survey_row.push(blueprints[key]);
-               }
-               else if ((index % 4) - 1 == 0){
+               if ((index + 1) % 4 == 0){
                   survey_row.push(blueprints[key]);
                   vm.user_surveys_grid.push(survey_row);
+                  survey_row = [];
                }
                else{
                   survey_row.push(blueprints[key]);
@@ -38,6 +36,7 @@
          if( index % 4 != 0){
             vm.user_surveys_grid.push(survey_row);
          }
+         console.log(vm.user_surveys_grid);
       });
       // This needs to be fixed, hardcoded async time not good.
       timeout(initOverviewController,3000);

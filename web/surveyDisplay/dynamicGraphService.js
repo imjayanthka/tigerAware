@@ -14,7 +14,7 @@
       }
 
       function createYesNoBarGraph(survey){
-         console.log(survey.answers['Yes'])
+         console.log(survey.answers);
          return {
             options:{
 
@@ -66,7 +66,6 @@
       }
 
       function createYesNoPieGraph(survey){
-
           return {
                options:{
                   chart: {

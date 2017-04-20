@@ -70,6 +70,7 @@
    // Add a listiner for changes in the auth state
    run.$inject = ['$rootScope', '$location', '$firebaseAuth', 'StudyNavService'];
    function run($rootScope, $location, $firebaseAuth, StudyNavService) {
+      StudyNavService.setUserSurveys('user1', function(){});
       var loggedIn = false;
       var auth = $firebaseAuth();
       $rootScope.$on('$locationChangeStart', function (event, next, current) {
@@ -85,7 +86,7 @@
          if (firebaseUser) {
             loggedIn = true;
             // user1 to be replaced with associated username
-            StudyNavService.setUserSurveys('user1', function(){});
+            // StudyNavService.setUserSurveys('user1', function(){});
          } else {
             console.log("Signed out");
             loggedIn = false;

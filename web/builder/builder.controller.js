@@ -5,29 +5,33 @@
    "use strict";
    angular.module('researchApp')
    .controller('BuilderController', BuilderController);
-   BuilderController.$inject = ['$scope','$location','$firebaseAuth'];
+   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray'];
 
-   function BuilderController($scope,location, $firebaseAuth){
+   function BuilderController($scope,location, $firebaseAuth, $firebaseArray){
 
       var vm=this;
+      var editing = false;
+      var editInd;
       vm.auth = $firebaseAuth();
       vm.steps = [];
 
-      vm.showSurveyQuestions = function(){
-         console.log(vm.steps);
-         var x = document.getElementById("mainTable");
-         x.innerHTML = "";
-         for(var i = 0; i< vm.steps.length; i++){
-            var row = x.insertRow(i);
-            row.innerHTML = '<td><b>'+ vm.steps[i].id+'</b></td><td>'+ vm.steps[i].type+'</td><td><a class="btn-floating waves-effect waves-light red accent-1"><i class="material-icons">delete</i></a></td><td><a class="btn-floating waves-effect waves-light blue accent-1"><i class="material-icons">border_color</i></a></td>';
-         }
+      Materialize.updateTextFields();
+
+      vm.currentQuestion = {
+         title: "",
+         id: "",
+         type: "",
+         subtitle: "",
+         on: "",
+         conditionID: ""
       }
+
 
       initBuilderController();
       function initBuilderController(){
 
          $('select').material_select();
-         vm.showSurveyQuestions();
+
          $("#navBack").click(function(){
             history.go(-1);
          });
@@ -36,7 +40,7 @@
       initModal();
       function initModal(){
          $('#modal-question').modal();
-
+         Materialize.updateTextFields();
          $('#modal-question').modal({
             dismissible: false,
             opacity: .7,
@@ -50,6 +54,7 @@
       }
 
       vm.openQuestionModal = function(){
+
          vm.showQuestionModal=true;
          $('#modal-question').modal('open');
       }
@@ -57,38 +62,92 @@
       vm.saveNewSurvey = function(){
          console.log('new survey');
          // var database = firebase.database();
-         // var survey = JSON.parse(window.localStorage.getItem("survey"));
-         // var postRef = firebase.database().ref('blueprints').push();
-         // postRef.set({survey, 'name':$('#name').val(), user});
-         // firebase.database().ref('users/'+uid+'/surveys').push().set(postRef.key);
-         // localStorage.removeItem("survey");
+         var survey = vm.steps;
+
+         var surveysRef = firebase.database().ref('blueprints');
+         var sr_key;
+         var surveyList = $firebaseArray(surveysRef);
+         surveyList.$add({
+            survey,
+            name: $('#surveyname').val()
+         }).then(function(ref) {
+
+            var usersRef = firebase.database().ref('users/user1/surveys');
+            var userSurveyList = $firebaseArray(usersRef);
+            userSurveyList.$add(ref.key).then(function(ref) {
+
+            }, function(error) {
+               console.log("Error updating surveys:", error);
+            });
+
+         }, function(error) {
+            console.log("Error updating surveys:", error);
+         });
+
+
+         // firebase.database().ref('users/user1/surveys').push().set(postRef.key);
+         // // localStorage.removeItem("survey");
          // alert("Survey Successfully Made");
          // window.location.href = "createStep.html";
       }
 
+      vm.deleteQuestion = function(index){
+         if (index > -1) {
+            vm.steps.splice(index, 1);
+         };
+      }
 
+      vm.editQuestion = function(index){
 
-      vm.saveNewQuestion = function(question){
-         // question.subtitle defined, when do we store?
+         vm.currentQuestion = {
+            title: vm.steps[index].title,
+            id: vm.steps[index].id,
+            type: vm.steps[index].type,
+            subtitle: vm.steps[index].subtitle,
+            on: vm.steps[index].on,
+            conditionID: vm.steps[index].conditionID
+         }
+         editing = true;
+         editInd = index;
+         vm.showQuestionModal=true;
+         $('#modal-question').modal('open');
+      }
+
+      vm.saveNewQuestion = function(){
 
          var step = {
-            'title': question.title,
-            'id': question.label,
-            'type': $('#type').val(),
-            'on': "",
-            'conditionID': ""
+            title: vm.currentQuestion.title,
+            id: vm.currentQuestion.id,
+            type: $("#type").val(),
+            subtitle: vm.currentQuestion.subtitle,
+            on: vm.currentQuestion.on,
+            conditionID: vm.currentQuestion.conditionID
          }
-         vm.steps.push(step);
-         vm.showSurveyQuestions()
+
+         if(editing == true){
+            vm.steps[editInd] = step;
+            editing = false;
+         }else{
+            vm.steps.push(step);
+         }
+
          vm.showQuestionModal =false;
          $('#modal-question').modal('close');
+
+         vm.currentQuestion = {
+            title: "",
+            id: "",
+            type: "",
+            subtitle: "",
+            on: "",
+            conditionID: ""
+         }
       }
 
       vm.cancelNewQuestion = function(){
          console.log('delete question');
          vm.showQuestionModal =false;
          $('#modal-question').modal('close');
-         $scope.questionForm.$setPristine(); // Needs to reset info not currently working
       }
 
       vm.initiateLogOut = function(){

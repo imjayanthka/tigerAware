@@ -28,7 +28,18 @@ hr{
    line-height: 1px;
 }
 
-
+#mainTable{
+   padding: 50px 30px 50px 80px;
+}
+.qid{
+   width:50%
+}
+.qtype{
+   width:30%
+}
+.qdelete, .qedit{
+   width:10%;
+}
 .survey-title{
    border: solid black 1px;
    margin-bottom: 20px;

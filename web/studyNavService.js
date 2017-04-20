@@ -57,7 +57,6 @@
                      shallow_dataRef = firebase.database().ref('data/' + childSnapshot.key);
                      shallow_dataRef.once('value', function(snapshot_data){
                         if (snapshot_data.val() != null){
-                           console.log()
                            study_information['answers'] = snapshot_data.val().answers;
                            study_information['num_responses'] = Object.keys(snapshot_data.val().answers).length;
                         }else{
@@ -78,3 +77,4 @@
    }
    }]);
 }) ();
+
