@@ -11,7 +11,10 @@
 
       var vm=this;
       vm.initOverviewController=initOverviewController;
+      vm.showDeleteModal = false;
       vm.auth = $firebaseAuth();
+      vm.surveyForDelete = {}
+      vm.confirmDelete = false;
 
       StudyNavService.setUserSurveys('user1', function(blueprints){
          localStorageService.set('usersurveys', blueprints);
@@ -49,6 +52,7 @@
          $("#navBack").click(function(){
             history.go(-1);
          });
+         $("#deleteModal").modal();
          vm.studyConstants=OverviewConstants;
       }
 
@@ -71,6 +75,22 @@
          location.path('/logout');
          vm.message = "You have Logged out successfully!"
          Materialize.toast(vm.message, 7000, 'rounded');
+      }
+      vm.showDelete = function(survey){
+         $("#deleteModal").modal('open');
+         vm.showDeleteModal = true;
+         vm.surveyForDelete = survey;
+         console.log(survey);
+      }
+
+      vm.hideDelete = function(){
+         $("#deleteModal").modal("close");
+         vm.showDeleteModal = false;
+      }
+
+      vm.deleteStudy = function(survey){
+         console.log("hit");
+         console.log(survey);
       }
     }
 })();

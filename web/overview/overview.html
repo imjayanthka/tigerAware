@@ -64,8 +64,27 @@
            <div class="card-content">
                <span class="card-title activator grey-text text-darken-4 "><a ng-click="vm.directToStudy(survey.survey_id)">{{survey.name}}</a><i class="material-icons right">more_vert</i></span>
                <p><a ng-click="vm.directToStudy(survey.survey_id)">View {{survey.name}} Data</a></p>
-               <div class="valign-wrapper">
-                  <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
+               <div class = "panel-row">
+                  <div class="valign-wrapper col s4">
+                     <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
+                  </div>
+                  <div class = "icon-row col s2 offset-s1">
+                     <a class= "btn-floating waves-effect waves-light red accent-1" ng-click="vm.showDelete(survey)" ><i class="material-icons">delete</i></a>
+                  </div>
+                  <div class = "icon-row col s2">
+                     <a class= "btn-floating waves-effect waves-light blue accent-1" "><i class="material-icons">border_color</i></a>
+                  </div>
+                  <div class = "icon-row col s2">
+                     <a class= "btn-floating waves-effect waves-light grey darken-1" ng-click=""><i class="material-icons">description</i></a>
+                  </div>
+               </div>
+               <div class="active-toggle switch col s12 center">
+                   <label>
+                     Active
+                     <input type="checkbox">
+                     <span class="lever"></span>
+                     Inactive
+                   </label>
                </div>
            </div>
            <div class="card-reveal">
@@ -75,6 +94,18 @@
          </div>
       </div>
    </div>
+
+     <!-- Modal Structure -->
+     <div id="deleteModal" class="modal" ng-show="vm.showDeleteModal">
+       <div class="modal-content">
+         <h4>Confirm Delete</h4>
+         <p>You are about to remove a survey and its associated data. This action cannot be undone, are you sure you want to proceed?</p>
+       </div>
+      <div class="modal-footer">
+         <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.deleteStudy(survey)'>Delete</button>
+         <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDelete()'>Cancel</button>
+      </div>
+     </div>
 
     <div class="parallax-container">
        <div class="parallax"><img src="resources/images/man-field-smartphone-yellow.jpg"></div>
