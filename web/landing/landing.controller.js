@@ -49,6 +49,8 @@
          var auth = $firebaseAuth();
 
          auth.$signInWithPopup(provider).then(function(firebaseUser) {
+            $('#modal1').modal('close');
+            $('#modal2').modal('close');
             location.path('/overview');
          }).catch(function(error) {
            var errorCode = error.code;
@@ -61,6 +63,8 @@
       vm.loginWithEmail = function(){
          $firebaseAuth().$signInWithEmailAndPassword($scope.temp.username, $scope.temp.password)
             .then(function(firebaseUser){
+               $('#modal1').modal('close');
+               $('#modal2').modal('close');
                location.path('/overview');
             })
          .catch(function(error) {

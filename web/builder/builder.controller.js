@@ -5,9 +5,9 @@
    "use strict";
    angular.module('researchApp')
    .controller('BuilderController', BuilderController);
-   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray'];
+   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams'];
 
-   function BuilderController($scope,location, $firebaseAuth, $firebaseArray){
+   function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams){
 
       var vm=this;
       var editing = false;
@@ -24,6 +24,11 @@
          subtitle: "",
          on: "",
          conditionID: ""
+      }
+      if($routeParams['id']){
+         if(vm.surveySchema.answers){
+
+         }
       }
 
 
@@ -60,8 +65,15 @@
       }
 
       vm.saveNewSurvey = function(){
-         console.log('new survey');
-         // var database = firebase.database();
+         if ($('#surveyname').val().length === 0){
+            Materialize.toast("Please add a survey title", 3000, 'rounded');
+            return;
+         }
+         else if (vm.steps.length === 0){
+            Materialize.toast("Please add a survey question", 3000, 'rounded');
+            return;
+         }
+
          var survey = vm.steps;
 
          var surveysRef = firebase.database().ref('blueprints');
@@ -83,12 +95,8 @@
          }, function(error) {
             console.log("Error updating surveys:", error);
          });
-
-
-         // firebase.database().ref('users/user1/surveys').push().set(postRef.key);
-         // // localStorage.removeItem("survey");
-         // alert("Survey Successfully Made");
-         // window.location.href = "createStep.html";
+         Materialize.toast('Successfully created survey', 2000, 'rounded grey-text text-darken-4 green lighten-3 center-align');
+         location.path('/overview');
       }
 
       vm.deleteQuestion = function(index){
@@ -145,7 +153,6 @@
       }
 
       vm.cancelNewQuestion = function(){
-         console.log('delete question');
          vm.showQuestionModal =false;
          $('#modal-question').modal('close');
       }

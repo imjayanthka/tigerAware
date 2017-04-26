@@ -49,6 +49,7 @@
 
                   // Scope result to surveys owned by current user
                   if (-1 !== $.inArray(childSnapshot.key, user_surveys)){
+                     study_information['survey_key'] = childKey;
                      study_information['survey_id'] = survey_id;
                      study_information['name'] = childData.name;
                      study_information['survey'] = childData.survey;
