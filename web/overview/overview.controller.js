@@ -16,6 +16,9 @@
       vm.surveyForDelete = {}
       vm.confirmDelete = false;
       initSurveys();
+      $(document).ready(function(){
+         $('.tooltipped').tooltip({delay: 50});
+      });
 
       function initSurveys(){
          StudyNavService.setUserSurveys('user1', function(blueprints){
@@ -42,13 +45,13 @@
                vm.user_surveys_grid.push(survey_row);
             }
          });
+
       }
 
       // This needs to be fixed, hardcoded async time not good.
       timeout(initOverviewController,3000);
-
-
       function initOverviewController(){
+         $('.tooltipped').tooltip({delay: 50});
          $(".dropdown-button").dropdown();
          $(".button-collapse").sideNav();
          $('.parallax').parallax();
@@ -90,7 +93,6 @@
          vm.surveyForDelete = survey;
       }
       vm.editSurvey = function(survey){
-         console.log('clicked');
          if(survey.num_responses > 0){
             Materialize.toast("Surveys with responses can't be edited", 7000, 'rounded');
          }else{
@@ -101,7 +103,10 @@
          $("#deleteModal").modal("close");
          vm.showDeleteModal = false;
       }
+      vm.newFromTemplate = function(survey){
+         location.path("/builder/template/" + survey.survey_id);
 
+      }
       vm.deleteStudy = function(){
 
          var rowInd = Math.floor(parseInt(vm.surveyForDelete['survey_id']) / 4);
@@ -158,7 +163,6 @@
             .catch(function(error) {
                console.log("Error:", error);
          });
-         // initSurveys();
          Materialize.toast('Successfully deleted survey', 2000, 'rounded grey-text text-darken-4 red lighten-3 center-align');
          $("#deleteModal").modal('close');
       }

@@ -34,9 +34,13 @@
          surveySchema.survey.forEach(function(question){
             vm.steps.push(question);
          });
-         console.log(vm.steps);
       }
-
+      vm.newFromTemplate = function(surveySchema){
+         vm.surveyName = surveySchema.name;
+         surveySchema.survey.forEach(function(question){
+            vm.steps.push(question);
+         });
+      }
       initBuilderController();
       function initBuilderController(){
          vm.updating = false;
@@ -47,6 +51,13 @@
             // If answers, the user should be rerouted to /overview
             vm.editSurvey(surveySchema);
          }
+         else if($routeParams['tempid']){
+            vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['tempid']);
+            var surveySchema = vm.surveySchema;
+            // once answer loading bug is fixed, a conditional check needs to be added to ensure there aren't answers.
+            // If answers, the user should be rerouted to /overview
+            vm.newFromTemplate(surveySchema);
+         }
          $('select').material_select();
          $("#navBack").click(function(){
             history.go(-1);
@@ -56,6 +67,7 @@
       initModal();
       function initModal(){
          $('#modal-question').modal();
+         $('#modal-cancel').modal();
          Materialize.updateTextFields();
          $('#modal-question').modal({
             dismissible: false,
@@ -67,13 +79,21 @@
             ready: function(modal, trigger) {}
          });
          vm.showQuestionModal =false;
+         vm.showCancelModal = false;
       }
-
+      vm.hideCancel = function(){
+         $('#modal-cancel').modal('open');
+         vm.showCancelModal = false;
+      }
       vm.openQuestionModal = function(){
          vm.showQuestionModal=true;
          $('#modal-question').modal('open');
       }
-
+      vm.openCancelModal = function(){
+         vm.showCancelModal=true;
+         $('#modal-cancel').modal('open');
+      }
+      // Survey wide operations
       vm.saveNewSurvey = function(){
          if (vm.surveyName.length === 0){
             Materialize.toast("Please add a survey title", 3000, 'rounded');
@@ -83,7 +103,6 @@
             Materialize.toast("Please add a survey question", 3000, 'rounded');
             return;
          }
-
          if(vm.updating){
             vm.updateExistingSurvey();
             return;
@@ -111,7 +130,11 @@
          Materialize.toast('Successfully created survey', 2000, 'rounded grey-text text-darken-4 green lighten-3 center-align');
          location.path('/overview');
       }
-
+      vm.cancelSurvey = function(){
+         vm.showCancelModal=false;
+         $('#modal-cancel').modal('close');
+         location.path('/overview');
+      }
       vm.updateExistingSurvey = function(){
          var survey = vm.steps;
          var name = vm.surveyName;
@@ -121,19 +144,12 @@
          surveyList.$loaded().then(function(surveyList) {
             var updateInd = surveyList.$indexFor(vm.surveySchema['survey_key']);
             if(updateInd !== -1){
-               // surveyList[updateInd] = {
-               //    survey,
-               //    name: name
-               // }
+
                surveyList[updateInd].survey = survey;
                surveyList[updateInd].name = name;
 
-               // console.log(surveyList[0].$id)
-               // var key = surveyList.$keyAt(surveyList[1]);
-
-               console.log(surveyList);
                surveyList.$save(updateInd).then(function(ref){
-                  console.log("saved");
+                  Materialize.toast('Successfully updated survey', 2000, 'rounded grey-text text-darken-4 blue lighten-3 center-align');
                }).catch(function(error){
                   console.log(error);
                });
@@ -144,15 +160,12 @@
         .catch(function(error) {
           console.log("Error:", error);
         })
-
       }
-
       vm.deleteQuestion = function(index){
          if (index > -1) {
             vm.steps.splice(index, 1);
          };
       }
-
       vm.editQuestion = function(index){
 
          vm.currentQuestion = {
@@ -170,7 +183,6 @@
       }
 
       vm.saveNewQuestion = function(){
-
          var step = {
             title: vm.currentQuestion.title,
             id: vm.currentQuestion.id,
@@ -179,7 +191,6 @@
             on: vm.currentQuestion.on,
             conditionID: vm.currentQuestion.conditionID
          }
-
          if(editing == true){
             vm.steps[editInd] = step;
             editing = false;
@@ -189,7 +200,6 @@
 
          vm.showQuestionModal =false;
          $('#modal-question').modal('close');
-
          vm.currentQuestion = {
             title: "",
             id: "",

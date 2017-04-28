@@ -60,6 +60,13 @@
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
             })
+            .when('/builder/template/:tempid', {
+                title: 'Survey Builder',
+                controller: 'BuilderController',
+                templateUrl: 'builder/builder.html',
+                css: 'resources/css/style.css',
+                controllerAs: 'vm'
+            })
             .otherwise({ redirectTo: '/login' });
 
 

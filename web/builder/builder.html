@@ -67,7 +67,7 @@
                <br>
                <br>
                <br>
-               <a class="waves-effect waves-light btn red accent-1">Cancel</a>
+               <a class="waves-effect waves-light btn red accent-1" ng-click="vm.openCancelModal()">Cancel</a>
                <span ng-if="vm.updating">
                   <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Save</a>
                </span>
@@ -80,6 +80,16 @@
          <br>
       </div>
    </div>
+   <div id="modal-cancel" class="modal" ng-show="vm.showCancelModal">
+    <div class="modal-content">
+      <h4>Confirm Cancel</h4>
+      <p>Once you cancel this new survey, your changes will be lost. Do you wish to continue?</p>
+    </div>
+   <div class="modal-footer">
+      <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.cancelSurvey()'>Cancel</button>
+      <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideCancel()'>Continue Building</button>
+   </div>
+  </div>
    <!-- Modal for making new question. Opens when plus button on main page clicked -->
    <div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
       <div class="modal-content">
