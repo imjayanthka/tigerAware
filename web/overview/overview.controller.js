@@ -88,7 +88,6 @@
          $("#deleteModal").modal('open');
          vm.showDeleteModal = true;
          vm.surveyForDelete = survey;
-         console.log(survey);
       }
       vm.editSurvey = function(survey){
          console.log('clicked');
@@ -96,7 +95,6 @@
             Materialize.toast("Surveys with responses can't be edited", 7000, 'rounded');
          }else{
             location.path("/builder/" + survey.survey_id);
-            vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['id']);
          }
       }
       vm.hideDelete = function(){
@@ -105,7 +103,10 @@
       }
 
       vm.deleteStudy = function(){
-         console.log(vm.surveyForDelete);
+
+         var rowInd = Math.floor(parseInt(vm.surveyForDelete['survey_id']) / 4);
+         var colInd = (parseInt(vm.surveyForDelete['survey_id']) % 4) - 1;
+         vm.user_surveys_grid[rowInd].splice(colInd, 1);
 
          // Delete blueprint for selected survey
          var blueprintsRef = firebase.database().ref('blueprints');
@@ -157,7 +158,7 @@
             .catch(function(error) {
                console.log("Error:", error);
          });
-         initSurveys();
+         // initSurveys();
          Materialize.toast('Successfully deleted survey', 2000, 'rounded grey-text text-darken-4 red lighten-3 center-align');
          $("#deleteModal").modal('close');
       }

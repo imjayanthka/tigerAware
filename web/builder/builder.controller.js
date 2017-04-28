@@ -5,9 +5,9 @@
    "use strict";
    angular.module('researchApp')
    .controller('BuilderController', BuilderController);
-   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams'];
+   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams', 'StudyNavService'];
 
-   function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams){
+   function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams, StudyNavService){
 
       var vm=this;
       var editing = false;
@@ -17,6 +17,8 @@
 
       Materialize.updateTextFields();
 
+      vm.surveyName = "";
+
       vm.currentQuestion = {
          title: "",
          id: "",
@@ -25,18 +27,27 @@
          on: "",
          conditionID: ""
       }
-      if($routeParams['id']){
-         if(vm.surveySchema.answers){
 
-         }
+      vm.editSurvey = function(surveySchema){
+         vm.updating = true;
+         vm.surveyName = surveySchema.name;
+         surveySchema.survey.forEach(function(question){
+            vm.steps.push(question);
+         });
+         console.log(vm.steps);
       }
-
 
       initBuilderController();
       function initBuilderController(){
-
+         vm.updating = false;
+         if($routeParams['id']){
+            vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['id']);
+            var surveySchema = vm.surveySchema;
+            // once answer loading bug is fixed, a conditional check needs to be added to ensure there aren't answers.
+            // If answers, the user should be rerouted to /overview
+            vm.editSurvey(surveySchema);
+         }
          $('select').material_select();
-
          $("#navBack").click(function(){
             history.go(-1);
          });
@@ -59,13 +70,12 @@
       }
 
       vm.openQuestionModal = function(){
-
          vm.showQuestionModal=true;
          $('#modal-question').modal('open');
       }
 
       vm.saveNewSurvey = function(){
-         if ($('#surveyname').val().length === 0){
+         if (vm.surveyName.length === 0){
             Materialize.toast("Please add a survey title", 3000, 'rounded');
             return;
          }
@@ -74,14 +84,17 @@
             return;
          }
 
-         var survey = vm.steps;
+         if(vm.updating){
+            vm.updateExistingSurvey();
+            return;
+         }
 
+         var survey = vm.steps;
          var surveysRef = firebase.database().ref('blueprints');
-         var sr_key;
          var surveyList = $firebaseArray(surveysRef);
          surveyList.$add({
             survey,
-            name: $('#surveyname').val()
+            name: vm.surveyName
          }).then(function(ref) {
 
             var usersRef = firebase.database().ref('users/user1/surveys');
@@ -97,6 +110,41 @@
          });
          Materialize.toast('Successfully created survey', 2000, 'rounded grey-text text-darken-4 green lighten-3 center-align');
          location.path('/overview');
+      }
+
+      vm.updateExistingSurvey = function(){
+         var survey = vm.steps;
+         var name = vm.surveyName;
+         var surveysRef = firebase.database().ref('blueprints');
+         var surveyList = $firebaseArray(surveysRef);
+
+         surveyList.$loaded().then(function(surveyList) {
+            var updateInd = surveyList.$indexFor(vm.surveySchema['survey_key']);
+            if(updateInd !== -1){
+               // surveyList[updateInd] = {
+               //    survey,
+               //    name: name
+               // }
+               surveyList[updateInd].survey = survey;
+               surveyList[updateInd].name = name;
+
+               // console.log(surveyList[0].$id)
+               // var key = surveyList.$keyAt(surveyList[1]);
+
+               console.log(surveyList);
+               surveyList.$save(updateInd).then(function(ref){
+                  console.log("saved");
+               }).catch(function(error){
+                  console.log(error);
+               });
+            }else{
+               console.log("Error: record for update not found");
+            }
+        })
+        .catch(function(error) {
+          console.log("Error:", error);
+        })
+
       }
 
       vm.deleteQuestion = function(index){

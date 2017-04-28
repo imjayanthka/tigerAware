@@ -30,10 +30,15 @@
       <div class="wrapper white z-depth-1 container">
          <div class="row">
             <div class="input-field col s12">
-                  <h5 class= "center">Survey Builder</h5>
+
+               <h5 class= "center" ng-if="vm.updating">Edit Survey</h5>
+               <h5 class= "center" ng-if="!vm.updating">Survey Builder</h5>
                <div class = "row">
-                  <div class="col s8 offset-s2 survey-title input-field grey lighten-5 z-depth-1">
-                     <input placeholder="Survey Name" id="surveyname" type="text" class="validate">
+                  <div class = "col s8 offset-s2 title-wrapper grey lighten-5 z-depth-1">
+                     <div class="col s12 survey-title input-field grey lighten-5">
+                        <input value = "Sample Survey" required id="surveyname" type="text" class="validate" ng-model="vm.surveyName" >
+                        <label class = "active" for="Name">Survey Name</label>
+                     </div>
                   </div>
                </div>
                <table class="highlight">
@@ -63,8 +68,12 @@
                <br>
                <br>
                <a class="waves-effect waves-light btn red accent-1">Cancel</a>
-               <a class="waves-effect waves-light btn grey darken-2">Save</a>
-               <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Deploy</a>
+               <span ng-if="vm.updating">
+                  <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Save</a>
+               </span>
+               <span ng-if="!vm.updating">
+                  <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Deploy</a>
+               </span>
             </div>
          </div>
          <br>

@@ -45,10 +45,9 @@ hr{
 .qdelete, .qedit{
    width:10%;
 }
-.survey-title{
+.title-wrapper{
    border: solid black 1px;
-   margin-bottom: 20px;
-   margin-top: 20px;
+   padding-top: 20px!important;
 }
 
 #newQuestionCancel{
