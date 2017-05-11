@@ -63,6 +63,10 @@ hr{
    color: #031926;
 }
 
+.accountRow{
+   height: 50px!important;
+}
+
 .contact{
    border-radius: 1px;
    border-style: solid;

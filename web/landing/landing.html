@@ -25,7 +25,7 @@
               </div>
             </div>
 
-            <div class='row'>
+            <div class='row accountRow'>
               <div class='input-field col s12 left-align'>
                 <input class='validate' type='text' ng-model="temp.username" name="username" required/>
                 <label for='username'>Enter your email:</label>
@@ -33,7 +33,7 @@
               </div>
             </div>
 
-            <div class='row'>
+            <div class='row accountRow'>
               <div class='input-field col s12 left-align'>
                 <input class='validate' type='password' ng-model="temp.password" name="password" required/>
                 <label for='password'>Enter your password:</label>
@@ -69,28 +69,28 @@
         <div class="z-depth-1 grey lighten-4 row login-container">
 
           <form name="registerForm" id = "registerform" class="col s12" novalidate>
-            <div class='row'>
-              <div class='col s12'>
+            <div class='row accountRow'>
+              <div class='input-field col s12 left-align'>
+                <input class='validate' type='text' ng-model="temp.registerName" name="registerName" required/>
+                <label for='registerName'>Enter your first name:</label>
+                <span ng-show="registerForm.registerName.$dirty && registerForm.registerName.$error.required">*  Required</span>
               </div>
             </div>
-
-            <div class='row'>
+            <div class='row accountRow'>
               <div class='input-field col s12 left-align'>
                 <input class='validate' type='text' ng-model="temp.registerUsername" name="registerUsername" required/>
-                <label for='registerUsername'>Enter a username:</label>
+                <label for='registerUsername'>Enter an email:</label>
                 <span ng-show="registerForm.registerUsername.$dirty && registerForm.registerUsername.$error.required">*  Required</span>
               </div>
             </div>
-
-            <div class='row'>
+            <div class='row accountRow'>
               <div class='input-field col s12 left-align'>
                 <input class='validate' type='password' ng-model="temp.registerPassword" name="registerPassword" equals={{temp.confirmPassword}} required/>
                 <label for='registerPassword'>Enter a password:</label>
                 <span ng-show="registerForm.registerPassword.$dirty &&  registerForm.registerPassword.$error.required">*  Required</span>
               </div>
             </div>
-
-            <div class='row'>
+            <div class='row accountRow'>
               <div class='input-field col s12 left-align'>
                 <input class='validate' type='password' ng-model="temp.confirmPassword" name="confirmPassword" equals={{temp.registerPassword}} required/>
                 <label for='confirmPassword'>Confirm password:</label>
@@ -98,10 +98,9 @@
                 <span ng-show="registerForm.confirmPassword.$dirty &&  registerForm.confirmPassword.$error.equals">*  passwords should match</span>
               </div>
             </div>
-
             <br />
             <center>
-              <div class='row'>
+              <div class='row accountRow'>
                 <button id = "btn_login" name='btn_login' class='col s12 btn btn-large waves-effect btn-left' ng-disabled="registerForm.$invalid" ng-click="vm.registerEmailPassword()">Register</button>
               </div>
             </center>

@@ -5,9 +5,9 @@
    angular
       .module('researchApp')
       .controller('LandingController', LandingController);
-   LandingController.$inject = ['$scope','$rootScope','$http','$location', '$firebaseAuth',];
+   LandingController.$inject = ['$scope','$rootScope','$http','$location', '$firebaseAuth','$firebaseArray'];
 
-   function LandingController($scope,$rootScope,http,location, $firebaseAuth){
+   function LandingController($scope,$rootScope,http,location, $firebaseAuth, $firebaseArray){
 
       var vm = this;
       vm.directToLogin=directToLogin;
@@ -47,17 +47,19 @@
       vm.authUserGoogle = function() {
          var provider = new firebase.auth.GoogleAuthProvider();
          var auth = $firebaseAuth();
+         Materialize.toast("Registration using Google is not supported at this time", 7000, 'rounded');
 
-         auth.$signInWithPopup(provider).then(function(firebaseUser) {
-            $('#modal1').modal('close');
-            $('#modal2').modal('close');
-            location.path('/overview');
-         }).catch(function(error) {
-           var errorCode = error.code;
-           var errorMessage = error.message;
-           var email = error.email;
-           var credential = error.credential;
-         });
+         //This code below will work - however, it is not supported on mobile yet so not being used for consistancy. Once used, name will also need to be stored.
+         // auth.$signInWithPopup(provider).then(function(firebaseUser) {
+         //    $('#modal1').modal('close');
+         //    $('#modal2').modal('close');
+         //    location.path('/overview');
+         // }).catch(function(error) {
+         //   var errorCode = error.code;
+         //   var errorMessage = error.message;
+         //   var email = error.email;
+         //   var credential = error.credential;
+         // });
       };
 
       vm.loginWithEmail = function(){
@@ -75,6 +77,13 @@
       vm.registerEmailPassword = function(){
          $firebaseAuth().$createUserWithEmailAndPassword($scope.temp.registerUsername, $scope.temp.registerPassword)
             .then(function(firebaseUser) {
+               var newUser = {
+                  email: firebaseUser.email,
+                  userName: $scope.temp.registerName
+               };
+               var usersRef = firebase.database().ref('users');
+               usersRef.child(firebaseUser.uid).set(newUser);
+
                $scope.message = "Hello! User created email: " + firebaseUser.email;
                Materialize.toast($scope.message, 7000, 'rounded');
             }).catch(function(error) {
