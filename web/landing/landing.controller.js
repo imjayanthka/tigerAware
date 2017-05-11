@@ -87,7 +87,6 @@
       function cancelClicked(){
          var master = { username: '' , password:''};
          $scope.temp = angular.copy(master);
-
          $scope.loginForm.$setPristine();
       }
    }

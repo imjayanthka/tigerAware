@@ -12,7 +12,14 @@
       var vm=this;
       vm.initOverviewController=initOverviewController;
       vm.showDeleteModal = false;
-      vm.auth = $firebaseAuth();
+
+      //check auth, otherwise redirect. This needs to be defined in order to hit the users/ ref
+      var auth = $firebaseAuth();
+      var firebaseUser = auth.$getAuth();
+      if (!firebaseUser) {
+         location.path('/login');
+      }
+
       vm.surveyForDelete = {}
       vm.confirmDelete = false;
       initSurveys();
@@ -21,7 +28,7 @@
       });
 
       function initSurveys(){
-         StudyNavService.setUserSurveys('user1', function(blueprints){
+         StudyNavService.setUserSurveys(firebaseUser.uid, function(blueprints){
             localStorageService.set('usersurveys', blueprints);
 
             vm.user_surveys_grid = []
@@ -145,7 +152,7 @@
          });
 
          // Delete user-blueprint association
-         var userRef = firebase.database().ref('users/user1/surveys');
+         var userRef = firebase.database().ref('users/' + firebaseUser.uid + '/surveys');
          var user_list = $firebaseArray(userRef);
 
          user_list.$loaded()

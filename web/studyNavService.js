@@ -71,7 +71,6 @@
                });
                user_blueprints = blueprints;
                localStorageService.set('usersurveys', user_blueprints);
-
                callback(blueprints);
             });
          })

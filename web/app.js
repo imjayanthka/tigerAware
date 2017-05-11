@@ -84,14 +84,19 @@
    // Add a listiner for changes in the auth state
    run.$inject = ['$rootScope', '$location', '$firebaseAuth', 'StudyNavService'];
    function run($rootScope, $location, $firebaseAuth, StudyNavService) {
-      StudyNavService.setUserSurveys('user1', function(){});
       var loggedIn = false;
       var auth = $firebaseAuth();
+      var firebaseUser = auth.$getAuth();
+      // if user is logged in, initialize their surveys in local storage
+      if (firebaseUser) {
+         StudyNavService.setUserSurveys(firebaseUser.uid, function(){});
+      }
+
       $rootScope.$on('$locationChangeStart', function (event, next, current) {
          // redirect to login page if not logged in and trying to access a restricted page
          var restrictedPage = $.inArray($location.path(), ['/login']) === -1;
          if (restrictedPage && !loggedIn) {
-            // $location.path('/login');
+            $location.path('/login');
          }
       });
 
@@ -99,8 +104,6 @@
       auth.$onAuthStateChanged(function(firebaseUser) {
          if (firebaseUser) {
             loggedIn = true;
-            // user1 to be replaced with associated username
-            // StudyNavService.setUserSurveys('user1', function(){});
          } else {
             console.log("Signed out");
             loggedIn = false;

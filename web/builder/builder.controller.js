@@ -15,6 +15,13 @@
       vm.auth = $firebaseAuth();
       vm.steps = [];
 
+      //check auth, otherwise redirect. This needs to be defined in order to hit the users/ ref
+      var auth = $firebaseAuth();
+      var firebaseUser = auth.$getAuth();
+      if (!firebaseUser) {
+         location.path('/login');
+      }
+
       Materialize.updateTextFields();
 
       vm.surveyName = "";
@@ -113,10 +120,11 @@
          var surveyList = $firebaseArray(surveysRef);
          surveyList.$add({
             survey,
-            name: vm.surveyName
+            name: vm.surveyName,
+            user: "Will" // update to match current user name
          }).then(function(ref) {
 
-            var usersRef = firebase.database().ref('users/user1/surveys');
+            var usersRef = firebase.database().ref('users/' + firebaseUser.uid + '/surveys');
             var userSurveyList = $firebaseArray(usersRef);
             userSurveyList.$add(ref.key).then(function(ref) {
 
@@ -147,6 +155,7 @@
 
                surveyList[updateInd].survey = survey;
                surveyList[updateInd].name = name;
+               surveyList[updateInd].user = "Will" // should match auth user name.
 
                surveyList.$save(updateInd).then(function(ref){
                   Materialize.toast('Successfully updated survey', 2000, 'rounded grey-text text-darken-4 blue lighten-3 center-align');
