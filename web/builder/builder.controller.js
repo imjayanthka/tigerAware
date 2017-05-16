@@ -34,7 +34,16 @@
          on: "",
          conditionID: ""
       }
-
+      vm.choices = [
+        {
+          'id': "1",
+          'option_tag': ""
+        },
+        {
+          'id': "2",
+          'option_tag': ""
+        }
+      ];
       vm.editSurvey = function(surveySchema){
          vm.updating = true;
          vm.surveyName = surveySchema.name;
@@ -94,6 +103,10 @@
       }
       vm.openQuestionModal = function(){
          vm.showQuestionModal=true;
+          if(vm.currentQuestion.type == 'MultipleChoice')
+          vm.showMcqOptions = true;
+        else
+          vm.showMcqOptions =  false;
          $('#modal-question').modal('open');
       }
       vm.openCancelModal = function(){
@@ -192,13 +205,20 @@
       }
 
       vm.saveNewQuestion = function(){
-         var step = {
+        var step = {
             title: vm.currentQuestion.title,
             id: vm.currentQuestion.id,
             type: $("#type").val(),
             subtitle: vm.currentQuestion.subtitle,
             on: vm.currentQuestion.on,
-            conditionID: vm.currentQuestion.conditionID
+            conditionID: vm.currentQuestion.conditionID,
+         } 
+        if(vm.currentQuestion.type == 'MultipleChoice'){
+           var choices_array = [];
+           for (var i = 0; i < vm.choices.length; i++){
+             choices_array.push(vm.choices[i].option_tag);
+           }
+           step.choices =  choices_array;
          }
          if(editing == true){
             vm.steps[editInd] = step;
@@ -217,11 +237,42 @@
             on: "",
             conditionID: ""
          }
+         vm.choices = [
+          {
+            'id': "1",
+            'option_tag': ""
+          },
+          {
+            'id': "2",
+            'option_tag': ""
+          }
+        ];
       }
-
       vm.cancelNewQuestion = function(){
          vm.showQuestionModal =false;
          $('#modal-question').modal('close');
+      }
+
+      // Functionality For Controlling UI for MCQ
+      vm.addChoice = function(){
+        alert('Hey')
+        var newIndex = vm.choices.length + 1;
+        vm.choices.push({'id': ''+newIndex, 'value':""});
+      }
+      vm.removeChoice = function(choice){
+        var choiceId = choice.id - 1;
+        vm.choices.splice(choiceId, 1);
+        for (var item in vm.choices){
+          if (item.id > choice.id){
+            item.id(Number(item.id) - 1).toString()
+          }
+        }
+      }
+      vm.showDeleteButton = function(){
+        return vm.choices.length > 2;
+      }
+      vm.showAddButton = function(choice){
+        return choice.id === vm.choices[vm.choices.length-1].id;
       }
 
       vm.initiateLogOut = function(){
