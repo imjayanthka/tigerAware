@@ -5,6 +5,10 @@
    font-family: 'Montserrat', sans-serif;
 }
 
+body{
+  line-height:1.5;
+}
+
 a{
    color: #454545;
 }
@@ -63,10 +67,6 @@ hr{
    color: #031926;
 }
 
-.accountRow{
-   height: 50px!important;
-}
-
 .contact{
    border-radius: 1px;
    border-style: solid;
@@ -78,9 +78,9 @@ hr{
 
 .section-header{
    font-family: 'Montserrat', sans-serif;
-   margin-bottom: 30px;
-   font-weight: 10px;
-   padding-left: 25px;
+   /*margin-bottom: 30px;*/
+   font-weight: bold;
+   /*padding-left: 25px;*/
    color: #454545;
 }
 
@@ -170,11 +170,12 @@ hr{
 }
 
 #study-overview-header{
-   padding-bottom: 20px;
+   /*padding-bottom: 20px;
+   margin-bottom:0;*/
 }
 
 .row{
-   padding: 30px 30px;
+   padding: 10px 30px;
    margin-bottom: 10px;
 }
 .chart {
@@ -194,11 +195,11 @@ hr{
 }
 
 .study-module{
-   border-radius: 8px;
+   border-radius: 3px;
    border: solid 1.5px #031926;
    background-color: #f9f8f8;
    padding: 5px;
-   margin-top: 30px;
+   margin-top: 8px;
 }
 
 .pie-charts{
@@ -211,7 +212,7 @@ footer.page-footer{
 }
 
 .footer-content{
-   padding-left: 40px;
+   /*padding-left: 40px;*/
 }
 
 /* Study */
@@ -243,10 +244,12 @@ footer.page-footer{
 
 #card1{
    background-color: #E7E247;
+   border:1px solid black;
 }
 
 #card2{
    background-color: #EF7458;
+   border:1px solid black;
 }
 
 #surveys{
@@ -256,9 +259,9 @@ footer.page-footer{
 
 .overview-card{
    border-style: solid 4px black;
-   height: 520px!important;
+   height: 520px !important;
    /*display: table;*/
-   border-radius: 10px;
+   /*border-radius: 10px;*/
 }
 .icon-row{
    margin-top: 15px;
@@ -371,4 +374,21 @@ td{
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   background-color: rgba(0, 0, 0, 0.12);
+}
+
+.card{
+  padding:0 !important;  
+}
+
+.card-content{
+  padding-top:5px !important;
+}
+
+
+/** CUSTOM CONTAINER -- SIMILAR TO BOOTSTRAP **/
+.container-bs{
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
