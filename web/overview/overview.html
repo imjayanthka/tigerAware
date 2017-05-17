@@ -1,142 +1,183 @@
-<div>
-    <!-- navigation -->
-    <!-- Dropdown Structure -->
-    <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">Contact Info</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Add Patient</a></li>
-        <li class="divider"></li>
-        <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
-    </ul>
-    <div class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper" id="topNav">
-                <a class="btn-floating btn-large grey lighten-3" id="navBack">
-                    <i class="material-icons" id="navBack">arrow_back</i></a>
-                <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="overview.html">Studies</a></li>
-                    <li><a href="#!">About</a></li>
-                    <!-- Dropdown Trigger -->
-                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
-                </ul>
+<!-- <div> -->
+<!-- navigation -->
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!">Contact Info</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Add Patient</a></li>
+    <li class="divider"></li>
+    <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+</ul>
+
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper" id="topNav">
+      <a class="btn-floating btn-large grey lighten-3" id="navBack">
+      <i class="material-icons" id="navBack">arrow_back</i></a>
+      <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
+      <ul class="right hide-on-med-and-down">
+        <li><a href="overview.html">Studies</a></li>
+        <li><a href="#!">About</a></li>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<!-- end navigation -->
+<!-- page content -->
+<div class="parallax-container">
+   <div class="parallax"><img src="resources/images/classroom.jpeg"></div>
+</div>
+
+
+<!-- CURRENT SURVEYS -->
+<!-- HEADER -->
+<div class= "row valign-wrapper" style="margin-bottom:0">
+  <div class="col s12 m6 left no-padding">
+    <h1 class = 'section-header' id = "study-overview-header">Current Surveys</h1>
+  </div>
+  <div class="col s12 m6">
+    <button class=" btn-large red waves-effect waves-light right" type="submit" name="action" ng-click="vm.directToBuilder()">Create New Survey<i class="material-icons right">note_add</i></button>
+  </div>
+</div>
+
+<!-- CURRENT SURVEY CARDS -->
+<div class='row' id = "study-cards">
+  <div ng-repeat="study in vm.studyConstants">
+    <div class="col s12 m6 l4" style="padding-left:0">
+      <div class="card medium sticky-action z-depth-2">
+        <div class="card-image waves-effect waves-block waves-light activator">
+          <img class="" ng-src="{{study.imageLink}}">
+          <span class="card-title" style="background-color:black; width:100%; opacity:0.7">{{study.nameOfStudy}}<i class="material-icons right" style="font-size:35px">info_outline</i></span>
+        </div>
+        
+        <div class="card-content">
+          <p>{{study.description}}</p>
+          <div class="card-action" style="background-color: white; cursor:pointer; z-index:0; padding:10px">
+            <a ng-click="vm.directToStudy(study.link)">View {{study.nameOfStudy}} Data</a>
+          </div>
+        </div>
+        
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><a ng-click="vm.directToNIMHView()">{{study.nameOfStudy}}</a><i class="material-icons right">close</i></span>
+          <p>{{study.description}}</p>
+        </div>
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end .col -->
+  </div>
+  <!-- end ng-repeat -->
+</div>
+
+<!-- USER GENERATED SURVEYS -->
+<!-- HEADER -->
+<div class= "row valign-wrapper" style="margin-bottom:0">
+  <div class="col s12 m12 left no-padding">
+    <h1 class='section-header'>User Generated Surveys</h1>
+  </div>
+</div>
+
+<!-- USER GENERATED SURVEY CARDS -->
+<div class = "row" ng-repeat="row in vm.user_surveys_grid">
+  <div ng-repeat="survey in row">
+    <div class="col s12 m6 l4" style="padding-left:0"> 
+      <div class="card medium sticky-action z-depth-2">
+        
+        <div class="card-image waves-effect waves-block waves-light activator">
+          <img ng-src="{{survey.img_url}}"  >
+          <span class="card-title" style="background-color:black; width:100%; opacity:0.7">{{survey.name}}<i class="material-icons right" style="font-size:35px">info_outline</i></span>
+        </div>
+        
+        <div class="card-content">
+          <div class = "panel-row" style="margin-top:0">
+            <div class="valign-wrapper col s4">
+              <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
             </div>
-        </nav>
-    </div>
-    <!-- end navigation -->
-   <!-- page content -->
-   <div class="parallax-container">
-       <div class="parallax"><img src="resources/images/classroom.jpeg"></div>
-   </div>
-   <div class= "row center-align">
-      <br></br></br>
-      <button class=" btn-large red waves-effect waves-light " type="submit" name="action" ng-click="vm.directToBuilder()">Create New Survey
-         <i class="material-icons ">note_add</i>
-      </button>
-   </div>
-   <div class='row' id = "study-cards">
-           <h1 class = 'section-header center-align' id = "study-overview-header">Current Surveys</h1>
+            
+            <div class = "icon-row col s2 offset-s1">
+              <a class= "btn-floating tooltipped waves-effect waves-light red accent-1" data-position="bottom" data-delay="50" data-tooltip="delete survey" ng-click="vm.showDelete(survey)" ><i class="material-icons">delete</i></a>
+            </div>
+            
+            <div class = "icon-row col s2">
+              <a class= "btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editSurvey(survey)"><i class="material-icons">border_color</i></a>
+            </div>
+            
+            <div class = "icon-row col s2">
+              <a class= "btn-floating waves-effect waves-light grey darken-1" ng-click="vm.newFromTemplate(survey)"><i class="material-icons">description</i></a>
+            </div>
+          </div>
+          
+          <div class="active-toggle switch col s12 center">
+            <label>
+            Inactive
+            <input type="checkbox">
+            <span class="lever"></span>
+            Active
+            </label>
+          </div>
 
-           <div ng-repeat="study in vm.studyConstants">
-               <div class="overview-card card medium sticky-action col s12 m3 z-depth-2">
-                 <div class="card-image waves-effect waves-block waves-light">
-                   <img class="activator" ng-src="{{study.imageLink}}">
-                 </div>
-                 <div class="card-content">
-                   <span class="card-title activator grey-text text-darken-4 "><a ng-click="vm.directToStudy(study.link)">{{study.nameOfStudy}}</a><i class="material-icons right">more_vert</i></span>
-                   <p><a ng-click="vm.directToStudy(study.link)">View {{study.nameOfStudy}} Data</a></p>
-                 </div>
-                 <div class="card-reveal">
-                   <span class="card-title grey-text text-darken-4"><a ng-click="vm.directToNIMHView()">{{study.nameOfStudy}}</a><i class="material-icons right">close</i></span>
-                   <p>{{study.description}}</p>
-                 </div>
-               </div>
-           </div>
-    </div>
+          <div class="card-action" style="padding:10px; cursor:pointer; z-index:0;">
+            <p><a ng-click="vm.directToStudy(survey.survey_id)">View {{survey.name}} Data</a></p>
+          </div>
+        </div>
+        <!-- end card content -->
 
-   <div class = "row" ng-repeat="row in vm.user_surveys_grid">
-      <div ng-repeat="survey in row">
-      <!-- <h1>There is a survey here</h1> -->
-         <div class="overview-card card medium sticky-action col s12 m3 z-depth-2">
-           <div class="card-image waves-effect waves-block waves-light">
-             <img class="activator" ng-src="{{survey.img_url}}"  >
-           </div>
-           <div class="card-content">
-               <span class="card-title activator grey-text text-darken-4 "><a ng-click="vm.directToStudy(survey.survey_id)">{{survey.name}}</a><i class="material-icons right">more_vert</i></span>
-               <p><a ng-click="vm.directToStudy(survey.survey_id)">View {{survey.name}} Data</a></p>
-               <div class = "panel-row">
-                  <div class="valign-wrapper col s4">
-                     <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
-                  </div>
-                  <div class = "icon-row col s2 offset-s1">
-                     <a class= "btn-floating tooltipped waves-effect waves-light red accent-1" data-position="bottom" data-delay="50" data-tooltip="delete survey" ng-click="vm.showDelete(survey)" ><i class="material-icons">delete</i></a>
-                  </div>
-                  <div class = "icon-row col s2">
-                     <a class= "btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editSurvey(survey)"><i class="material-icons">border_color</i></a>
-                  </div>
-                  <div class = "icon-row col s2">
-                     <a class= "btn-floating waves-effect waves-light grey darken-1" ng-click="vm.newFromTemplate(survey)"><i class="material-icons">description</i></a>
-                  </div>
-               </div>
-               <div class="active-toggle switch col s12 center">
-                   <label>
-                     Inactive
-                     <input type="checkbox">
-                     <span class="lever"></span>
-                     Active
-                   </label>
-               </div>
-           </div>
-           <div class="card-reveal">
-             <span class="card-title grey-text text-darken-4"><a ng-click="vm.directToNIMHView()">{{survey.name}}</a><i class="material-icons right">close</i></span>
-             <p>{{survey.description}}</p>
-           </div>
-         </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><a ng-click="vm.directToNIMHView()">{{survey.name}}</a><i class="material-icons right">close</i></span>
+          <p>{{survey.description}}</p>
+        </div>
       </div>
-   </div>
-
-     <!-- Modal Structure -->
-     <div id="deleteModal" class="modal" ng-show="vm.showDeleteModal">
-       <div class="modal-content">
-         <h4>Confirm Delete</h4>
-         <p>You are about to remove a survey and its associated data. This action cannot be undone, are you sure you want to proceed?</p>
-       </div>
-      <div class="modal-footer">
-         <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.deleteStudy()'>Delete</button>
-         <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDelete()'>Cancel</button>
-      </div>
-     </div>
-
-    <div class="parallax-container">
-       <div class="parallax"><img src="resources/images/man-field-smartphone-yellow.jpg"></div>
+      <!-- end card -->
     </div>
+    <!-- end .col -->
+  </div>
+  <!-- end ng-repeat -->
+</div>
+<!-- end row -->
 
+<!-- Modal Structure -->
+<div id="deleteModal" class="modal" ng-show="vm.showDeleteModal">
+  <div class="modal-content">
+    <h4>Confirm Delete</h4>
+    <p>You are about to remove a survey and its associated data. This action cannot be undone, are you sure you want to proceed?</p>
+  </div>
+  <div class="modal-footer">
+    <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.deleteStudy()'>Delete</button>
+    <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDelete()'>Cancel</button>
+  </div>
+</div>
+
+<div class="parallax-container">
+   <div class="parallax"><img src="resources/images/man-field-smartphone-yellow.jpg"></div>
 </div>
 
 <!-- Footer start -->
 <footer class="page-footer">
-    <!-- <div class="container"> -->
-        <div class="row footer-wrapper">
-            <div class="col s5 offset-s1 footer-content">
-                <h5 class="white-text">TigerAware</h5>
-                <p class="grey-text text-lighten-4">TigerAware is a collaberative effort between University of Missouri campus administrators and Computer Science department. It can be used to build re-configurable surveys and data processing for mobile-based campus climate studies.</p>
-            </div>
-            <div class="col s3 offset-s2 footer-content">
-                <h5 class="white-text">Learn More</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
-                </ul>
-            </div>
-        </div>
-    <!-- </div> -->
-    <div class="footer-copyright">
-        <div class="container">
-            © 2017 TigerAware
-            <a class="grey-text text-lighten-4 right" href="#!"></a>
-        </div>
+  <div class="row footer-wrapper" style="padding-top:0; padding-bottom:0">
+    <div class="col s12 m4 l4 footer-content">
+      <h5 class="white-text">Tiger Aware</h5>
+      <p class="grey-text text-lighten-4">Tiger Aware is a collaborative effort between University of Missouri campus administrators and Computer Science department. It can be used for building re-configurable surveys and data processing for mobile-based campus climate studies.</p>
     </div>
+    
+    <div class="col s12 m3 l3 hidden"></div>
+    
+    <div class="col s12 m4 l4 footer-content">
+      <h5 class="white-text">Learn More</h5>
+      <ul>
+        <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-copyright">
+    <div class="row footer-wrapper" style="padding-top:0">
+      <div class="col s12 m12 l12">© 2017 Tiger Aware</div>
+      <!-- <a class="grey-text text-lighten-4 right" href="#!"></a> -->
+    </div>
+  </div>
 </footer>
-

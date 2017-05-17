@@ -1,144 +1,185 @@
-    <!-- navigation -->
-    <!-- Dropdown Structure -->
-    <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">Contact Info</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Add Patient</a></li>
-        <li class="divider"></li>
-        <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
-    </ul>
-    <div class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper" id="topNav">
-                <a class="btn-floating btn-large grey lighten-3" id="navBack">
-                    <i class="material-icons" id="navBack">arrow_back</i></a>
-                <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="overview.html">Studies</a></li>
-                    <li><a href="#!">About</a></li>
-                    <!-- Dropdown Trigger -->
-                    <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <!-- end navigation -->
-    <!--sidebar -->
-    <ul id="slide-out" class="side-nav">
-        <li>
-            <div class="userView">
-                <!-- <img class="background" src="images/office.jpg"> -->
-                <!-- <a href="#!user"><img class="circle" src="images/yuna.jpg"></a> -->
-                <a href="#!name"><span class="white-text name">John Doe</span></a>
-                <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-            </div>
-        </li>
-        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-        <li><a href="#!">Second Link</a></li>
-        <li>
-            <div class="divider"></div>
-        </li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-    </ul>
-    <a href="#" data-activates="slide-out" class="button-collapse"></a>
-    <!-- end sidebar -->
-    <!-- page content for NIMH overview status determined by this flag-->
-  <div ng-if="vm.showOverviewPageFlag">
-   <div class="row">
-      <div class="col s3" >
-         <div class="row">
-         <h1 class = 'section-header center'>{{vm.study_name }}</h1>
-            <div class="card col s12 z-depth-1" id="card1">
-                <div class="card-title">
-                    <h3>Study Progress</h3>
-                    <hr>
-                </div>
-                <div class="card-content">
-                  <div><p class="days"><strong>Total Participants: {{vm.nimhData.users.length}}</strong></p><br></div>
-                  <div><p class="days"><strong>Total days complete: {{vm.findTotal('day-count')}}</strong></p><br></div>
-                  <div><p class="surveys"><strong>Total surveys complete:  {{vm.number_responses}}</strong></p></div>
-                </div>
-                <div class="card-action">
-                </div>
-               </div>
-            </div>
-         <div class="row">
-            <div class="card col s12 z-depth-1 " id="card2">
-                <div class="card-title">
-                    <h3>Compliance</h3>
-                    <hr>
+<!-- navigation -->
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!">Contact Info</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Add Patient</a></li>
+    <li class="divider"></li>
+    <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+</ul>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper" id="topNav">
+            <a class="btn-floating btn-large grey lighten-3" id="navBack">
+                <i class="material-icons" id="navBack">arrow_back</i></a>
+            <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
+            <ul class="right hide-on-med-and-down">
+                <li><a href="overview.html">Studies</a></li>
+                <li><a href="#!">About</a></li>
+                <!-- Dropdown Trigger -->
+                <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<!-- end navigation -->
+<!--sidebar -->
+<!-- <ul id="slide-out" class="side-nav">
+    <li>
+        <div class="userView"> -->
+            <!-- <img class="background" src="images/office.jpg"> -->
+            <!-- <a href="#!user"><img class="circle" src="images/yuna.jpg"></a> -->
+            <!-- <a href="#!name"><span class="white-text name">John Doe</span></a>
+            <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+        </div>
+    </li>
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="#!">Second Link</a></li>
+    <li>
+        <div class="divider"></div>
+    </li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+</ul>
+<a href="#" data-activates="slide-out" class="button-collapse"></a> -->
+<!-- end sidebar -->
+<!-- page content for NIMH overview status determined by this flag-->
 
-                </div>
-                <div class="card-content">
-                <div ><p class="missed"><strong>Total missed surveys: {{vm.nimhData.missed_surveys}}</strong></p></div>
-                 <br>
-                 <div><p class="compliance"><strong>Avg participant compliance: {{vm.findAvgCompliance}}</strong></p></div>
-                </div>
-                <div class="card-action">
-                </div>
+<div ng-if="vm.showOverviewPageFlag">
+  <div class="container-bs" style="margin-top:20px">
+    <!-- SIDEBAR: CHARTS ROW & COLUMNS -->
+    <!-- PARTICIPATION COLUMN -->
+    <div class="row no-padding">
+      <div class="col s12 m12 l3">
+        <div class="row no-padding">
+          <h1 class='section-header center'>{{vm.study_name}}</h1>
+        </div>
+        <!-- CARD 1 -->
+        <div class="row no-padding">
+          <div class="card col s12 z-depth-2" id="card1">
+            <div class="card-title">
+              <h3 class="center">Study Progress</h3>
+              <hr>
             </div>
+            <div class="card-content">
+              <div class="row no-padding">
+                <p class="days"><strong>Total Participants: {{vm.nimhData.users.length}}</strong></p>
+              </div>
+              <div class="row no-padding">
+                <p class="days"><strong>Total days complete: {{vm.findTotal('day-count')}}</strong></p>
+              </div>
+              <div class="row no-padding">
+                <p class="surveys"><strong>Total surveys complete:  {{vm.number_responses}}</strong></p>
+              </div>
+            </div>
+            <!-- <div class="card-action"></div> -->
+          </div>
+        </div>
+        <!-- END CARD 1 -->
+
+        <!-- CARD 2 -->
+        <div class="row no-padding">
+          <div class="card col s12" id="card2">
+            <div class="card-title">
+              <h3 class="center">Compliance</h3>
+              <hr>
+            </div>
+            <div class="card-content">
+              <div class="row no-padding">
+                <p class="missed"><strong>Total missed surveys: {{vm.nimhData.missed_surveys}}</strong></p>
+              </div>
+              <div class="row no-padding">
+                <p class="compliance"><strong>Avg participant compliance: {{vm.findAvgCompliance}}</strong></p>
+              </div>
+            </div>
+            <!-- <div class="card-action"></div> -->
+          </div>
+        </div>
+        <!-- END CARD 2 -->
       </div>
-      </div>
-      <div class= "col s9">
-         <h1 class = 'section-header center' id="mood-changes-header">Survey & Participation</h1>
-         <div class='col s12 study-module study-stats z-depth-2'>
+      <!-- END PARTICIPATION COLUMN -->
+
+      <!-- CHARTS COLUMN -->
+      <div class="col s12 m12 l9">
+        <div class="row no-padding" style="padding-left:0; padding-right:0">
+          <h1 class='section-header center'>Survey & Participation</h1>
+        </div>
+        <div class="row no-padding">
+          <div class='col s12 study-module study-stats z-depth-2'>
             <highchart config="vm.daysSurveysGraph"></highchart>
-         </div>
+          </div>
+        </div>
       </div>
-   </div>
-
-      <h1 class = 'section-header center-align' id = "study-overview-header">Dynamic Surveys</h1>
-
-     <div ng-repeat="question in vm.loadedResponses">
-         <div class='row'>
-            <h1 class = 'section-header center'>{{question.title}}</h1>
-               <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
-            <highchart config="question.graph"></highchart>
-            </div>
-         </div>
-     </div>
-
-   <div class = 'row'>
-      <h1 class = 'section-header left'>Participants</h1>
-
-      <div class='col s12'>
-         <div class="table-responsive-vertical shadow-z-1 study-module study-stats z-depth-2">
-           <!-- Table starts here -->
-           <table id="table" class="table table-hover table-mc-light-blue ">
-               <thead>
-                 <tr>
-                   <th>ID</th>
-                   <th>Name</th>
-                   <th>Start Date</th>
-                   <th>End Date</th>
-                   <th>Days Elapsed</th>
-                   <th>Compliance</th>
-                   <th>Actions</th>
-                 </tr>
-               </thead>
-               <tbody>
-                 <tr ng-repeat="user in vm.nimhData.users">
-                   <td data-title="ID">{{$index+1}}</td>
-                   <td data-title="Name">{{user.user}}</td>
-                   <td data-title="Start Date">{{user.startDate}}</td>
-                   <td data-title="End Date">{{user.endDate}}</td>
-                   <td data-title="Days Elapsed">{{user["day-count"]}}</td>
-                   <td data-title="Status">{{user.compliance}}</td>
-                   <td data-title="Actions">
-                     <i class="material-icons t-icon">alarm_on</i>
-                     <a href="../app/data/NIMH_data/formatted2/{{user.user}}_formatted.csv" download><i class="material-icons t-icon">archive</i></a>
-                     <a ng-click="vm.navigateToUserPage(user)"><i class="material-icons t-icon">open_in_new</i></a>
-                   </td>
-                 </tr>
-               </tbody>
-             </table>
-         </div>
-      </div>
+      <!-- END CHARTS COLUMN -->
     </div>
-   </div>
+    <!-- END SIDEBAR: CHARTS ROW & COLUMNS -->
 
-   <div ng-if="vm.showUserPageFlag"> <!-- The view to handle user data the flag will determine whether to show user data or not-->
+    <hr/>
+      
+    <div class="row" style="padding:10px 10px">
+      <h1 class="section-header" id="study-overview-header">Dynamic Surveys</h1>
+
+      <!-- Dynamically load questions -->
+      <div ng-repeat="question in vm.loadedResponses">
+        <div class='row no-padding'>
+          <!-- <h1 class = 'section-header center'>{{question.title}}</h1> -->
+          <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
+            <highchart config="question.graph"></highchart>
+          </div>
+        </div>
+      </div>
+
+      <div class='row' style="padding:10px 0px">
+        <div class="col s12 no-padding">
+          <h1 class = 'section-header left'>Participants</h1>
+        </div>
+
+        <div class="col s12 no-padding">
+          <div class="table-responsive-vertical shadow-z-1 study-module study-stats z-depth-2 no-padding">
+          <!-- Table starts here -->
+            <table id="table" class="table table-hover table-mc-light-blue ">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Days Elapsed</th>
+                  <th>Compliance</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="user in vm.nimhData.users">
+                  <td data-title="ID">{{$index+1}}</td>
+                  <td data-title="Name">{{user.user}}</td>
+                  <td data-title="Start Date">{{user.startDate}}</td>
+                  <td data-title="End Date">{{user.endDate}}</td>
+                  <td data-title="Days Elapsed">{{user["day-count"]}}</td>
+                  <td data-title="Status">{{user.compliance}}</td>
+                  <td data-title="Actions">
+                    <i class="material-icons t-icon">alarm_on</i>
+                    <a href="../app/data/NIMH_data/formatted2/{{user.user}}_formatted.csv" download><i class="material-icons t-icon">archive</i></a>
+                    <a ng-click="vm.navigateToUserPage(user)"><i class="material-icons t-icon">open_in_new</i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- End table div -->
+        </div>
+        <!-- End table col -->
+      </div>
+      <!-- End participants row -->
+    </div>
+    <!-- End dynamic survey wrapper -->
+  </div>
+  <!-- end container-bs -->
+</div>
+<!-- end ng-if -->
+
+    <!-- The view to handle user data the flag will determine whether to show user data or not-->
+   <div ng-if="vm.showUserPageFlag"> 
      <div class="row profile">
         <div class="col s8">
             <div id = "profile-actions">
@@ -234,31 +275,29 @@
 
 <!-- Footer start -->
 <footer class="page-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">TigerAware</h5>
-                <p class="grey-text text-lighten-4">TigerAware is a collaberative effort between the University of Missouri Computer Science and Psychology departments. It can be used to build re-configurable surveys and data processing for mobile-based studies. </p>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-                <ul>
-                    <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
-                    <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
-                </ul>
-            </div>
-        </div>
+  <div class="row footer-wrapper" style="padding-top:0; padding-bottom:0">
+    <div class="col s12 m4 l4 footer-content">
+      <h5 class="white-text">Tiger Aware</h5>
+      <p class="grey-text text-lighten-4">Tiger Aware is a collaborative effort between University of Missouri campus administrators and Computer Science department. It can be used for building re-configurable surveys and data processing for mobile-based campus climate studies.</p>
     </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2016 TigerAware
-            <a class="grey-text text-lighten-4 right" href="#!">Read More</a>
-        </div>
+    
+    <div class="col s12 m3 l3 hidden"></div>
+    
+    <div class="col s12 m4 l4 footer-content">
+      <h5 class="white-text">Learn More</h5>
+      <ul>
+        <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
+        <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
+      </ul>
     </div>
+  </div>
+  
+  <div class="footer-copyright">
+    <div class="row footer-wrapper" style="padding-top:0">
+      <div class="col s12 m12 l12">© 2017 Tiger Aware</div>
+      <!-- <a class="grey-text text-lighten-4 right" href="#!"></a> -->
+    </div>
+  </div>
 </footer>
-
-
-
-
