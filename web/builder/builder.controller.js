@@ -89,7 +89,7 @@
          vm.showCancelModal = false;
       }
       vm.hideCancel = function(){
-         $('#modal-cancel').modal('open');
+         $('#modal-cancel').modal('close');
          vm.showCancelModal = false;
       }
       vm.openQuestionModal = function(){
