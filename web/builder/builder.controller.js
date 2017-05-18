@@ -103,10 +103,8 @@
       }
       vm.openQuestionModal = function(){
          vm.showQuestionModal=true;
-          if(vm.currentQuestion.type == 'MultipleChoice')
-          vm.showMcqOptions = true;
-        else
-          vm.showMcqOptions =  false;
+         $('#type').val("")
+         $('#type').material_select();
          $('#modal-question').modal('open');
       }
       vm.openCancelModal = function(){
@@ -198,9 +196,20 @@
             on: vm.steps[index].on,
             conditionID: vm.steps[index].conditionID
          }
+         if(vm.currentQuestion.type == 'MultipleChoice'){
+           vm.choices = [];
+           for(var i = 0; i < vm.steps[index].choices.length; i++){
+             var choice_id = (i + 1).toString();
+             var option_tag = vm.steps[index].choices[i];
+             var choice_object = {"id": choice_id, "option_tag": option_tag};
+             vm.choices.push(choice_object);
+           }
+         }
          editing = true;
          editInd = index;
          vm.showQuestionModal=true;
+         $('#type').val(vm.currentQuestion.type);
+         $('#type').material_select();
          $('#modal-question').modal('open');
       }
 
