@@ -12,14 +12,26 @@
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper" id="topNav">
-      <a class="btn-floating btn-large grey lighten-3" id="navBack">
-      <i class="material-icons" id="navBack">arrow_back</i></a>
-      <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
+      <!-- DESKTOP MENU -->
+      <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="overview.html">Studies</a></li>
         <li><a href="#!">About</a></li>
         <!-- Dropdown Trigger -->
-        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
+        <li>
+          <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+        </li>
+      </ul>
+
+      <!-- MOBILE MENU -->
+      <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+      <ul id="slide-out" class="side-nav" style="z-index: 999">
+        <li><a href="overview.html">Studies</a></li>
+        <li><a href="#!">About</a></li>
+        <!-- Dropdown Trigger -->
+        <li>
+          <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+        </li>
       </ul>
     </div>
   </nav>

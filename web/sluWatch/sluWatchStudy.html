@@ -12,8 +12,6 @@
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper" id="topNav">
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-
       <!-- DESKTOP MENU -->
       <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
       <ul class="right hide-on-med-and-down">
@@ -26,7 +24,8 @@
       </ul>
 
       <!-- MOBILE MENU -->
-      <ul id="mobile-demo" class="side-nav">
+      <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+      <ul id="slide-out" class="side-nav" style="z-index: 999">
         <li><a href="overview.html">Studies</a></li>
         <li><a href="#!">About</a></li>
         <!-- Dropdown Trigger -->
