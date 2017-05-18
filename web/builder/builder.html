@@ -1,179 +1,179 @@
 <div>
    <!-- navigation -->
    <!-- Dropdown Structure -->
-   <ul id="dropdown1" class="dropdown-content">
-      <li><a href="#!">Contact Info</a></li>
-      <li class="divider"></li>
-      <li><a href="#!">Add Patient</a></li>
-      <li class="divider"></li>
-      <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
-   </ul>
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!">Contact Info</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Add Patient</a></li>
+    <li class="divider"></li>
+    <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+  </ul>
 
    <!-- NAVBAR -->
-   <div class="navbar-fixed">
-     <nav>
+  <div class="navbar-fixed">
+    <nav>
       <div class="nav-wrapper" id="topNav">
-         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-         <!-- DESKTOP MENU -->
-         <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
-         <ul class="right hide-on-med-and-down">
+          <!-- DESKTOP MENU -->
+          <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
+          <ul class="right hide-on-med-and-down">
             <li><a href="overview.html">Studies</a></li>
             <li><a href="#!">About</a></li>
             <!-- Dropdown Trigger -->
             <li>
-               <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+                <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
             </li>
-         </ul>
+          </ul>
 
-         <!-- MOBILE MENU -->
-         <ul id="mobile-demo" class="side-nav">
+          <!-- MOBILE MENU -->
+          <ul id="mobile-demo" class="side-nav">
             <li><a href="overview.html">Studies</a></li>
             <li><a href="#!">About</a></li>
             <!-- Dropdown Trigger -->
             <li>
-               <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+                <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
             </li>
-         </ul>
+          </ul>
       </div>
-   </nav>
-</div>
+    </nav>
+  </div>
 <!-- END NAVBAR -->
 <!-- END NAVIGATION -->
 
 <!-- page content -->
-<div class="section grey lighten-2" id="index-banner">
-   <div class="wrapper white z-depth-2 container">
-      <div class="row">
-         <div class="input-field col s12">
-            <div class="row">
-               <h5 class= "center" ng-if="vm.updating">Edit Survey</h5>
-               <h5 class= "center" ng-if="!vm.updating">Survey Builder</h5>
-            </div>
-            <div class = "row no-padding">
-               <!-- <div class = "col s12 title-wrapper grey lighten-5 z-depth-1"> -->
-                  <div class="col s12 survey-title input-field no-padding">
-                     <input required id="surveyname" type="text" class="validate" ng-model="vm.surveyName" autofocus />
-                     <label class="active" for="Name" style="margin-left:-11px">Survey Name</label>
-                  </div>
-               <!-- </div> -->
-            </div>
-            <div class="row no-padding">
-               <table class="striped highlight centered" style="border: 1px solid lightgray">
-                  <thead>
-                     <tr>
-                        <th class = "qid"  data-field="data">ID</th>
-                        <th class = "qtype" data-field="date">Type</th>
-                        <th class = "qdelete" data-field="contrib">Delete</th>
-                        <th class = "qedit" data-field="contrib">Edit</th>
-                     </tr>
-                  </thead>
-                  <tbody id='mainTable'>
-                     <tr ng-repeat="question in vm.steps">
-                        <td>{{question.id}}</td>
-                        <td>{{question.type}}</td>
-                        <td><a class="btn-floating waves-effect waves-light red accent-1" ng-click="vm.deleteQuestion(vm.steps.indexOf(question))"><i class="material-icons">delete</i></a></td>
-                        <td><a class="btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editQuestion(vm.steps.indexOf(question))"><i class="material-icons">border_color</i></a></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-            
-            <!-- Add Row Button -->
-            <div class="row no-padding">
-               <div class="col s12 no-padding right-align">
-                  <a ng-click="vm.openQuestionModal()" class="add-btn btn-floating btn-large waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
-               </div>
-            </div>
-            
-            <!-- Cancel Deploy Buttons -->
-            <div class="row no-padding">
-               <div class="col s12 no-padding">
-                  <a class="waves-effect waves-light btn red" ng-click="vm.openCancelModal()" style="margin-right:10px">Cancel</a>
-                  <!-- CONDITIONAL BUTTONS -->
-                  <span ng-if="vm.updating">
-                     <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Save</a>
-                  </span>
-                  <span ng-if="!vm.updating">
-                     <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Deploy</a>
-                  </span>
-               </div>
-            </div>
-         </div>
-      </div>
-      <br>
-      <br>
-   </div>
-</div>
-<div id="modal-cancel" class="modal" ng-show="vm.showCancelModal">
-   <div class="modal-content">
-      <!-- MODAL HEADER -->
-      <div class="row no-padding no-margin">
-         <h4>Confirm Cancel</h4>
-      </div>
-      <div class="row no-padding no-margin">
-         <p>Once you cancel this new survey, your changes will be lost. Do you wish to continue?</p>
-      </div>
-   </div>
-   <div class="modal-footer">
-      <button id = "newQuestionCreate" class="waves-effect waves-light btn red" ng-click='vm.cancelSurvey()'>Cancel Survey</button>
-      <button id = "newQuestionCancel" class="waves-effect waves-light btn green accent-3" ng-click='vm.hideCancel()' style="margin-right:15px">Continue Building</button>
-   </div>
-</div>
+  <div class="section grey lighten-2" id="index-banner">
+    <div class="wrapper white z-depth-2 container">
+        <div class="row">
+          <div class="input-field col s12">
+              <div class="row">
+                <h5 class= "center" ng-if="vm.updating">Edit Survey</h5>
+                <h5 class= "center" ng-if="!vm.updating">Survey Builder</h5>
+              </div>
+              <div class = "row no-padding">
+                <!-- <div class = "col s12 title-wrapper grey lighten-5 z-depth-1"> -->
+                    <div class="col s12 survey-title input-field no-padding">
+                      <input required id="surveyname" type="text" class="validate" ng-model="vm.surveyName" autofocus />
+                      <label class="active" for="Name" style="margin-left:-11px">Survey Name</label>
+                    </div>
+                <!-- </div> -->
+              </div>
+              <div class="row no-padding">
+                <table class="striped highlight centered" style="border: 1px solid lightgray">
+                    <thead>
+                      <tr>
+                          <th class = "qid"  data-field="data">ID</th>
+                          <th class = "qtype" data-field="date">Type</th>
+                          <th class = "qdelete" data-field="contrib">Delete</th>
+                          <th class = "qedit" data-field="contrib">Edit</th>
+                      </tr>
+                    </thead>
+                    <tbody id='mainTable'>
+                      <tr ng-repeat="question in vm.steps">
+                          <td>{{question.id}}</td>
+                          <td>{{question.type}}</td>
+                          <td><a class="btn-floating waves-effect waves-light red accent-1" ng-click="vm.deleteQuestion(vm.steps.indexOf(question))"><i class="material-icons">delete</i></a></td>
+                          <td><a class="btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editQuestion(vm.steps.indexOf(question))"><i class="material-icons">border_color</i></a></td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+              
+              <!-- Add Row Button -->
+              <div class="row no-padding">
+                <div class="col s12 no-padding right-align">
+                    <a ng-click="vm.openQuestionModal()" class="add-btn btn-floating btn-large waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
+                </div>
+              </div>
+              
+              <!-- Cancel Deploy Buttons -->
+              <div class="row no-padding">
+                <div class="col s12 no-padding">
+                    <a class="waves-effect waves-light btn red" ng-click="vm.openCancelModal()" style="margin-right:10px">Cancel</a>
+                    <!-- CONDITIONAL BUTTONS -->
+                    <span ng-if="vm.updating">
+                      <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Save</a>
+                    </span>
+                    <span ng-if="!vm.updating">
+                      <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Deploy</a>
+                    </span>
+                </div>
+              </div>
+          </div>
+        </div>
+        <br>
+        <br>
+    </div>
+  </div>
+  <div id="modal-cancel" class="modal" ng-show="vm.showCancelModal">
+    <div class="modal-content">
+        <!-- MODAL HEADER -->
+        <div class="row no-padding no-margin">
+          <h4>Confirm Cancel</h4>
+        </div>
+        <div class="row no-padding no-margin">
+          <p>Once you cancel this new survey, your changes will be lost. Do you wish to continue?</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id = "newQuestionCreate" class="waves-effect waves-light btn red" ng-click='vm.cancelSurvey()'>Cancel Survey</button>
+        <button id = "newQuestionCancel" class="waves-effect waves-light btn green accent-3" ng-click='vm.hideCancel()' style="margin-right:15px">Continue Building</button>
+    </div>
+  </div>
 
 <!-- Modal for making new question. Opens when plus button on main page clicked -->
-<div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
-   <div class="modal-content">
-      <div class="white z-depth-1 container" style="padding:10px">
-         <div class="row" style="margin-bottom:0">
-            <h5 class="center" style="margin-bottom:0">Create Question</h5>
-         </div>
-         <div class="row">
-            <form>
-               <div class="input-field col s12">
+  <div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
+    <div class="modal-content">
+        <div class="white z-depth-1 container" style="padding:10px">
+          <div class="row" style="margin-bottom:0">
+              <h5 class="center" style="margin-bottom:0">Create Question</h5>
+          </div>
+          <div class="row">
+              <form>
+                <div class="input-field col s12">
                   <input value = "Alvain" required id="qlabel" type="text" class="validate" ng-model="vm.currentQuestion.id" >
                   <label class = "active" for="qlabel">Question Label</label>
-               </div>
-               <div class="input-field col s12">
+                </div>
+                <div class="input-field col s12">
                   <input value = "Alvain" required id="title" type="text" class="validate" ng-model="vm.currentQuestion.title">
                   <label class = "active" for="title">Title</label>
-               </div>
-               <div class="input-field col s12">
+                </div>
+                <div class="input-field col s12">
                   <input value = "Alvain" required id="Subtitle" type="text" class="validate" ng-model="vm.currentQuestion.subtitle" >
                   <label class = "active" for="Subtitle">Subtitle</label>
-               </div>
-               <div class="input-field col s12">
-                <select required id="type" ng-model="vm.currentQuestion.type">
-                    <option value="" disabled>Select</option>
-                    <option value="yesNo">Yes or No</option>
-                    <option value="MultipleChoice">Multiple Choice</option>
-                    <option value="dateTime">Date and Time</option>
-                    <option value="textSlide">Text Slide</option>
-                    <option value="textField">Text Field</option>
-                    <option value="timeInt">Time Interval</option>
-                </select>
-                <label for="type">Question Type</label>
-              </div>
-            <!--Options of MCQ-->
-            <div ng-show="vm.currentQuestion.type=='MultipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices">
-              <div>
-                <a ng-show="vm.showAddButton(choice)" ng-click="vm.addChoice()" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
-                <a ng-show="vm.showDeleteButton()" ng-click="vm.removeChoice(choice)" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="material-icons">delete</i></a>
-                <input required id="{{choice.id}}" type="text" ng-model="choice.option_tag" placeholder="Enter your option">
-              </div>
-            </div>
-            </form>
-         </div>
-      </div><!-- close modal content -->
-    <div class="modal-footer">
-        <button id = "newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion()'>Add</button>
-        <button id = "newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
+                </div>
+                <div class="input-field col s12">
+                  <select required id="type" ng-model="vm.currentQuestion.type">
+                      <option value="" disabled>Select</option>
+                      <option value="yesNo">Yes or No</option>
+                      <option value="MultipleChoice">Multiple Choice</option>
+                      <option value="dateTime">Date and Time</option>
+                      <option value="textSlide">Text Slide</option>
+                      <option value="textField">Text Field</option>
+                      <option value="timeInt">Time Interval</option>
+                  </select>
+                  <label for="type">Question Type</label>
+                </div>
+                <div ng-show="vm.currentQuestion.type=='MultipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices">
+                  <div>
+                    <a ng-show="vm.showAddButton(choice)" ng-click="vm.addChoice()" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
+                    <a ng-show="vm.showDeleteButton()" ng-click="vm.removeChoice(choice)" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="material-icons">delete</i></a>
+                    <input required id="{{choice.id}}" type="text" ng-model="choice.option_tag" placeholder="Enter your option">
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div><!-- close modal content -->
     </div>
+    <div class="modal-footer">
+      <button id="newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion()'>Add</button>
+      <button id="newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
+    </div>
+  </div>
+  <div ng-include="'shared/footer.html'"></div>
 </div>
-   <script>
-    $(document).ready(function() {
-      $('select').material_select();
-    });
-  </script>
-
-<div ng-include="'shared/footer.html'"></div>
+<script>
+  $(document).ready(function () {
+    $('select').material_select();
+  });
+</script>
