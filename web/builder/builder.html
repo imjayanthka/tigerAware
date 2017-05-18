@@ -1,4 +1,3 @@
-
 <div>
    <!-- navigation -->
    <!-- Dropdown Structure -->
@@ -9,45 +8,64 @@
       <li class="divider"></li>
       <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
    </ul>
-   <div class="navbar-fixed">
-      <nav>
-         <div class="nav-wrapper" id="topNav">
-            <a class="btn-floating btn-large grey lighten-3" id="navBack">
-               <i class="material-icons" id="navBack">arrow_back</i></a>
-            <!-- <a href="#!" id="nav-logo" >TigerAware</a> -->
-            <ul class="right hide-on-med-and-down">
-               <li><a href="overview.html">Studies</a></li>
-               <li><a href="#!">About</a></li>
-               <!-- Dropdown Trigger -->
-               <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a></li>
-            </ul>
-         </div>
-      </nav>
-   </div>
-   <!-- end navigation -->
-   <!-- page content -->
-   <div class="section grey lighten-2" id="index-banner">
-      <div class="wrapper white z-depth-1 container">
-         <div class="row">
-            <div class="input-field col s12">
 
+   <!-- NAVBAR -->
+   <div class="navbar-fixed">
+     <nav>
+      <div class="nav-wrapper" id="topNav">
+         <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+
+         <!-- DESKTOP MENU -->
+         <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
+         <ul class="right hide-on-med-and-down">
+            <li><a href="overview.html">Studies</a></li>
+            <li><a href="#!">About</a></li>
+            <!-- Dropdown Trigger -->
+            <li>
+               <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+            </li>
+         </ul>
+
+         <!-- MOBILE MENU -->
+         <ul id="mobile-demo" class="side-nav">
+            <li><a href="overview.html">Studies</a></li>
+            <li><a href="#!">About</a></li>
+            <!-- Dropdown Trigger -->
+            <li>
+               <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+            </li>
+         </ul>
+      </div>
+   </nav>
+</div>
+<!-- END NAVBAR -->
+<!-- END NAVIGATION -->
+
+<!-- page content -->
+<div class="section grey lighten-2" id="index-banner">
+   <div class="wrapper white z-depth-2 container">
+      <div class="row">
+         <div class="input-field col s12">
+            <div class="row">
                <h5 class= "center" ng-if="vm.updating">Edit Survey</h5>
                <h5 class= "center" ng-if="!vm.updating">Survey Builder</h5>
-               <div class = "row">
-                  <div class = "col s8 offset-s2 title-wrapper grey lighten-5 z-depth-1">
-                     <div class="col s12 survey-title input-field grey lighten-5">
-                        <input value = "Sample Survey" required id="surveyname" type="text" class="validate" ng-model="vm.surveyName" >
-                        <label class = "active" for="Name">Survey Name</label>
-                     </div>
+            </div>
+            <div class = "row no-padding">
+               <!-- <div class = "col s12 title-wrapper grey lighten-5 z-depth-1"> -->
+                  <div class="col s12 survey-title input-field no-padding">
+                     <input required id="surveyname" type="text" class="validate" ng-model="vm.surveyName" autofocus />
+                     <label class="active" for="Name" style="margin-left:-11px">Survey Name</label>
                   </div>
-               </div>
-               <table class="highlight">
+               <!-- </div> -->
+            </div>
+            <div class="row no-padding">
+               <table class="striped highlight centered" style="border: 1px solid lightgray">
                   <thead>
                      <tr>
-                        <th class = "qid center"  data-field="data">ID</th>
-                        <th class = "qtype center" data-field="date">Type</th>
-                        <th class = "qdelete center" data-field="contrib">Delete</th>
-                        <th class = "qedit center" data-field="contrib">Edit</th>
+                        <th class = "qid"  data-field="data">ID</th>
+                        <th class = "qtype" data-field="date">Type</th>
+                        <th class = "qdelete" data-field="contrib">Delete</th>
+                        <th class = "qedit" data-field="contrib">Edit</th>
                      </tr>
                   </thead>
                   <tbody id='mainTable'>
@@ -59,42 +77,58 @@
                      </tr>
                   </tbody>
                </table>
-               <br>
-               <br>
-               <div class="right-align">
+            </div>
+            
+            <!-- Add Row Button -->
+            <div class="row no-padding">
+               <div class="col s12 no-padding right-align">
                   <a ng-click="vm.openQuestionModal()" class="add-btn btn-floating btn-large waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
                </div>
-               <br>
-               <br>
-               <br>
-               <a class="waves-effect waves-light btn red accent-1" ng-click="vm.openCancelModal()">Cancel</a>
-               <span ng-if="vm.updating">
-                  <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Save</a>
-               </span>
-               <span ng-if="!vm.updating">
-                  <a class="waves-effect waves-light btn green accent-3 right-align" ng-click="vm.saveNewSurvey()">Deploy</a>
-               </span>
+            </div>
+            
+            <!-- Cancel Deploy Buttons -->
+            <div class="row no-padding">
+               <div class="col s12 no-padding">
+                  <a class="waves-effect waves-light btn red" ng-click="vm.openCancelModal()" style="margin-right:10px">Cancel</a>
+                  <!-- CONDITIONAL BUTTONS -->
+                  <span ng-if="vm.updating">
+                     <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Save</a>
+                  </span>
+                  <span ng-if="!vm.updating">
+                     <a class="waves-effect waves-light btn green accent-3" ng-click="vm.saveNewSurvey()">Deploy</a>
+                  </span>
+               </div>
             </div>
          </div>
-         <br>
-         <br>
+      </div>
+      <br>
+      <br>
+   </div>
+</div>
+<div id="modal-cancel" class="modal" ng-show="vm.showCancelModal">
+   <div class="modal-content">
+      <!-- MODAL HEADER -->
+      <div class="row no-padding no-margin">
+         <h4>Confirm Cancel</h4>
+      </div>
+      <div class="row no-padding no-margin">
+         <p>Once you cancel this new survey, your changes will be lost. Do you wish to continue?</p>
       </div>
    </div>
-   <div id="modal-cancel" class="modal" ng-show="vm.showCancelModal">
-    <div class="modal-content">
-      <h4>Confirm Cancel</h4>
-      <p>Once you cancel this new survey, your changes will be lost. Do you wish to continue?</p>
-    </div>
    <div class="modal-footer">
-      <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.cancelSurvey()'>Cancel</button>
-      <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideCancel()'>Continue Building</button>
+      <button id = "newQuestionCreate" class="waves-effect waves-light btn red" ng-click='vm.cancelSurvey()'>Cancel Survey</button>
+      <button id = "newQuestionCancel" class="waves-effect waves-light btn green accent-3" ng-click='vm.hideCancel()' style="margin-right:15px">Continue Building</button>
    </div>
-  </div>
-   <!-- Modal for making new question. Opens when plus button on main page clicked -->
-   <div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
-      <div class="modal-content">
-         <div class="white z-depth-1 container" style='padding: 1% 1% 1% 1%;'>
-            <h5 class="center">Create Question</h5>
+</div>
+
+<!-- Modal for making new question. Opens when plus button on main page clicked -->
+<div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
+   <div class="modal-content">
+      <div class="white z-depth-1 container" style="padding:10px">
+         <div class="row" style="margin-bottom:0">
+            <h5 class="center" style="margin-bottom:0">Create Question</h5>
+         </div>
+         <div class="row">
             <form>
                <div class="input-field col s12">
                   <input value = "Alvain" required id="qlabel" type="text" class="validate" ng-model="vm.currentQuestion.id" >
@@ -129,43 +163,22 @@
               </div>
             </div>
             </form>
-            <br>
-            <br>
          </div>
       </div><!-- close modal content -->
       <div class="modal-footer">
          <button id = "newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion()'>Add</button>
          <button id = "newQuestionCancel" class="waves-effect waves-light btn red accent-1" ng-click='vm.cancelNewQuestion()'>Cancel</button>
       </div>
+   </div><!-- close modal content -->
+   <div class="modal-footer">
+      <button id = "newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion(question)'>Add</button>
+      <button id = "newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
    </div>
-   <!-- Footer start -->
-   <footer class="page-footer">
-      <!-- <div class="container"> -->
-      <div class="row footer-wrapper">
-         <div class="col s5 offset-s1 footer-content">
-            <h5 class="white-text">TigerAware</h5>
-            <p class="grey-text text-lighten-4">TigerAware is a collaberative effort between University of Missouri campus administrators and Computer Science department. It can be used to build re-configurable surveys and data processing for mobile-based campus climate studies.</p>
-         </div>
-         <div class="col s3 offset-s2 footer-content">
-            <h5 class="white-text">Learn More</h5>
-            <ul>
-               <li><a class="grey-text text-lighten-3" href="#!">University of Missouri</a></li>
-               <li><a class="grey-text text-lighten-3" href="#!">Related Work</a></li>
-               <li><a class="grey-text text-lighten-3" href="#!">Resources</a></li>
-               <li><a class="grey-text text-lighten-3" href="#!">IP Rights</a></li>
-            </ul>
-         </div>
-      </div>
-      <!-- </div> -->
-      <div class="footer-copyright">
-         <div class="container">
-            © 2017 TigerAware
-            <a class="grey-text text-lighten-4 right" href="#!"></a>
-         </div>
-      </div>
-   </footer>
+</div>
    <script>
     $(document).ready(function() {
       $('select').material_select();
     });
   </script>
+
+<div ng-include="'shared/footer.html'"></div>

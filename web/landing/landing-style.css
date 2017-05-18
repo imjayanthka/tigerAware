@@ -3,6 +3,30 @@
    font-family: 'Montserrat', sans-serif;
 }
 
+html{
+   background-color: #333333;
+}
+
+/** CUSTOMIZE MATERIALIZE **/
+.row{
+  padding:10px;
+  margin-bottom:10px;
+}
+
+.no-padding{
+  padding:0 !important;
+}
+.no-padding-left{
+  padding-left:0 !important;
+}
+.no-padding-right{
+  padding-right:0 !important;
+}
+
+.no-margin{
+  margin:0 !important;
+}
+
 h4{
    color: #454545;
 }
@@ -11,16 +35,24 @@ h2, p{
    color: #fff;
 }
 
-html{
-   background: url(../resources/images/landing-compressed.png);
-   background-size: cover;
-   background-color: black;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+.hi {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: #fff;
+   font-family: 'Montserrat', serif;
+   font-size: 14px;
+   font-weight: 9px;
+   /*line-height: 23px;*/
+   text-align: center;
+   /*opacity: 1;
+   z-index: 10;*/
+   border: solid 2px #FFF;
+   border-radius: 10px;
+   padding: 30px 30px;
+   background-color:rgba(3,25,38,0.95);
 }
-
 /*Registration & Login form components styling*/
 .input-field input[type=text]:focus + label {
   color: #031926;
@@ -45,54 +77,25 @@ html{
   box-shadow: 0 1px 0 0 #E7E247;
 }
 
-.overlay {
-   height: 100%;
-   width: 100%;
-   position: absolute;
-   top: 0px;
-   left: 0px;
-   z-index: 2;
-   background-color: white;
-   opacity: .2;
+.full-width{
+  width:100% !important;
 }
-.hi {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   color: #fff;
-   font-family: 'Montserrat', serif;
-   font-size: 14px;
-   font-weight: 9px;
-   line-height: 23px;
-   text-align: center;
-   opacity: 1;
-   z-index: 10;
-   border: solid 2px #FFF;
-   border-radius: 10px;
-   padding: 30px 30px;
-   background-color:rgba(3,25,38,0.95);
-}
+
 .btn-left {
    background-color: #E7E247!important;
-   margin: 20px;
    color: #03263F!important;
-
 }
 
 .btn-right {
    background-color: transparent!important;
-   margin: 20px;
    border-style: solid!important;
    border-width: 2px: border-color: #E7E247!important;
-   margin-top: 18px;
    color: #E7E247;
 }
 
 #btn-google-signin {
    background-color: #EF535E;
    color: white;
-
 }
 
 .smedia{
@@ -106,27 +109,32 @@ html{
 .login-container{
    display: inline-block;
    padding: 32px 48px 0px 48px;
-   border: 1px
-   solid #EEE;
+   border: 1px solid #EEE;
 }
 .modal{
-   width: 38%!important;
+   width: 40%!important;
    height: 85%!important;
-   max-height: 85%!important;
+   max-height: 90%!important;
 }
+
+.modal-content{
+  padding:0px !important;
+}
+
 textarea:focus {
   border-bottom: 1px solid orange;
   -webkit-box-shadow: 0 1px 0 0 orange;
   -moz-box-shadow: 0 1px 0 0 orange;
   box-shadow: 0 1px 0 0 orange;
 }
+
 #toast-container {
   right: 31% !important;
   top: 18% !important;
-  width: 38% !important;
+  /*width: 38% !important;*/
 }
 
-#preloader {
+/*#preloader {
    position: fixed;
    left: 0;
    top: 0;
@@ -136,4 +144,4 @@ textarea:focus {
    overflow:
    visible;
    background: #333 url('http://files.mimoymima.com/images/loading.gif') no-repeat center center;
-}
+}*/
