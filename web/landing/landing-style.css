@@ -109,8 +109,7 @@ h2, p{
 .login-container{
    display: inline-block;
    padding: 32px 48px 0px 48px;
-   border: 1px
-   solid #EEE;
+   border: 1px solid #EEE;
 }
 .modal{
    width: 40%!important;
@@ -128,13 +127,14 @@ textarea:focus {
   -moz-box-shadow: 0 1px 0 0 orange;
   box-shadow: 0 1px 0 0 orange;
 }
+
 #toast-container {
   right: 31% !important;
   top: 18% !important;
-  width: 38% !important;
+  /*width: 38% !important;*/
 }
 
-#preloader {
+/*#preloader {
    position: fixed;
    left: 0;
    top: 0;
@@ -144,4 +144,4 @@ textarea:focus {
    overflow:
    visible;
    background: #333 url('http://files.mimoymima.com/images/loading.gif') no-repeat center center;
-}
+}*/

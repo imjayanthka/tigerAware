@@ -21,7 +21,7 @@
       function initModal(){
          $('#modal1').modal();
          $('#modal2').modal();
-         $('#modal1,#modal2').modal({
+         $('#modal1, #modal2').modal({
             dismissible: true,
             opacity: .5,
             in_duration: 300,
@@ -47,7 +47,7 @@
       vm.authUserGoogle = function() {
          var provider = new firebase.auth.GoogleAuthProvider();
          var auth = $firebaseAuth();
-         Materialize.toast("Registration using Google is not supported at this time", 7000, 'rounded');
+         Materialize.toast("Registration using Google is not supported at this time", 3000, 'rounded');
 
          //This code below will work - however, it is not supported on mobile yet so not being used for consistancy. Once used, name will also need to be stored.
          // auth.$signInWithPopup(provider).then(function(firebaseUser) {
