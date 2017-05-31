@@ -63,15 +63,20 @@
                <table class="striped highlight centered" style="border: 1px solid lightgray">
                   <thead>
                      <tr>
-                        <th class = "qid"  data-field="data">ID</th>
-                        <th class = "qtype" data-field="date">Type</th>
-                        <th class = "qdelete" data-field="contrib">Delete</th>
-                        <th class = "qedit" data-field="contrib">Edit</th>
+                        <th class="qlabel" data-field="data">Label</th>
+                        <th class="qtitle" data-field="title">Title</th>
+                        <th class="qtype" data-field="date">Type</th>
+                        <th class="qdelete" data-field="contrib">Delete</th>
+                        <th class="qedit" data-field="contrib">Edit</th>
                      </tr>
                   </thead>
                   <tbody id='mainTable'>
+                     <tr ng-if="vm.steps.length == 0">
+                        <td colspan="5"><h3>Let's Add Some Questions</h3></td>
+                     </tr>
                      <tr ng-repeat="question in vm.steps">
                         <td>{{question.id}}</td>
+                        <td>{{question.title}}</td>
                         <td>{{question.type}}</td>
                         <td><a class="btn-floating waves-effect waves-light red accent-1" ng-click="vm.deleteQuestion(vm.steps.indexOf(question))"><i class="material-icons">delete</i></a></td>
                         <td><a class="btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editQuestion(vm.steps.indexOf(question))"><i class="material-icons">border_color</i></a></td>
@@ -123,15 +128,15 @@
 </div>
 
 <!-- Modal for making new question. Opens when plus button on main page clicked -->
-  <div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal">
-    <div class="modal-content">
-        <div class="white z-depth-1 container" style="padding:10px">
-          <div class="row" style="margin-bottom:0">
-              <h5 class="center" style="margin-bottom:0">Create Question</h5>
-          </div>
-          <div class="row">
-              <form>
-                <div class="input-field col s12">
+<div id="modal-question" class="modal modal-fixed-footer" ng-show="vm.showQuestionModal" style="max-height:90%; height:100%; width:70%">
+   <div class="modal-content">
+      <div class="white z-depth-1 container" style="padding:10px">
+         <div class="row" style="margin-bottom:0">
+            <h5 class="center" style="margin-bottom:0">Create Question</h5>
+         </div>
+         <div class="row">
+            <form>
+               <div class="input-field col s12">
                   <input value = "Alvain" required id="qlabel" type="text" class="validate" ng-model="vm.currentQuestion.id" >
                   <label class = "active" for="qlabel">Question Label</label>
                 </div>
@@ -142,39 +147,59 @@
                 <div class="input-field col s12">
                   <input value = "Alvain" required id="Subtitle" type="text" class="validate" ng-model="vm.currentQuestion.subtitle" >
                   <label class = "active" for="Subtitle">Subtitle</label>
-                </div>
-                <div class="input-field col s12">
-                  <select required id="type" ng-model="vm.currentQuestion.type">
-                      <option value="" disabled>Select</option>
-                      <option value="yesNo">Yes or No</option>
-                      <option value="MultipleChoice">Multiple Choice</option>
-                      <option value="dateTime">Date and Time</option>
-                      <option value="textSlide">Text Slide</option>
-                      <option value="textField">Text Field</option>
-                      <option value="timeInt">Time Interval</option>
-                  </select>
-                  <label for="type">Question Type</label>
-                </div>
-                <div ng-show="vm.currentQuestion.type=='MultipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices">
-                  <div>
-                    <a ng-show="vm.showAddButton(choice)" ng-click="vm.addChoice()" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="add-icon material-icons">add</i></a>
-                    <a ng-show="vm.showDeleteButton()" ng-click="vm.removeChoice(choice)" class="add-btn btn-floating btn-small waves-effect waves-light align-right"><i class="material-icons">delete</i></a>
-                    <input required id="{{choice.id}}" type="text" ng-model="choice.option_tag" placeholder="Enter your option">
+               </div>
+               <div class="input-field col s12">
+                  <select id="type" ng-model="vm.currentQuestion.type" required>
+                    <option value="" disabled selected>Select One</option>
+                    <option value="yesNo">Yes or No</option>
+                    <option value="multipleChoice">Multiple Choice</option>
+                    <option value="dateTime">Date and Time</option>
+                    <option value="textSlide">Text Slide</option>
+                    <option value="textField">Text Field</option>
+                    <option value="timeInt">Time Interval</option>
+                </select>
+                  <label>Question Type</label>
+               </div>
+               
+               <!--Options of MCQ-->
+               <div ng-show="vm.currentQuestion.type=='multipleChoice'">
+                  <div class="row" style="margin-bottom:0; margin-top:10px; padding-left:10px">
+                     <div class="col s12">
+                        <p style="margin-bottom:0; font-weight:bold">SELECT OPTIONS</p>
+                     </div>
                   </div>
-                </div>
-              </form>
-          </div>
-        </div><!-- close modal content -->
-    </div>
-    <div class="modal-footer">
-      <button id="newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion()'>Add</button>
-      <button id="newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
-    </div>
-  </div>
-  <div ng-include="'shared/footer.html'"></div>
+               </div>
+               <div ng-show="vm.currentQuestion.type=='multipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices" style="margin-top:0">
+                  <div class="row" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+                     <div class="valign-wrapper">
+                        <div class="col s11 no-padding">
+                           <input id="{{choice.id}}" type="text" ng-model="choice.option_tag" placeholder="Enter option" required style="margin-bottom:0">
+                        </div>
+                        <div class="col s1 no-padding">
+                           <a ng-click="vm.removeChoice(choice)" class="add-btn btn-floating btn-small waves-effect waves-light"><i class="material-icons right">delete</i></a>
+                        </div>
+                    </div>
+                  </div> 
+               </div>
+
+               <div ng-show="vm.currentQuestion.type=='multipleChoice'" class="input-field col s12">
+                  <div class="row" style="padding-left:10px">
+                     <a ng-click="vm.addChoice()" class="btn add-btn btn-small waves-effect waves-light left">Add Option</a>
+                  </div>
+               </div>  
+            </form>
+         </div>
+      </div>
+   </div><!-- close modal content -->
+   <div class="modal-footer">
+      <button id = "newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion(question)'>Add</button>
+      <button id = "newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
+   </div>
 </div>
+
+<div ng-include="'shared/footer.html'"></div>
 <script>
-  $(document).ready(function () {
-    $('select').material_select();
-  });
+ $(document).ready(function() {
+   $('select').material_select();
+ });
 </script>

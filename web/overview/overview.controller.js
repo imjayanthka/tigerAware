@@ -85,20 +85,24 @@
             location.path('/surveys/'+survey_id);
          }
       }
+
       vm.directToBuilder = function(){
          location.path('/builder');
       }
+
       vm.initiateLogOut = function(){
          auth.$signOut();
          location.path('/logout');
          vm.message = "You have Logged out successfully!"
          Materialize.toast(vm.message, 7000, 'rounded');
       }
+
       vm.showDelete = function(survey){
          $("#deleteModal").modal('open');
          vm.showDeleteModal = true;
          vm.surveyForDelete = survey;
       }
+
       vm.editSurvey = function(survey){
          if(survey.num_responses > 0){
             Materialize.toast("Surveys with responses can't be edited", 7000, 'rounded');
@@ -106,16 +110,18 @@
             location.path("/builder/" + survey.survey_id);
          }
       }
+
       vm.hideDelete = function(){
          $("#deleteModal").modal("close");
          vm.showDeleteModal = false;
       }
+
       vm.newFromTemplate = function(survey){
          location.path("/builder/template/" + survey.survey_id);
 
       }
-      vm.deleteStudy = function(){
 
+      vm.deleteStudy = function(){
          var rowInd = Math.floor(parseInt(vm.surveyForDelete['survey_id']) / 4);
          var colInd = (parseInt(vm.surveyForDelete['survey_id']) % 4) - 1;
          vm.user_surveys_grid[rowInd].splice(colInd, 1);
