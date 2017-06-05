@@ -14,6 +14,12 @@
     var editInd;
     vm.auth = $firebaseAuth();
     vm.steps = [];
+    vm.conditionals = [];
+    vm.filteredQs = [];
+    vm.conditional_index = null;
+    vm.priceSlider = {
+      options: {}
+    };
 
       //check auth, otherwise redirect. This needs to be defined in order to hit the users/ ref
       var auth = $firebaseAuth();
@@ -31,8 +37,8 @@
         id: "",
         type: "",
         subtitle: "",
-        on: "",
-        conditionID: ""
+        on: [],
+        conditionID: []
       }
       
       vm.choices = [
@@ -90,6 +96,7 @@
       function initModal(){
         $('#modal-question').modal();
         $('#modal-cancel').modal();
+        $('#modal-conditional').modal();
         Materialize.updateTextFields();
         $('#modal-question').modal({
           dismissible: false,
@@ -102,6 +109,7 @@
         });
         vm.showQuestionModal =false;
         vm.showCancelModal = false;
+        vm.showConditionalModel = false;
       }
 
       // Close modal on cancel
@@ -156,12 +164,15 @@
 
         // If new survey
         var survey = vm.steps;
+        console.log(survey);
         var surveysRef = firebase.database().ref('blueprints');
         var surveyList = $firebaseArray(surveysRef);
         surveyList.$add({
           survey,
           name: vm.surveyName,
-          user: "Nishant" // update to match current user name
+
+          user: "Nishant", // update to match current user name
+          conditionals: vm.conditionals
         }).then(function(ref) {
             var usersRef = firebase.database().ref('users/' + firebaseUser.uid + '/surveys');
             var userSurveyList = $firebaseArray(usersRef);
@@ -194,7 +205,7 @@
             surveyList[updateInd].survey = survey;
             surveyList[updateInd].name = name;
             surveyList[updateInd].user = "Nishant" // should match auth user name.
-
+            surveyList[updateInd].conditionals = vm.conditionals
             surveyList.$save(updateInd).then(function(ref){
               Materialize.toast('Successfully updated survey', 2000, 'rounded grey-text text-darken-4 blue lighten-3 center-align');
             }).catch(function(error){
@@ -239,7 +250,7 @@
         } else {
           // Makes sure mcq question has at least 2 options selected
           // Does not validate options
-          if(qtype == 'multipleChoice' && vm.choices.length < 2){
+          if(qtype == 'MultipleChoice' && vm.choices.length < 2){
             Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
             return;
           } else {
@@ -253,7 +264,7 @@
               }
 
               // Multiple choice option handler
-              if(vm.currentQuestion.type == "multipleChoice"){
+              if(vm.currentQuestion.type == "MultipleChoice"){
                 var choices_array = [];
                 for (var i = 0; i < vm.choices.length; i++){
                   choices_array.push(vm.choices[i].option_tag);
@@ -328,6 +339,84 @@
         }
       }
       /***** End - Functionality For Controlling UI for MCQ *****/
+
+      //Functionality For Conditionals
+
+      vm.getFilteredQs = function(value) {
+          var filteredQs = [];
+          for (var i = 0; i < vm.steps.length; i++) {
+            if (vm.steps[i].id != value) {
+              filteredQs.push(vm.steps[i]);
+            }
+          }
+          return filteredQs;
+      };
+
+      vm.addCondition = function(questionData){
+        vm.conditional_index = vm.steps.indexOf(questionData)
+        if(questionData.conditionID != ""){
+          vm.conditionals = questionData.conditionID;
+        } else {
+          if(questionData.type == 'multipleChoice' || questionData.type == 'MultipleChoice'){
+            for(var i = 0; i < questionData.choices.length; i++){
+              vm.conditionals.push({from: questionData.id, on: questionData.choices[i], to: ""})
+            }
+          }
+          if(questionData.type == 'yesNo'){
+            vm.conditionals[0] = {from: questionData.id, on: 'yes', to: ""};
+            vm.conditionals[1] = {from: questionData.id,on: 'no', to: ""};
+          }
+        }
+        vm.filteredQs = vm.getFilteredQs(questionData.id);
+        vm.showConditionalModel = true;
+        $('#modal-conditional').modal('open');
+      };
+
+      vm.cancelConditional = function(){
+        vm.conditionals = [];
+        vm.filteredQs = [];
+        vm.conditional_index = null;
+        vm.showConditionalModel = false;
+        $('#modal-conditional').modal('close');
+      }
+
+      vm.onClickAddConditional = function(){
+        console.log(vm.conditionals);
+        vm.steps[vm.conditional_index].conditionID = vm.conditionals;
+        console.log(vm.steps)
+        vm.conditionals = [];
+        vm.filteredQs = [];
+        vm.conditional_index = null;
+        vm.showConditionalModel = false;
+        $('#modal-conditional').modal('close');
+      }
+      vm.sliderOnChange = function(value){
+        console.log(value)
+      }
+      //Text Slider Functionality
+      vm.showSlider = function(stepCount){
+        if(isNaN(stepCount))
+          return false;
+        else {
+          vm.priceSlider.options.floor = 1;
+          vm.priceSlider.options.ceil = stepCount;
+          vm.priceSlider.options.steps = 1;
+          vm.priceSlider.options.showTicks = true;
+          vm.priceSlider.options.showTicksValues =  true;
+          vm.priceSlider.options.stepsArray = [];
+          for(var i = 1; i <= stepCount; i++){
+            vm.priceSlider.options.stepsArray.push({
+              value: i,
+              lengend: ''
+            });
+          }
+          vm.priceSlider.options.onChange = function(sliderId, modelValue, highValue, pointerType){
+            vm.sliderOnChange(modelValue);
+          }
+          return true;
+        }
+      }
+
 
       vm.initiateLogOut = function(){
        vm.auth.$signOut();

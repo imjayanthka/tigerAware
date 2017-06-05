@@ -8,8 +8,10 @@
 
       function getSurveyGraph(survey){
          //conditional binding logic goes here
-         if( survey.type ===  "yesNo"){
+         if( survey.type ===  "yesNo") {
             return createYesNoPieGraph(survey);
+         } else if (survey.type == "MultipleChoice"){
+            return createMCQPieGraph(survey);
          }
       }
 
@@ -108,6 +110,55 @@
                   }]
                }]
             }// end of graph
+      }
+
+      function createMCQPieGraph(survey){
+
+         var return_json = {
+               options:{
+                  chart: {
+                     plotBackgroundColor: null,
+                     plotBorderWidth: null,
+                     plotShadow: false,
+                     type: 'pie'
+                  },
+                  title: {
+                     text: survey.title
+                  },
+                  tooltip: {
+                     borderColor: null,
+                     pointFormat: '{series.data.name} {point.percentage:.1f}%</b>'
+                  },
+                  plotOptions: {
+                     pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                           enabled: true
+                        }
+                     }
+                  }
+               },
+               credits: {
+                  enabled: false
+               },
+               series: []
+            }
+            var series_data = {}
+            series_data.name = survey.title;
+            series_data.colorByPoint = true;
+            series_data.data = []
+            if(Object.keys(survey.answers).length > survey.choices.length)
+                  series_data.data.push({
+                     name: 'No Responses',
+                     y: survey.answers[""]})
+            for(var i = 0; i < survey.choices.length; i++){
+               series_data.data.push({
+                     name: survey.choices[i],
+                     y: survey.answers[i.toString()]})
+            }
+         return_json.series.push(series_data)
+         return return_json
       }
 
    }]);

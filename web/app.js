@@ -3,7 +3,7 @@
    "use strict";
    /***** Inject the modules which are dependencies *****/
    // initPreloader();
-   angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies', 'firebase', 'LocalStorageModule'])
+   angular.module('researchApp',['ngRoute','angularCSS','highcharts-ng','ngCookies', 'firebase', 'LocalStorageModule', 'ui.materialize', 'rzModule'])
    		  .config(config)
           .run(run);
 

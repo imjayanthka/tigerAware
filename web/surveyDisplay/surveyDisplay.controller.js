@@ -25,15 +25,52 @@
       initSurveyController();
 
       function initSurveyController(){
-         vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['id']);
+         //vm.surveySchema = StudyNavService.getSurveyByInd($routeParams['id']);
+         //console.log(vm.surveySchema)
+         vm.surveySchema = {
+                              "survey_key":"-KkguhGyohbFFFyeut40",
+                              "survey_id":10,
+                              "name":"Sample MCQ Survey",
+                              "survey":[
+                                {
+                                  "choices":["Red","Green","Orange"],
+                                  "conditionID":"",
+                                  "id":"favColor",
+                                  "on":"",
+                                  "title":"What's your Fav Color",
+                                  "type":"MultipleChoice"
+                                }
+                              ],
+                              "img_url":"resources/images/stock/stock10.jpeg",
+                              "answers":
+                              {
+                                "-KkhMT8bHHXsQ8gk6bow":{"surveyData":{"favColor":"2"}},
+                                "-KkhMgpYx-CHWg8TXc8w":{"surveyData":{"favColor":"1"}},
+                                "-KkhMsbUPEIZfuHFMbDr":{"surveyData":{"favColor":"2"}},
+                                "-KkhNJP8-09Fje08BXlK":{"surveyData":{"favColor":"0"}},
+                                "-KkhO5Fdb7rE51_tkH6X":{"surveyData":{"favColor":"0"}},
+                                "-KkhRkt7_1vsLvk7V3Qu":{"surveyData":{"favColor":"2"}},
+                                "-KkhRmFe-6s30J3oAbNi":{"surveyData":{"favColor":"1"}},
+                                "-KkhRndJmJn6RoGyvIxN":{"surveyData":{"favColor":"0"}},
+                                "-KkhRp5rNk-zKyGVgi3B":{"surveyData":{"favColor":"2"}},
+                                "-KkhRqpj9-mjEtEi8bvI":{"surveyData":{"favColor":"0"}},
+                                "-KkhS-H_eilHN9bAefrW":{"surveyData":{"favColor":"1"}},
+                                "-KkhS0bMBoWmmiLEnlhG":{"surveyData":{"favColor":"0"}},
+                                "-KkhS1ulVBEUdsjjqB5Q":{"surveyData":{"favColor":"2"}},
+                                "-KkhS3N_-QyIxx9pqn4s":{"surveyData":{"favColor":"0"}},
+                                "-KkhS4l4NLdzteeans7z":{"surveyData":{"favColor":"2"}}
+                              },
+                              "num_responses":15
+                            }
          vm.study_name = vm.surveySchema.name;
          var surveys = vm.surveySchema.survey;
          var survey_display_data = {}
          for(var question in surveys){
             var chart = {}
             chart.title = surveys[question].title;
-            chart.type = surveys[question].type
-
+            chart.type = surveys[question].type;
+            if(chart.type == "MultipleChoice")
+              chart.choices = surveys[question].choices
             if (surveys[question].type === "textSlide" || surveys[question].type === "textField") {
                continue;
             }else{
