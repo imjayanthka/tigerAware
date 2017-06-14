@@ -20,9 +20,9 @@
                     var each_sample = {}
                     each_sample.id = snapshot.key;
                     each_sample.name = snapshot.val().name;
-                    each_sample.survey = snapshot.val().survey;
+                    each_sample.surveys = snapshot.val().survey;
                     each_sample.user = snapshot.val().user;
-                    each_sample.imgUrl = 'resources/images/stock/stock1.jpeg'
+                    each_sample.imgUrl = 'resources/images/stock/stock2.jpeg'
                     all_surveys.push(each_sample)
                 });
                 return all_surveys;
