@@ -28,9 +28,33 @@
       });
 
       function initSurveys(){
-         StudyNavService.setUserSurveys(firebaseUser.uid, function(blueprints){
-            localStorageService.set('usersurveys', blueprints);
+         // StudyNavService.setUserSurveys(firebaseUser.uid, function(blueprints){
+         //    localStorageService.set('usersurveys', blueprints);
 
+         //    vm.user_surveys_grid = []
+         //    var survey_row = [];
+         //    var index = 0;
+
+         //    for (var key in blueprints) {
+         //       if (blueprints.hasOwnProperty(key)) {
+         //          if ((index + 1) % 4 == 0){
+         //             survey_row.push(blueprints[key]);
+         //             vm.user_surveys_grid.push(survey_row);
+         //             survey_row = [];
+         //          }
+         //          else{
+         //             survey_row.push(blueprints[key]);
+         //          }
+         //       }
+         //       index += 1;
+         //    }
+         //    if( index % 4 != 0){
+         //       vm.user_surveys_grid.push(survey_row);
+         //    }
+         // });
+         StudyNavService.setUserSurveys(firebaseUser.uid).then(function(blueprints) {
+            console.log(blueprints)
+            localStorageService.set('usersurveys', blueprints);
             vm.user_surveys_grid = []
             var survey_row = [];
             var index = 0;
@@ -51,12 +75,14 @@
             if( index % 4 != 0){
                vm.user_surveys_grid.push(survey_row);
             }
-         });
+            $scope.$apply()
+         })
 
       }
 
       // This needs to be fixed, hardcoded async time not good.
-      timeout(initOverviewController,3000);
+      // timeout(initOverviewController,3000);
+      initOverviewController()
       function initOverviewController(){
          $('.tooltipped').tooltip({delay: 50});
          $(".dropdown-button").dropdown();
