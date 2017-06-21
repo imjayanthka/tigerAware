@@ -205,5 +205,73 @@
          Materialize.toast('Successfully deleted survey', 2000, 'rounded grey-text text-darken-4 red lighten-3 center-align');
          $("#deleteModal").modal('close');
       }
+      //Connors Implementation of CSV Export of Current Data
+      vm.printCSV = function () {
+
+            var startString = '{"data":{}}';
+            var output = JSON.parse(startString);
+
+            var i = 0;
+            var header = [];
+            var content = [];
+            header.push("Response");
+            var outputString = "";
+            var responseID = "";
+
+            var dataRef = firebase.database().ref('data/-KkguhGyohbFFFyeut40/answers/');
+
+
+            dataRef.once('value', function (snapshot) {
+                  snapshot.forEach(function (responseSnapshot) {
+                        responseID = responseSnapshot.key.toString();
+                        responseID = responseID.slice(1);
+                        content.push(responseID);
+
+                        responseSnapshot.forEach(function (surveyDataSnapshot) {
+
+                              surveyDataSnapshot.forEach(function (questionAnswerSnapshot) {
+
+                                    if (i < 1) {
+                                          header.push(questionAnswerSnapshot.key.toString());
+                                    }
+                                    content.push(questionAnswerSnapshot.val().toString());
+                              });
+
+                              i++;
+                        });
+                  });
+            });
+
+            var buildCSV = function () {
+
+                  for (var i = 0; i < header.length; i++) {
+                        if (i > 0) {
+                              outputString += ',';
+                        }
+                        outputString += '"' + header[i] + '"';
+                  }
+                  outputString += '\n';
+                  for (var j = 0; j < content.length; j = j) {
+                        for (var k = 0; k < header.length; k++) {
+                              if (k > 0) {
+                                    outputString += ',';
+                              }
+                              outputString += '"' + content[j] + '"';
+                              j++;
+                        }
+                        outputString += '\n';
+                  }
+
+                  var hiddenElement = document.createElement('a');
+                  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(outputString);
+                  hiddenElement.target = '_blank';
+                  hiddenElement.download = 'surveyData.csv';
+                  hiddenElement.click();
+
+            }
+
+            timeout(buildCSV, 3000);
+
+      }
     }
 })();
