@@ -9,7 +9,7 @@
 
     //Any new route(Page) added needs to be configured here by providiing it's details
    config.$inject = ['$routeProvider', 'localStorageServiceProvider'];
-    function config($routeProvider, localStorageServiceProvider) {
+   function config($routeProvider, localStorageServiceProvider) {
         $routeProvider
             .when('/login', {
                 title: 'Login',
@@ -67,6 +67,18 @@
                 css: 'resources/css/style.css',
                 controllerAs: 'vm'
             })
+            .when('/takeSurvey', {
+                title: 'Take Survey',
+                controller: 'TakeSurveyController',
+                templateUrl: 'takeSurvey/takeSurvey.html',
+                css: 'resources/css/style.css',
+                controllerAs: 'vm',
+                resolve: {
+                    resolvedSurveys: function (StudyNavService) {
+                        return StudyNavService.getAllSurveyInformation();
+                    }
+                } 
+            })
             .otherwise({ redirectTo: '/login' });
 
 
@@ -89,7 +101,10 @@
       var firebaseUser = auth.$getAuth();
       // if user is logged in, initialize their surveys in local storage
       if (firebaseUser) {
-         StudyNavService.setUserSurveys(firebaseUser.uid, function(){});
+         // StudyNavService.setUserSurveys(firebaseUser.uid, function(){});
+         StudyNavService.setUserSurveys(firebaseUser.uid).then(function(blueprints){
+            localStorageService.set('usersurveys', user_blueprints);
+         })
       }
 
       $rootScope.$on('$locationChangeStart', function (event, next, current) {

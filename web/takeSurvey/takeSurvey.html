@@ -1,0 +1,128 @@
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!">Contact Info</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Add Patient</a></li>
+    <li class="divider"></li>
+    <li><a ng-click="vm.initiateLogOut()">Logout</a></li>
+</ul>
+
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper" id="topNav">
+            <!-- DESKTOP MENU -->
+            <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#/takeSurvey">Studies</a></li>
+                <li><a href="#!">About</a></li>
+                <!-- Dropdown Trigger -->
+                <li>
+                    <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+                </li>
+            </ul>
+
+            <!-- MOBILE MENU -->
+            <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+            <ul id="slide-out" class="side-nav" style="z-index: 999">
+                <li><a href="#!overview">Studies</a></li>
+                <li><a href="#!">About</a></li>
+                <!-- Dropdown Trigger -->
+                <li>
+                    <a class="dropdown-button" href="#!" data-activates="dropdown1">Profile<i class="material-icons right">person_pin</i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<!-- end navigation -->
+<!-- page content -->
+<!-- ALL SURVEYS -->
+<!-- HEADER -->
+<div class="row valign-wrapper" style="margin-bottom:0">
+    <div class="col s12 m6 no-padding">
+        <h1 class='section-header' id="study-overview-header">Take Surveys</h1>
+    </div>
+</div>
+
+<!-- CURRENT SURVEY CARDS -->
+<div class='row' id="study-cards">
+    <div ng-repeat="study in vm.all_surveys">
+        <div class="col s12 m6 l4" style="padding-left:0">
+            <div class="card medium sticky-action z-depth-2">
+                <div class="card-image waves-effect waves-block waves-light activator">
+                    <img class="" ng-src="{{study.imgUrl}}">
+                    <span class="card-title" style="background-color:black; width:100%; opacity:0.7">{{study.name}}<i class="material-icons right" style="font-size:35px">info_outline</i></span>
+                </div>
+
+                <div class="card-content">
+                    <div class="card-action" style="background-color: white; cursor:pointer; z-index:0; padding:10px">
+                        <a ng-click="vm.takeSurvey(study)">View {{study.name}} Data</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end card -->
+        </div>
+        <!-- end .col -->
+    </div>
+    <!-- end ng-repeat -->
+</div>
+
+<div id="modal-take-survey" class="modal modal-fixed-footer" ng-show="vm.showTakeSurvey" style="max-height:90%; height:100%; width:70%">
+    <div class="modal-content">
+        <div class="white z-depth-1 container" style="padding:10px">
+            <div class="row" style="margin-bottom:0">
+                <h5 class="center" style="margin-bottom:0">{{vm.currentQuestion.surveyName}}</h5>
+            </div>
+            <div class="row">
+                <form>
+                    <div input-field ng-show="vm.currentQuestion.type=='yesNo'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <p>
+                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQuestion.id}}" type="radio" id="radioYes"
+                                value="Yes" />
+                            <label for="radioYes">Yes</label>
+                        </p>
+                        <p>
+                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQquestion.id}}" type="radio" id="radioNo"
+                                value="No" />
+                            <label for="radioNo">No</label>
+                        </p>
+                    </div>
+                    <div input-field ng-show="vm.currentQuestion.type=='MultipleChoice'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <p ng-repeat="choices in vm.currentQuestion.choices">
+                            <input ng-model="choices.answer" name="{{vm.currentQquestion.id}}" type="checkbox" id="{{choices.choice}}" value="{{choices.choice}}"
+                            />
+                            <label for="{{choices.choice}}">{{choices.choice}}</label>
+                        </p>
+                    </div>
+                    <div input-field ng-show="vm.currentQuestion.type=='textSlide'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                    </div>
+                    <!--<div input-field ng-show="vm.currentQuestion.type=='dateTime'">
+                        
+                    </div>-->
+                    <div input-field ng-show="vm.currentQuestion.type=='textField'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <input required id="{{vm.currentQuestion.id}}" type="text" class="validate" ng-model="vm.currentQuestion.answer">
+                        <label class="active" for="{{vm.currentQuestion.id}}">Answer</label>
+                    </div>
+                    <div input-field ng-show="vm.currentQuestion.type=='timeInt'">
+
+                    </div>
+                    <div input-field ng-show="vm.currentQuestion.type=='Scale'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- close modal content -->
+    <div class="modal-footer">
+        <button ng-show="vm.currentQuestion.totalQuestions > (vm.currentQuestion.count + 1)" id="nextQuestion" class="waves-effect waves-light btn green accent-3"
+            ng-click='vm.nextQuestion(vm.currentQuestion)'>Next</button>
+        <button ng-show="(vm.currentQuestion.count + 1)== vm.currentQuestion.totalQuestions" id="saveResponses" class="waves-effect waves-light btn green accent-3"
+            ng-click='vm.saveResponses(vm.currentQuestion)'>Save</button>
+        <button id="cancelTakeSurvey" class="waves-effect waves-light btn red" ng-click='vm.cancelTakeSurvey()' style="margin-right:15px">Cancel</button>
+    </div>
+</div>
