@@ -12,7 +12,7 @@
             <!-- DESKTOP MENU -->
             <a class="btn btn-floating btn-large grey lighten-3" id="navBack"><i class="material-icons" id="navBack">arrow_back</i></a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="#!overview">Studies</a></li>
+                <li><a href="#/takeSurvey">Studies</a></li>
                 <li><a href="#!">About</a></li>
                 <!-- Dropdown Trigger -->
                 <li>
@@ -77,19 +77,23 @@
                     <div input-field ng-show="vm.currentQuestion.type=='yesNo'">
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <p>
-                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQuestion.id}}" type="radio" id="radioYes" value="Yes"/>
+                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQuestion.id}}" type="radio" id="radioYes"
+                                value="Yes" />
                             <label for="radioYes">Yes</label>
                         </p>
                         <p>
-                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQquestion.id}}" type="radio" id="radioNo" value="No"/>
+                            <input ng-model="vm.currentQuestion.answer" class="with-gap" name="{{vm.currentQquestion.id}}" type="radio" id="radioNo"
+                                value="No" />
                             <label for="radioNo">No</label>
                         </p>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='MultipleChoice'">
-                        <!--<p ng-repeat="choice in vm.currentQuestion.choices">
-                            <input name="group1" type="radio" id="test1" />
-                            <label for="test1">Red</label>
-                        </p>-->
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <p ng-repeat="choices in vm.currentQuestion.choices">
+                            <input ng-model="choices.answer" name="{{vm.currentQquestion.id}}" type="checkbox" id="{{choices.choice}}" value="{{choices.choice}}"
+                            />
+                            <label for="{{choices.choice}}">{{choices.choice}}</label>
+                        </p>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='textSlide'">
                         <h3>{{vm.currentQuestion.title}}</h3>
@@ -103,10 +107,11 @@
                         <label class="active" for="{{vm.currentQuestion.id}}">Answer</label>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='timeInt'">
-                        
+
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='Scale'">
-                        
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>
                     </div>
                 </form>
             </div>
@@ -114,8 +119,10 @@
     </div>
     <!-- close modal content -->
     <div class="modal-footer">
-        <button ng-show="vm.currentQuestion.totalQuestions > (vm.currentQuestion.count + 1)" id="nextQuestion" class="waves-effect waves-light btn green accent-3" ng-click='vm.nextQuestion(vm.currentQuestion)'>Next</button>
-        <button ng-show="(vm.currentQuestion.count + 1)== vm.currentQuestion.totalQuestions" id="saveResponses" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveResponses()'>Save</button>
+        <button ng-show="vm.currentQuestion.totalQuestions > (vm.currentQuestion.count + 1)" id="nextQuestion" class="waves-effect waves-light btn green accent-3"
+            ng-click='vm.nextQuestion(vm.currentQuestion)'>Next</button>
+        <button ng-show="(vm.currentQuestion.count + 1)== vm.currentQuestion.totalQuestions" id="saveResponses" class="waves-effect waves-light btn green accent-3"
+            ng-click='vm.saveResponses(vm.currentQuestion)'>Save</button>
         <button id="cancelTakeSurvey" class="waves-effect waves-light btn red" ng-click='vm.cancelTakeSurvey()' style="margin-right:15px">Cancel</button>
     </div>
 </div>

@@ -2,16 +2,18 @@
 /** Custom Service to help highcharts config object, to be hsared for similar graphs across the studies **/
 (function () {
     angular.module('researchApp').service('StudyNavService', StudyNavService)
-    StudyNavService.$inject = ['$http', 'dynamicGraphService', 'localStorageService'];
+    StudyNavService.$inject = ['$http', 'dynamicGraphService', 'localStorageService', '$firebaseArray'];
 
-    function StudyNavService($http, dynamicGraphService, localStorageService) {
+    function StudyNavService($http, dynamicGraphService, localStorageService, $firebaseArray) {
         return {
             setUserSurveys: setUserSurveys,
+            setSurveyResponse: setSurveyResponse,
             getUserSurveys: getUserSurveys,
             getSurveyByInd: getSurveyByInd,
             getAllSurveyInformation: getAllSurveyInformation
         };
-
+        /* Get All Studies */
+        //TODO: Need to update it for User Profile Page
         function getAllSurveyInformation() {
             var blueprintRef = firebase.database().ref('blueprints/');
             var promise = blueprintRef.once('value').then(function (snapshots) {
@@ -148,6 +150,14 @@
             //       callback(blueprints);
             //    });
             // })
+        }
+
+        function setSurveyResponse(surveyId, responses) {
+            console.log(surveyId)
+            var dataRef = firebase.database().ref('data/');
+            dataRef.child(surveyId).child('answers').push().set({
+                surveyData: responses
+            })       
         }
     }
 })();
