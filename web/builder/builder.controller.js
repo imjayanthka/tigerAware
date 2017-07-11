@@ -5,9 +5,9 @@
   "use strict";
   angular.module('researchApp')
   .controller('BuilderController', BuilderController);
-  BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams', 'StudyNavService'];
+  BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams', 'StudyNavService', '$timeout'];
 
-  function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams, StudyNavService){
+  function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams, StudyNavService, $timeout){
 
     var vm=this;
     var editing = false;
@@ -97,6 +97,20 @@
         $('#modal-question').modal();
         $('#modal-cancel').modal();
         $('#modal-conditional').modal();
+        $('#modal-legends').modal({
+          dismissible: false,
+          opacity: .7,
+          in_duration: 300,
+          out_duration: 200,
+          starting_top: '4%',
+          ending_top: '10%',
+          ready: function (modal, trigger) { },
+          complete: function () {
+            if(vm.legend != ""){
+              vm.priceSlider.options.stepsArray[vm.legendValue - 1].legend = vm.legend;
+            }
+          }
+        });
         Materialize.updateTextFields();
         $('#modal-question').modal({
           dismissible: false,
@@ -110,6 +124,7 @@
         vm.showQuestionModal =false;
         vm.showCancelModal = false;
         vm.showConditionalModel = false;
+        vm.showLegendsModel = false
       }
 
       // Close modal on cancel
@@ -235,6 +250,14 @@
           subtitle: vm.steps[index].subtitle,
           on: vm.steps[index].on,
           conditionID: vm.steps[index].conditionID
+        }
+        if(vm.currentQuestion.type == "MultipleChoice"){
+          for(var i = 0; i < vm.steps[index].choices.length; i++){
+            vm.choices[i] = {
+              id: i+1,
+              option_tag: vm.steps[index].choices[i]
+            }
+          }
         }
         editing = true;
         editInd = index;
@@ -401,23 +424,37 @@
           vm.priceSlider.options.floor = 1;
           vm.priceSlider.options.ceil = stepCount;
           vm.priceSlider.options.steps = 1;
-          vm.priceSlider.options.showTicks = true;
           vm.priceSlider.options.showTicksValues =  true;
           vm.priceSlider.options.stepsArray = [];
           for(var i = 1; i <= stepCount; i++){
             vm.priceSlider.options.stepsArray.push({
               value: i,
-              lengend: ''
+              legend: i.toString()
             });
           }
           vm.priceSlider.options.onChange = function(sliderId, modelValue, highValue, pointerType){
-            vm.sliderOnChange(modelValue);
+            vm.openLegendsModel(modelValue);
           }
+          vm.refreshSlider()
           return true;
         }
       }
 
-
+      vm.openLegendsModel = function (value) {
+        vm.showLegendsModel = true;
+        vm.legendValue = value;
+        $('#modal-legends').modal('open');
+      }
+      vm.refreshSlider = function () {
+        $timeout(function () {
+          $scope.$broadcast('rzSliderForceRender');
+        });
+      };
+      vm.closeLegend = function () {
+        
+        $('#modal-legends').modal('close');
+        vm.showLegendsModel = false;
+      }
       vm.initiateLogOut = function(){
        vm.auth.$signOut();
        location.path('/logout');

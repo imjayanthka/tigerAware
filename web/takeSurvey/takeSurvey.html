@@ -70,7 +70,7 @@
     <div class="modal-content">
         <div class="white z-depth-1 container" style="padding:10px">
             <div class="row" style="margin-bottom:0">
-                <h5 class="center" style="margin-bottom:0">{{vm.currentQuestion.surveyName}}</h5>
+                <h5 class="center-align" style="margin-bottom:0">{{vm.currentQuestion.surveyName}}</h5>
             </div>
             <div class="row">
                 <form>
@@ -96,19 +96,23 @@
                         </p>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='textSlide'">
-                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <h2 class="center-align">{{vm.currentQuestion.title}}</h2>
                     </div>
-                    <!--<div input-field ng-show="vm.currentQuestion.type=='dateTime'">
-                        
-                    </div>-->
+                    <div input-field ng-show="vm.currentQuestion.type=='dateTime'">
+                        <label for="inputCreated">Input date</label>
+                        <input input-date type="text" name="created" id="inputCreated" ng-model="currentTime" container="" format="dd/mm/yyyy" months-full="{{ month }}"
+                            months-short="{{ monthShort }}" weekdays-full="{{ weekdaysFull }}" weekdays-short="{{ weekdaysShort }}"
+                            weekdays-letter="{{ weekdaysLetter }}" disable="disable" min="{{ minDate }}" max="{{ maxDate }}"
+                            today="today" first-day="1" clear="clear" close="close" select-years="15" on-start="onStart()" on-render="onRender()"
+                            on-open="onOpen()" on-close="onClose()" on-set="onSet()" on-stop="onStop()" />
+                    </div>
                     <div input-field ng-show="vm.currentQuestion.type=='textField'">
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <input required id="{{vm.currentQuestion.id}}" type="text" class="validate" ng-model="vm.currentQuestion.answer">
-                        <label class="active" for="{{vm.currentQuestion.id}}">Answer</label>
                     </div>
-                    <div input-field ng-show="vm.currentQuestion.type=='timeInt'">
+                    <!--<div input-field ng-show="vm.currentQuestion.type=='timeInt'">
 
-                    </div>
+                    </div>-->
                     <div input-field ng-show="vm.currentQuestion.type=='Scale'">
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>

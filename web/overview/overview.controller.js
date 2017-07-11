@@ -206,7 +206,7 @@
          $("#deleteModal").modal('close');
       }
       //Connors Implementation of CSV Export of Current Data
-      vm.printCSV = function () {
+      vm.printCSV = function (surveyKey) {
 
             var startString = '{"data":{}}';
             var output = JSON.parse(startString);
@@ -218,7 +218,7 @@
             var outputString = "";
             var responseID = "";
 
-            var dataRef = firebase.database().ref('data/-KkguhGyohbFFFyeut40/answers/');
+            var dataRef = firebase.database().ref('data/' + surveyKey + '/answers/');
 
 
             dataRef.once('value', function (snapshot) {
