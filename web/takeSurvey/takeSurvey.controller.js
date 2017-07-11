@@ -6,7 +6,7 @@
         .controller('TakeSurveyController', TakeSurveyController);
 
     TakeSurveyController.$inject = ['$scope', '$rootScope', '$http', '$timeout', '$location', '$firebaseAuth', 'StudyNavService', 'localStorageService', '$firebaseArray', 'resolvedSurveys'];
-    function TakeSurveyController($scope, $rootScope, http, timeout, location, $firebaseAuth, StudyNavService, localStorageService, $firebaseArray, resolvedSurveys)  {
+    function TakeSurveyController($scope, $rootScope, http, $timeout, location, $firebaseAuth, StudyNavService, localStorageService, $firebaseArray, resolvedSurveys)  {
         var vm = this;
         vm.all_surveys = [];
         vm.currentSurvey = {};
@@ -47,7 +47,9 @@
                 out_duration: 200,
                 starting_top: '4%',
                 ending_top: '10%',
-                ready: function (modal, trigger) { }
+                ready: function (modal, trigger) { 
+                    vm.refreshSlider();
+                }
             });
         }
         vm.takeSurvey = function(survey){
@@ -77,13 +79,12 @@
                         vm.slider.options.showTicks = true;
                         vm.slider.options.showTicksValues = true;
                         vm.slider.options.stepsArray = [];
-                        for (var i = 0; i <= (vm.slider.options.ceil - 1); i++) {
+                        for (var i = 1; i <= vm.slider.options.ceil; i++) {
                             vm.slider.options.stepsArray.push({
-                                value: (i + 1),
-                                legend: vm.currentSurvey.surveys[vm.currentQuestion.count].choices[i]
+                                value: i,
+                                legend: vm.currentSurvey.surveys[vm.currentQuestion.count].choices[i - 1]
                             });
                         }
-                        vm.refreshSlider();
                     }
             }
             console.log(vm.currentQuestion)
@@ -91,17 +92,21 @@
             $('#modal-take-survey').modal('open');
         }
         vm.nextQuestion = function(response){
-            if(response.type =="MultipleChoice"){
-                return
-            }
             vm.responses[response.id] = response.answer;
             response.count++;
             response.answer = null;
             response.type = vm.currentSurvey.surveys[response.count].type
             response.title = vm.currentSurvey.surveys[response.count].title
             response.id = vm.currentSurvey.surveys[response.count].id
-            if (vm.currentSurvey.surveys[response.count].choices != null)
-                response.choices = vm.currentSurvey.surveys[response.count].choices
+            if (vm.currentSurvey.surveys[response.count].choices != null) {
+                response.choices = [];
+                vm.currentSurvey.surveys[response.count].choices.forEach(function (element) {
+                    response.choices.push({
+                        choice: element,
+                        answer: null
+                    })
+                })
+            }
             vm.currentQuestion = response
         }
 

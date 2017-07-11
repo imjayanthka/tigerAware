@@ -104,7 +104,7 @@
         
         <div class="card-content">
           <div class = "panel-row" style="margin-top:0">
-            <div class="valign-wrapper col s4">
+            <div class="valign-wrapper col s2">
               <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
             </div>
             
@@ -118,6 +118,10 @@
             
             <div class = "icon-row col s2">
               <a class= "btn-floating waves-effect waves-light grey darken-1" ng-click="vm.newFromTemplate(survey)"><i class="material-icons">description</i></a>
+            </div>
+
+            <div class="icon-row col s2" ng-show="survey.num_responses != 0">
+              <a class="btn-floating waves-effect waves-light grey darken-1" ng-click="vm.printCSV(survey.survey_key)"><i class="material-icons">play_for_work</i></a>
             </div>
           </div>
           
