@@ -103,7 +103,7 @@
       if (firebaseUser) {
          // StudyNavService.setUserSurveys(firebaseUser.uid, function(){});
          StudyNavService.setUserSurveys(firebaseUser.uid).then(function(blueprints){
-            localStorageService.set('usersurveys', user_blueprints);
+            localStorageServiceProvider.set('usersurveys', user_blueprints);
          })
       }
 
