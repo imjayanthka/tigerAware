@@ -73,7 +73,7 @@
             </thead>
             <tbody id='mainTable'>
               <tr ng-if="vm.steps.length == 0">
-                <td colspan="5">
+                <td colspan="6">
                   <h3>Let's Add Some Questions</h3>
                 </td>
               </tr>
@@ -166,6 +166,68 @@
             <label>Question Type</label>
           </div>
 
+          <!-- DATETIME CONSTRAINT -->
+          <div ng-show="vm.currentQuestion.type=='dateTime'">
+            <div class="row" style="margin-bottom:0; margin-top:10px; padding-left:10px">
+              <div class="col s12">
+                <p style="margin-bottom:0; font-weight:bold">SELECT CONSTRAINTS</p>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom:0; margin-top:10px; padding-left:10px; padding-right:10px; padding-bottom:0">
+              <div class="valign-wrapper">
+                <div class="col s8">
+                  <p style="margin-bottom:0; font-weight:bold">Select both date and time?</p>
+                </div>
+                <div class="col s4" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+                  <div class="switch">
+                    <label>
+                      No
+                      <input id="both" type="checkbox" ng-model="constraints.both">
+                      <span class="lever"></span>
+                      Yes
+                    </label>
+                  </div>
+                </div> <!-- end col s5 -->
+              </div> <!-- end valign -->
+            </div> <!-- end row -->
+
+            <div class="row" style="margin-bottom:0; padding-left:10px; padding-right:10px; padding-bottom:0">
+              <div class="valign-wrapper">
+                <div class="col s8">
+                  <p style="margin-bottom:0; font-weight:bold">Select dates prior to current date?</p>
+                </div>
+                <div class="col s4" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+                  <div class="switch">
+                    <label>
+                      No
+                      <input id ="prior" type="checkbox" ng-model="constraints.prior">
+                      <span class="lever"></span>
+                      Yes
+                    </label>
+                  </div>
+                </div> <!-- end col s5 -->
+              </div> <!-- end valign -->
+            </div> <!-- end row -->
+
+            <div class="row" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+              <div class="valign-wrapper">
+                <div class="col s8">
+                   <p style="margin-bottom:0; font-weight:bold">Select multiple dates?</p>
+                </div>
+                <div class="col s4" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+                  <div class="switch">
+                    <label>
+                      No
+                      <input id="multiple" type="checkbox">
+                      <span class="lever"></span>
+                      Yes
+                    </label>
+                  </div>
+                </div> <!-- end col s5 -->
+              </div> <!-- end valign -->
+            </div> <!-- end row -->
+          </div> <!-- end ng-show -->
+
           <!--Options of MCQ-->
           <div ng-show="vm.currentQuestion.type=='MultipleChoice'">
             <div class="row" style="margin-bottom:0; margin-top:10px; padding-left:10px">
@@ -204,7 +266,7 @@
           </div>
           <div ng-show="vm.currentQuestion.type=='Scale'">
             <div class="input-field col s12">
-              <input required id="stepCount" type="text" class="validate" ng-model="numberOfSteps">
+              <input required id="stepCount" placeholder="Enter number of intervals" type="text" class="validate" ng-model="numberOfSteps">
               <label for='stepCount' class="active" for="title">Total Number of Steps</label>
             </div>
           </div>
