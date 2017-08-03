@@ -8,6 +8,7 @@
   BuilderController.$inject = ['$scope','$location','$firebaseAuth', '$firebaseArray', '$routeParams', 'StudyNavService', '$timeout'];
 
   function BuilderController($scope,location, $firebaseAuth, $firebaseArray, $routeParams, StudyNavService, $timeout){
+    // preventTouchstartError();
 
     var vm=this;
     var editing = false;
@@ -20,6 +21,12 @@
     vm.priceSlider = {
       options: {}
     };
+
+    addEventListener(document, "touchstart", function(e) {  
+      console.log(e.defaultPrevented);  // will be false
+      e.preventDefault();   // does nothing since the listener is passive
+      console.log(e.defaultPrevented);  // still false
+    }, {passive: true});
 
       //check auth, otherwise redirect. This needs to be defined in order to hit the users/ ref
       var auth = $firebaseAuth();
@@ -41,6 +48,7 @@
         conditionID: []
       }
       
+      // For MCQs
       vm.choices = [
         {
           'id': "1",
@@ -49,6 +57,22 @@
         {
           'id': "2",
           'option_tag': ""
+        }
+      ];
+
+      // For Datetime Constraints
+      vm.constraints = [
+        {
+          "id" : "both",
+          "value" : ""
+        },
+        {
+          "id" : "prior",
+          "value" : ""
+        },
+        {
+          "id" : "multiple",
+          "value" : ""
         }
       ];
 
@@ -185,7 +209,6 @@
         surveyList.$add({
           survey,
           name: vm.surveyName,
-
           user: "Nishant", // update to match current user name
           conditionals: vm.conditionals
         }).then(function(ref) {
@@ -271,58 +294,100 @@
         if(qtype.length == 0){
           Materialize.toast("Please select a question type or cancel to exit", 4000, 'rounded');
         } else {
+
+          // Datetime and constraints
+          if(qtype == "dateTime"){
+            var both = $("#both").prop("checked");
+            var prior = $("#prior").prop("checked");
+            var multiple = $("#multiple").prop("checked");
+
+            var step = {
+              title: vm.currentQuestion.title,
+              id: vm.currentQuestion.id,
+              type: qtype,
+              subtitle: vm.currentQuestion.subtitle,
+              both: both,
+              prior: prior,
+              multiple: multiple
+            }
+
+            // If editing existing question
+            if(editing == true){
+              vm.steps[editInd] = step;
+              editing = false;
+            } else{
+              vm.steps.push(step);
+            }
+
+            vm.showQuestionModal = false;
+            $('#modal-question').modal('close');
+
+            vm.currentQuestion = {
+              title: "",
+              id: "",
+              type: "",
+              subtitle: "",
+              both: "",
+              prior: "",
+              multiple: ""
+            }
+          }
+
+
           // Makes sure mcq question has at least 2 options selected
           // Does not validate options
           if(qtype == 'MultipleChoice' && vm.choices.length < 2){
             Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
             return;
-          } else {
-              var step = {
-                title: vm.currentQuestion.title,
-                id: vm.currentQuestion.id,
-                type: qtype,
-                subtitle: vm.currentQuestion.subtitle,
-                on: vm.currentQuestion.on,
-                conditionID: vm.currentQuestion.conditionID,
-              }
+          } else if (qtype == 'MulipleChoice' && vm.choices.length >= 2) {
+            var step = {
+              title: vm.currentQuestion.title,
+              id: vm.currentQuestion.id,
+              type: qtype,
+              subtitle: vm.currentQuestion.subtitle,
+              on: vm.currentQuestion.on,
+              conditionID: vm.currentQuestion.conditionID,
+            }
 
-              // Multiple choice option handler
-              if(vm.currentQuestion.type == "MultipleChoice"){
-                var choices_array = [];
-                for (var i = 0; i < vm.choices.length; i++){
-                  choices_array.push(vm.choices[i].option_tag);
-                }
-                step.choices =  choices_array;
+            // Multiple choice option handler
+            if(vm.currentQuestion.type == "MultipleChoice"){
+              var choices_array = [];
+              for (var i = 0; i < vm.choices.length; i++){
+                choices_array.push(vm.choices[i].option_tag);
               }
+              step.choices =  choices_array;
+            }
               
-              // If editing existing question
-              if(editing == true){
-                vm.steps[editInd] = step;
-                editing = false;
-              } else{
-                vm.steps.push(step);
-              }
+            // If editing existing question
+            if(editing == true){
+              vm.steps[editInd] = step;
+              editing = false;
+            } else{
+              vm.steps.push(step);
+            }
 
-              vm.showQuestionModal =false;
-              $('#modal-question').modal('close');
+            vm.showQuestionModal =false;
+            $('#modal-question').modal('close');
               
-              vm.currentQuestion = {
-                title: "",
-                id: "",
-                type: "",
-                subtitle: "",
-                on: "",
-                conditionID: ""
+            vm.currentQuestion = {
+              title: "",
+              id: "",
+              type: "",
+              subtitle: "",
+              on: "",
+              conditionID: ""
+            }
+              
+            vm.choices = [
+              {
+                'id': "1",
+                'option_tag': ""
+              },
+              {
+                'id': "2",
+                'option_tag': ""
               }
-              
-              vm.choices = [{
-                              'id': "1",
-                              'option_tag': ""
-                            },
-                            {
-                              'id': "2",
-                              'option_tag': ""
-              }];
+            ];
           } // end mcq else
         } // end qypte.length else
       } // end vm.savequestion        
@@ -364,7 +429,6 @@
       /***** End - Functionality For Controlling UI for MCQ *****/
 
       //Functionality For Conditionals
-
       vm.getFilteredQs = function(value) {
           var filteredQs = [];
           for (var i = 0; i < vm.steps.length; i++) {
@@ -406,21 +470,24 @@
       vm.onClickAddConditional = function(){
         console.log(vm.conditionals);
         vm.steps[vm.conditional_index].conditionID = vm.conditionals;
-        console.log(vm.steps)
+        console.log(vm.steps);
         vm.conditionals = [];
         vm.filteredQs = [];
         vm.conditional_index = null;
         vm.showConditionalModel = false;
         $('#modal-conditional').modal('close');
       }
+
+      // RZ SLIDER
       vm.sliderOnChange = function(value){
-        console.log(value)
+        console.log("Slider change: " + value);
       }
+
       //Text Slider Functionality
       vm.showSlider = function(stepCount){
-        if(isNaN(stepCount))
+        if(isNaN(stepCount)){
           return false;
-        else {
+        } else {
           vm.priceSlider.options.floor = 1;
           vm.priceSlider.options.ceil = stepCount;
           vm.priceSlider.options.steps = 1;
@@ -440,21 +507,37 @@
         }
       }
 
+      // Add legend to each step value
       vm.openLegendsModel = function (value) {
         vm.showLegendsModel = true;
         vm.legendValue = value;
         $('#modal-legends').modal('open');
       }
+
       vm.refreshSlider = function () {
         $timeout(function () {
           $scope.$broadcast('rzSliderForceRender');
         });
       };
+
+      // Update slider with new legend value
       vm.closeLegend = function () {
-        
+        if(vm.legend != ""){
+          vm.priceSlider.options.stepsArray = [];
+          for(var i = 1; i <= stepCount; i++){
+            vm.priceSlider.options.stepsArray.push({
+              value: i,
+              legend: vm.legend
+            });
+          }
+          console.log(vm.priceSlider.options.stepsArray);
+          vm.refreshSlider();
+        }
         $('#modal-legends').modal('close');
         vm.showLegendsModel = false;
       }
+
+      // Logout
       vm.initiateLogOut = function(){
        vm.auth.$signOut();
        location.path('/logout');
