@@ -1,4 +1,4 @@
-(function() {
+    (function() {
     'use strict';
 
     angular
@@ -19,17 +19,20 @@
         var auth = $firebaseAuth();
         var firebaseUser = auth.$getAuth();
         if (!firebaseUser) {
-            location.path('/login');
+            //location.path('/login');
         }
         vm.all_surveys = resolvedSurveys;
 
         activate();
+
         $(document).ready(function () {
             $('.tooltipped').tooltip({ delay: 50 });
         });
+
         $("#navBack").click(function () {
             history.go(-1);
         });
+
         function activate() { 
             /* Moved to app.js with resolve parameter*/
             // StudyNavService.getAllSurveyInformation().then(function(all_surveys){
@@ -38,6 +41,7 @@
             // });
             initModal();
         }
+
         function initModal() {
             vm.showTakeSurvey = false;
             $('#modal-take-survey').modal({
@@ -52,6 +56,7 @@
                 }
             });
         }
+
         vm.takeSurvey = function(survey){
             vm.currentSurvey = survey;
             vm.currentQuestion = {}
@@ -86,11 +91,67 @@
                             });
                         }
                     }
+                    if(vm.currentQuestion.type == "dateTime"){
+                        vm.currentQuestion.both = vm.currentSurvey.surveys[vm.currentQuestion.count].both;
+                        vm.currentQuestion.multiple = vm.currentSurvey.surveys[vm.currentQuestion.count].multiple;
+                        vm.currentQuestion.prior = vm.currentSurvey.surveys[vm.currentQuestion.count].prior;
+
+                        // If both date and timepicker are to be included
+                        if(vm.currentQuestion.both){
+                            // If date prior to current date can be selected
+                            if(vm.currentQuestion.prior){
+                                $("#datepicker").datepicker({
+                                    onSelect: function (event) {
+                                        // console.log(event);
+                                    }
+                                });
+                            } else { // restrict date selection to current
+                                $("#datepicker").datepicker({
+                                    minDate:0,
+                                    onSelect: function (event) {
+                                        // console.log(event);
+                                    }
+                                });
+                            }
+                            $(".timepicker").timepicki();
+                            // Show timepicker
+                            $(".timepicker").prop("type","text");
+                            // Reduce datepicker width
+                            $(".hasDatepicker").removeClass("m12");
+                            $(".hasDatepicker").addClass("m5");
+                        } else { // only show datepicker
+                            // If date prior to current date can be selected
+                            if(vm.currentQuestion.prior){
+                                console.log(vm.currentQuestion.both);
+                                $("#datepicker").datepicker({
+                                    onSelect: function (event) {
+                                        console.log(event);
+                                    }
+                                });
+                            } else {
+                                $("#datepicker").datepicker({
+                                    minDate:0,
+                                    onSelect: function (event) {
+                                        console.log(event);
+                                    }
+                                });
+                            }
+                            // Hide timepicker
+                            $(".timepicker").prop("type","hidden");
+                            // Expand datepicker width
+                            $(".hasDatepicker").removeClass("m5");
+                            $(".hasDatepicker").addClass("m12");
+                            // Center align datepicker
+                            $(".ui-datepicker-inline").css("margin-right","auto");
+                            $(".ui-datepicker-inline").css("margin-left","auto");
+                        }
+                    }
             }
-            console.log(vm.currentQuestion)
+            console.log(vm.currentQuestion);
             vm.showTakeSurvey = true;
             $('#modal-take-survey').modal('open');
         }
+
         vm.nextQuestion = function(response){
             vm.responses[response.id] = response.answer;
             response.count++;
@@ -129,7 +190,7 @@
 
         vm.refreshSlider = function () {
             $timeout(function () {
-                $scope.$broadcast('rzSliderForceRender');
+                // $scope.$broadcast('rzSliderForceRender');
             });
         };
     }

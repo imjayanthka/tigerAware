@@ -68,7 +68,7 @@
 
 <div id="modal-take-survey" class="modal modal-fixed-footer" ng-show="vm.showTakeSurvey" style="max-height:90%; height:100%; width:70%">
     <div class="modal-content">
-        <div class="white z-depth-1 container" style="padding:10px">
+        <div class="white z-depth-1" style="padding:10px">
             <div class="row" style="margin-bottom:0">
                 <h5 class="center-align" style="margin-bottom:0">{{vm.currentQuestion.surveyName}}</h5>
             </div>
@@ -98,13 +98,25 @@
                     <div input-field ng-show="vm.currentQuestion.type=='textSlide'">
                         <h2 class="center-align">{{vm.currentQuestion.title}}</h2>
                     </div>
-                    <div input-field ng-show="vm.currentQuestion.type=='dateTime'">
-                        <label for="inputCreated">Input date</label>
-                        <input input-date type="text" name="created" id="inputCreated" ng-model="currentTime" container="" format="dd/mm/yyyy" months-full="{{ month }}"
-                            months-short="{{ monthShort }}" weekdays-full="{{ weekdaysFull }}" weekdays-short="{{ weekdaysShort }}"
-                            weekdays-letter="{{ weekdaysLetter }}" disable="disable" min="{{ minDate }}" max="{{ maxDate }}"
-                            today="today" first-day="1" clear="clear" close="close" select-years="15" on-start="onStart()" on-render="onRender()"
-                            on-open="onOpen()" on-close="onClose()" on-set="onSet()" on-stop="onStop()" />
+                    
+                    <div ng-show="vm.currentQuestion.type=='dateTime'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <p>
+                            <!-- DATEPICKER -->
+                            <div class="col m5" id="datepicker"></div>
+
+                            <!-- TIMEPICKER -->
+                            <div class="col m7">
+                                <input placeholder="00:00" class="timepicker">
+                            </div>
+
+                            <!-- <input input-date type="text" name="created" id="inputCreated" ng-model="currentTime" container="" format="dd/mm/yyyy" months-full="{{ month }}"
+                                months-short="{{ monthShort }}" weekdays-full="{{ weekdaysFull }}" weekdays-short="{{ weekdaysShort }}"
+                                weekdays-letter="{{ weekdaysLetter }}" disable="disable" min="{{ minDate }}" max="{{ maxDate }}"
+                                today="today" first-day="1" clear="clear" close="close" select-years="15" on-start="onStart()" on-render="onRender()"
+                                on-open="onOpen()" on-close="onClose()" on-set="onSet()" on-stop="onStop()" />
+                            <label for="inputCreated">Input date</label> -->
+                        </p>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='textField'">
                         <h3>{{vm.currentQuestion.title}}</h3>
