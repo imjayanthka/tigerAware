@@ -89,11 +89,20 @@
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='MultipleChoice'">
                         <h3>{{vm.currentQuestion.title}}</h3>
-                        <p ng-repeat="choices in vm.currentQuestion.choices">
-                            <input ng-model="choices.answer" name="{{vm.currentQquestion.id}}" type="checkbox" id="{{choices.choice}}" value="{{choices.choice}}"
+                        <div ng-if="vm.currentQuestion.multipleSelect == true">
+                            <p ng-repeat="choices in vm.currentQuestion.choices">
+                                <input ng-model="choices.answer" name="{{vm.currentQuestion.id}}" type="checkbox" id="{{choices.choice}}" value="{{choices.choice}}"
                             />
-                            <label for="{{choices.choice}}">{{choices.choice}}</label>
-                        </p>
+                                <label for="{{choices.choice}}">{{choices.choice}}</label>
+                            </p>
+                        </div>
+                        <div ng-if="vm.currentQuestion.multipleSelect == false">
+                            <p ng-repeat="choices in vm.currentQuestion.choices">
+                                <input ng-model="choices.answer" name="{{vm.currentQuestion.id}}" type="radio" id="{{choices.choice}}" value="{{choices.choice}}"
+                            />
+                                <label for="{{choices.choice}}">{{choices.choice}}</label>
+                            </p>
+                        </div>
                     </div>
                     <div input-field ng-show="vm.currentQuestion.type=='textSlide'">
                         <h2 class="center-align">{{vm.currentQuestion.title}}</h2>
