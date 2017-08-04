@@ -45,7 +45,8 @@
         type: "",
         subtitle: "",
         on: [],
-        conditionID: []
+        conditionID: [],
+        multipleSelect: ""
       }
       
       // For MCQs
@@ -339,7 +340,8 @@
           if(qtype == 'MultipleChoice' && vm.choices.length < 2){
             Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
             return;
-          } else if (qtype == 'MulipleChoice' && vm.choices.length >= 2) {
+          } else if (qtype == 'MultipleChoice' && vm.choices.length >= 2) {
+            var multipleSelect = $("#multipleSelect").prop("checked");
             var step = {
               title: vm.currentQuestion.title,
               id: vm.currentQuestion.id,
@@ -347,6 +349,7 @@
               subtitle: vm.currentQuestion.subtitle,
               on: vm.currentQuestion.on,
               conditionID: vm.currentQuestion.conditionID,
+              multipleSelect: multipleSelect
             }
 
             // Multiple choice option handler
@@ -375,7 +378,8 @@
               type: "",
               subtitle: "",
               on: "",
-              conditionID: ""
+              conditionID: "",
+              multipleSelect: ""
             }
               
             vm.choices = [
