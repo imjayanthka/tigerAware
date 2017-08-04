@@ -235,7 +235,28 @@
                 <p style="margin-bottom:0; font-weight:bold">SELECT OPTIONS</p>
               </div>
             </div>
+            <div class="row"  style="margin-bottom:0; margin-top:10px; padding-left:10px">
+              <div class="col s12">
+                <div class="valign-wrapper">
+                  <div class="col s8" style="padding-left:0">
+                    <p style="margin-bottom:0;">Can the user select multiple options?</p>
+                  </div>
+                  <div class="col s4" style="margin-bottom:0; padding-left:10px; padding-right:10px">
+                    <div class="switch">
+                      <label>
+                        No
+                        <input id="multipleSelect" type="checkbox">
+                        <span class="lever"></span>
+                        Yes
+                      </label>
+                    </div>
+                  </div> <!-- end col s4 -->
+                </div> <!-- end valign -->
+              </div>
+            </div>
           </div>
+
+          <!-- OPTIONS -->
           <div ng-show="vm.currentQuestion.type=='MultipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices"
             style="margin-top:0">
             <div class="row" style="margin-bottom:0; padding-left:10px; padding-right:10px">

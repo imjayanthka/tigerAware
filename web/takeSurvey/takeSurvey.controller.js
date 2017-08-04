@@ -69,6 +69,8 @@
                 vm.currentQuestion.totalQuestions = survey.surveys.length
                 if (vm.currentSurvey.surveys[vm.currentQuestion.count].choices != null)
                     if(vm.currentQuestion.type == 'MultipleChoice'){
+                        vm.currentQuestion.multipleSelect = "";
+                        vm.currentQuestion.multipleSelect = vm.currentSurvey.surveys[vm.currentQuestion.count].multipleSelect;
                         vm.currentQuestion.choices = []
                         vm.currentSurvey.surveys[vm.currentQuestion.count].choices.forEach(function (element) {
                             vm.currentQuestion.choices.push({
