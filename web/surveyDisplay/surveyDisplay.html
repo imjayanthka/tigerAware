@@ -133,10 +133,10 @@
 
       <!-- Dynamically load questions -->
       <div ng-repeat="question in vm.loadedResponses">
-        <div class='row no-padding'>
-          <!-- <h1 class = 'section-header center'>{{question.title}}</h1> -->
+        <div ng-show="vm.showResultVisualization(question)" class='row no-padding'>
           <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
-            <highchart config="question.graph"></highchart>
+            <h5 class = 'center'>{{question.title}}</h5>
+            <highchart ng-show="vm.showChart(question)" config="question.graph"></highchart>
           </div>
         </div>
       </div>

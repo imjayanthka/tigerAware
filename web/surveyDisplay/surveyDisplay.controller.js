@@ -5,6 +5,7 @@
    surveyDisplayController.$inject = ['$scope','$rootScope','$http','$window','$location','ColorConstants','graphService','AggregateService', '$firebaseObject','$firebaseArray', "$timeout", "$firebaseAuth", "dynamicGraphService", "$routeParams", "StudyNavService"];
 
    function surveyDisplayController($scope,$rootScope,$http,$window,$location,ColorConstants,graphService,AggregateService, $firebaseObject,$firebaseArray, $timeout, $firebaseAuth, dynamicGraphService, $routeParams, StudyNavService){
+       
       var vm = this;
       vm.auth = $firebaseAuth();
       vm.firebaseUser = vm.auth.$getAuth();
@@ -19,6 +20,7 @@
       $("#navBack").click(function(){
          history.go(-1);
       });
+      $('ul.tabs').tabs();
 
       var ref = firebase.database().ref();
       $scope.data = $firebaseObject(ref);
@@ -35,13 +37,13 @@
             chart.type = surveys[question].type;
             if(chart.type == "MultipleChoice")
               chart.choices = surveys[question].choices
-            if (surveys[question].type === "textSlide" || surveys[question].type === "textField") {
+            if (surveys[question].type === "textSlide") {       // || surveys[question].type === "textField")  removed to test for adding carousel
                continue;
             }else{
                answers = {}
                for (var response in vm.surveySchema.answers) {
                   if (vm.surveySchema.answers.hasOwnProperty(response)) {
-                     response = vm.surveySchema.answers[response].surveyData[surveys[question].id]
+                     response = vm.surveySchema.answers[response].surveyData[surveys[question].id]                      
                      if (answers[response]){
                         answers[response]++;
                      }else{
@@ -72,6 +74,34 @@
           vm.showUserPageFlag=false;
           vm.showOverviewPageFlag=true;
         }
+      }
+       
+      // Determines whether any content will be displayed on the results visualization page based on question type
+      vm.showResultVisualization = function(question) {
+          if(question.type == "yesNo") {
+              return true;
+          } else if(question.type == "MultipleChoice") {
+              return true;
+          } else if(question.type == "timeInt") {
+              return true;
+          } else if(question.type == "textField") {
+              return true;
+          } else {
+              return false;
+          }
+      }
+       
+      // Determines whether to display a Highcharts graph based on question type
+      vm.showChart = function(question) {
+          if(question.type == "yesNo") {
+              return true;
+          } else if(question.type == "MultipleChoice") {
+              return true;
+          } else if(question.type == "timeInt") {
+              return true;
+          } else {
+              return false;
+          }
       }
 
    }//end of controller
