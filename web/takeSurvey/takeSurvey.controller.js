@@ -155,6 +155,23 @@
         }
 
         vm.nextQuestion = function(response){
+            if(response.type == "MultipleChoice"){
+                response.answer = []
+                response.choices.forEach(function(choice){
+                    if (choice.answer != null)
+                        response.answer.push(choice.choice)
+                })
+            }
+            if (response.type == "dateTime"){
+                //Check for undefined later
+                response.answer = $("#datepicker").val()+" "+$(".timepicker").val()
+            }
+            if(response.type == "Scale"){
+                response.answer = null
+            }
+            if(response.type == "timeInt"){
+                response.answer = null
+            }
             vm.responses[response.id] = response.answer;
             response.count++;
             response.answer = null;
@@ -259,8 +276,22 @@
 
         vm.saveResponses = function(response){
             if (response.type == "MultipleChoice") {
-                console.log(response.choices)
-                return
+                response.answer = []
+                response.choices.forEach(function (choice) {
+                    if (choice.answer != null)
+                        response.answer.push(choice.choice)
+                })
+            }
+            if (response.type == "dateTime") {
+                //Check for undefined later
+
+                response.answer = (($("#datepicker").val() == undefined) ? "" : $("#datepicker").val())+""+(($(".timepicker").val() == undefined) ? "" : $(".timepicker").val())
+            }
+            if (response.type == "Scale") {
+                response.answer = null
+            }
+            if (response.type == "timeInt") {
+                response.answer = null
             }
             vm.responses[response.id] = response.answer;
             StudyNavService.setSurveyResponse(vm.currentSurvey.id, vm.responses)   

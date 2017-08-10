@@ -131,9 +131,11 @@
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <input required id="{{vm.currentQuestion.id}}" type="text" class="validate" ng-model="vm.currentQuestion.answer">
                     </div>
-                    <!--<div input-field ng-show="vm.currentQuestion.type=='timeInt'">
+                    <!-- <div input-field ng-show="vm.currentQuestion.type=='timeInt'">
 
-                    </div>-->
+                    </div> -->
+                
+                    
                     <div input-field ng-show="vm.currentQuestion.type=='Scale'">
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>
