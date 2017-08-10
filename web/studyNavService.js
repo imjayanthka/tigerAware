@@ -78,8 +78,8 @@
                             study_information['answers'] = null;
                             study_information['num_responses'] = 0;
                             blueprints[childKey] = study_information;
+                            survey_id += 1;
                         }
-                        survey_id += 1;
                     });
                     return blueprints
                 })

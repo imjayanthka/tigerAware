@@ -289,6 +289,29 @@
         $('#modal-question').modal('open');
       } // end vm.editQuestion
 
+
+      function resetCurrentQs() {
+        vm.currentQuestion = {
+          title: "",
+          id: "",
+          type: "",
+          subtitle: "",
+          on: "",
+          conditionID: "",
+          multipleSelect: ""
+        }
+
+        vm.choices = [
+          {
+            'id': "1",
+            'option_tag': ""
+          },
+          {
+            'id': "2",
+            'option_tag': ""
+          }
+        ];
+      }
       // Save New Question
       vm.saveNewQuestion = function(){
         var qtype = $("#type option:selected").val();
@@ -296,103 +319,196 @@
           Materialize.toast("Please select a question type or cancel to exit", 4000, 'rounded');
         } else {
 
-          // Datetime and constraints
-          if(qtype == "dateTime"){
-            var both = $("#both").prop("checked");
-            var prior = $("#prior").prop("checked");
-            var multiple = $("#multiple").prop("checked");
 
-            var step = {
-              title: vm.currentQuestion.title,
-              id: vm.currentQuestion.id,
-              type: qtype,
-              subtitle: vm.currentQuestion.subtitle,
-              both: both,
-              prior: prior,
-              multiple: multiple
-            }
 
-            // If editing existing question
-            if(editing == true){
-              vm.steps[editInd] = step;
-              editing = false;
-            } else{
-              vm.steps.push(step);
-            }
+          //Implementing Switch Statement
+          switch(qtype){
+            case "dateTime":
+              var both = $("#both").prop("checked");
+              var prior = $("#prior").prop("checked");
+              var multiple = $("#multiple").prop("checked");
 
-            vm.showQuestionModal = false;
-            $('#modal-question').modal('close');
+              var step = {
+                title: vm.currentQuestion.title,
+                id: vm.currentQuestion.id,
+                type: qtype,
+                subtitle: vm.currentQuestion.subtitle,
+                both: both,
+                prior: prior,
+                multiple: multiple
+              }
 
-            vm.currentQuestion = {
-              title: "",
-              id: "",
-              type: "",
-              subtitle: "",
-              both: "",
-              prior: "",
-              multiple: ""
-            }
+              // If editing existing question
+              if (editing == true) {
+                vm.steps[editInd] = step;
+                editing = false;
+              } else {
+                vm.steps.push(step);
+              }
+              break;
+            case "MultipleChoice":
+              if(vm.choices.length < 2){
+                Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
+                return;
+              } else {
+                var multipleSelect = $("#multipleSelect").prop("checked");
+                var step = {
+                  title: vm.currentQuestion.title,
+                  id: vm.currentQuestion.id,
+                  type: qtype,
+                  subtitle: vm.currentQuestion.subtitle,
+                  on: "",
+                  conditionID: "",
+                  multipleSelect: multipleSelect
+                }
+                var choices_array = [];
+                for (var i = 0; i < vm.choices.length; i++) {
+                  choices_array.push(vm.choices[i].option_tag);
+                }
+                step.choices = choices_array;
+
+                // If editing existing question
+                if (editing == true) {
+                  vm.steps[editInd] = step;
+                  editing = false;
+                } else {
+                  vm.steps.push(step);
+                }
+              }
+              break;
+            case "Scale":
+              var step = {
+                title: vm.currentQuestion.title,
+                id: vm.currentQuestion.id,
+                type: qtype,
+                subtitle: vm.currentQuestion.subtitle,
+                on: "",
+                conditionID: "",
+                
+              }
+              break;
+            default:
+              var step = {
+                title: vm.currentQuestion.title,
+                id: vm.currentQuestion.id,
+                type: qtype,
+                subtitle: vm.currentQuestion.subtitle,
+                on: "",
+                conditionID: "",
+                multipleSelect: ""
+              }
+              // If editing existing question
+              if (editing == true) {
+                vm.steps[editInd] = step;
+                editing = false;
+              } else {
+                vm.steps.push(step);
+              }
           }
+          // Datetime and constraints
+          // if(qtype == "dateTime"){
+          //   var both = $("#both").prop("checked");
+          //   var prior = $("#prior").prop("checked");
+          //   var multiple = $("#multiple").prop("checked");
+
+          //   var step = {
+          //     title: vm.currentQuestion.title,
+          //     id: vm.currentQuestion.id,
+          //     type: qtype,
+          //     subtitle: vm.currentQuestion.subtitle,
+          //     both: both,
+          //     prior: prior,
+          //     multiple: multiple
+          //   }
+
+          //   // If editing existing question
+          //   if(editing == true){
+          //     vm.steps[editInd] = step;
+          //     editing = false;
+          //   } else{
+          //     vm.steps.push(step);
+          //   }
+
+          //   vm.showQuestionModal = false;
+          //   $('#modal-question').modal('close');
+
+          //   vm.currentQuestion = {
+          //     title: "",
+          //     id: "",
+          //     type: "",
+          //     subtitle: "",
+          //     both: "",
+          //     prior: "",
+          //     multiple: ""
+          //   }
+          // }
 
 
-          // Makes sure mcq question has at least 2 options selected
-          // Does not validate options
-          if(qtype == 'MultipleChoice' && vm.choices.length < 2){
-            Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
-            return;
-          } else if (qtype == 'MultipleChoice' && vm.choices.length >= 2) {
-            var multipleSelect = $("#multipleSelect").prop("checked");
-            var step = {
-              title: vm.currentQuestion.title,
-              id: vm.currentQuestion.id,
-              type: qtype,
-              subtitle: vm.currentQuestion.subtitle,
-              on: vm.currentQuestion.on,
-              conditionID: vm.currentQuestion.conditionID,
-              multipleSelect: multipleSelect
-            }
+          // // Makes sure mcq question has at least 2 options selected
+          // // Does not validate options
+          // if(qtype == 'MultipleChoice' && vm.choices.length < 2){
+          //   Materialize.toast("Select at least 2 options for MCQs", 4000, 'rounded');
+          //   return;
+          // } else if (qtype == 'MultipleChoice' && vm.choices.length >= 2) {
+          //   var multipleSelect = $("#multipleSelect").prop("checked");
+          //   var step = {
+          //     title: vm.currentQuestion.title,
+          //     id: vm.currentQuestion.id,
+          //     type: qtype,
+          //     subtitle: vm.currentQuestion.subtitle,
+          //     on: vm.currentQuestion.on,
+          //     conditionID: vm.currentQuestion.conditionID,
+          //     multipleSelect: multipleSelect
+          //   }
 
-            // Multiple choice option handler
-            if(vm.currentQuestion.type == "MultipleChoice"){
-              var choices_array = [];
-              for (var i = 0; i < vm.choices.length; i++){
-                choices_array.push(vm.choices[i].option_tag);
-              }
-              step.choices =  choices_array;
-            }
+          //   // Multiple choice option handler
+          //   if(vm.currentQuestion.type == "MultipleChoice"){
+          //     var choices_array = [];
+          //     for (var i = 0; i < vm.choices.length; i++){
+          //       choices_array.push(vm.choices[i].option_tag);
+          //     }
+          //     step.choices =  choices_array;
+          //   }
               
-            // If editing existing question
-            if(editing == true){
-              vm.steps[editInd] = step;
-              editing = false;
-            } else{
-              vm.steps.push(step);
-            }
+          //   // If editing existing question
+          //   if(editing == true){
+          //     vm.steps[editInd] = step;
+          //     editing = false;
+          //   } else{
+          //     vm.steps.push(step);
+          //   }
 
-            vm.showQuestionModal =false;
-            $('#modal-question').modal('close');
+          //   vm.showQuestionModal =false;
+          //   $('#modal-question').modal('close');
               
-            vm.currentQuestion = {
-              title: "",
-              id: "",
-              type: "",
-              subtitle: "",
-              on: "",
-              conditionID: "",
-              multipleSelect: ""
-            }
+          //   vm.currentQuestion = {
+          //     title: "",
+          //     id: "",
+          //     type: "",
+          //     subtitle: "",
+          //     on: "",
+          //     conditionID: "",
+          //     multipleSelect: ""
+          //   }
               
-            vm.choices = [
-              {
-                'id': "1",
-                'option_tag': ""
-              },
-              {
-                'id': "2",
-                'option_tag': ""
-              }
-            ];
-          } // end mcq else
+          //   vm.choices = [
+          //     {
+          //       'id': "1",
+          //       'option_tag': ""
+          //     },
+          //     {
+          //       'id': "2",
+          //       'option_tag': ""
+          //     }
+          //   ];
+          // } // end mcq else
+
+          // Cancel Model
+          vm.showQuestionModal = false;
+          $('#modal-question').modal('close');
+
+          //Reset Current Question
+          resetCurrentQs()
         } // end qypte.length else
       } // end vm.savequestion        
       
