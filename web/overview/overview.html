@@ -107,13 +107,21 @@
             <div class="valign-wrapper col s2">
               <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
             </div>
+              
+            <div class = "icon-row col s2">
+              <a class= "btn-floating waves-effect waves-light blue lighten-1" ng-click="vm.showAddUser(survey)"><i class="material-icons">person_add</i></a>
+            </div>
+              
+            <div class = "icon-row col s2">
+              <a class= "btn-floating waves-effect waves-light green lighten-1" ng-click="vm.showDisplayType(survey.survey_key)"><i class="material-icons">assignment_returned</i></a>
+            </div>
             
-            <div class = "icon-row col s2 offset-s1">
+            <div class = "icon-row col s2">
               <a class= "btn-floating tooltipped waves-effect waves-light red accent-1" data-position="bottom" data-delay="50" data-tooltip="delete survey" ng-click="vm.showDelete(survey)" ><i class="material-icons">delete</i></a>
             </div>
             
             <div class = "icon-row col s2">
-              <a class= "btn-floating waves-effect waves-light blue accent-1" ng-click="vm.editSurvey(survey)"><i class="material-icons">border_color</i></a>
+              <a class= "btn-floating waves-effect waves-light amber lighten-2" ng-click="vm.editSurvey(survey)"><i class="material-icons">border_color</i></a>
             </div>
             
             <div class = "icon-row col s2">
@@ -162,6 +170,40 @@
   <div class="modal-footer">
     <button id = "newQuestionCreate" class="waves-effect waves-light btn red accent-3" ng-click='vm.deleteStudy()'>Delete</button>
     <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDelete()'>Cancel</button>
+  </div>
+</div>
+
+<!-- Modal to search for and add a user to a survey -->
+<div id="addUserModal" class="modal" ng-show="vm.showAddUserModal">
+  <div class="modal-content">
+    <h4>Add User</h4>
+    <p>Select the user you would like to add to this survey.</p>
+    <div class="row">
+        <div class="input-field col s12">
+            <input type="text" id="autocomplete-users" class="autocomplete">
+            <label for="autocomplete-users">Search by User ID, Email, or UserName</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id = "newQuestionCreate" class="waves-effect waves-light btn green lighten-1" ng-click='vm.hideAddUser()'>Add User</button>
+        <button id = "newQuestionCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideAddUser()'>Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal to select display type for answers in the CSV export -->
+<div id="displayTypeModal" class="modal" ng-show="vm.showDisplayTypeModal">
+  <div class="modal-content">
+    <h4>Answer Display Type</h4>
+    <p>Please select how you would like survey answers to display in your CSV export. This will only affect applicable question types (multiple choice, yes/no, etc).</p>
+    <div style="height:25px"></div>
+    <div class="row">
+        <button id="CSVAsIndex" class="col s3 offset-s2 waves-effect waves-light btn-large green lighten-1" ng-click='vm.printCSV("index")' style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px">Display Answer Indexes</button>
+        <button id="CSVAsString" class="col s3 offset-s2 waves-effect waves-light btn-large green lighten-1" ng-click='vm.printCSV("string")' style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px">Display Answer Strings</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id = "CSVExportCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDisplayType()'>Cancel</button>
   </div>
 </div>
 
