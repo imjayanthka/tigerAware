@@ -96,10 +96,18 @@
             }).then(function (snapshots) {
                 //After returning a promise
                 snapshots.forEach(function (snapshot) {
-                    console.log(snapshot)
+                    // console.log("Here is a value")
+                    // console.log(snapshot.val())
                     if (snapshot.val() != null) {
-                        user_blueprints[snapshot.key]['answers'] = snapshot.val().answers;
-                        user_blueprints[snapshot.key]['num_responses'] = Object.keys(snapshot.val().answers).length;
+                        //Number of participants
+                        user_blueprints[snapshot.key]['numParticipants'] = Object.keys(snapshot.val()).length
+                        user_blueprints[snapshot.key]['answers'] = snapshot.val();
+                        var num_responses = 0;
+                        //Added to accomdate the newer user implementation
+                        for(var snap in snapshot.val()){
+                            num_responses += Object.keys(snapshot.val()).length
+                        }
+                        user_blueprints[snapshot.key]['num_responses'] = num_responses;
                     }
                 })
                 return user_blueprints;
@@ -152,12 +160,39 @@
             // })
         }
 
-        function setSurveyResponse(surveyId, responses) {
+        function setSurveyResponse(user, surveyId, responses) {
             console.log(surveyId)
             var dataRef = firebase.database().ref('data/');
-            dataRef.child(surveyId).child('answers').push().set({
+            //Need to add User name functionality
+            /*
+                data
+                    -surveyID
+                        -answers
+                            -uniqKey
+                                -surveyData
+
+
+                data
+                    -surveyID
+                        -userKey
+                            -answers
+                                -timestamp(UTC format):{
+                                    responses
+                                }
+                                    
+            */
+
+            
+            // dataRef.child(surveyId).child('answers').push().set({
+            //     surveyData: responses
+            // })   
+
+
+            var d1 = new Date();
+            var d2 = new Date(d1.getUTCFullYear(), d1.getUTCMonth(), d1.getUTCDate(), d1.getUTCHours(), d1.getUTCMinutes(), d1.getUTCSeconds());
+            dataRef.child(surveyId).child(user).child('answers').child(d2.toUTCString()).set({
                 surveyData: responses
-            })       
+            })
         }
     }
 })();

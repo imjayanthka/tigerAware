@@ -294,7 +294,7 @@
                 response.answer = null
             }
             vm.responses[response.id] = response.answer;
-            StudyNavService.setSurveyResponse(vm.currentSurvey.id, vm.responses)   
+            StudyNavService.setSurveyResponse(firebaseUser.uid, vm.currentSurvey.id, vm.responses)   
         }
 
         vm.cancelTakeSurvey = function () {
@@ -303,6 +303,10 @@
             vm.currentSurvey = {}
             vm.response = {}
             $('#modal-take-survey').modal('close');
+        }
+
+        vm.prevQuestion =  function () {
+            
         }
 
         vm.refreshSlider = function () {
