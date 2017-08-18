@@ -81,7 +81,7 @@
                 <p class="days"><strong>Total days complete: {{vm.findTotal('day-count')}}</strong></p>
               </div>
               <div class="row no-padding">
-                <p class="surveys"><strong>Total surveys complete:  {{vm.number_responses}}</strong></p>
+                <p class="surveys"><strong>Total surveys complete: {{vm.number_responses}}</strong></p>
               </div>
             </div>
             <!-- <div class="card-action"></div> -->
@@ -130,12 +130,24 @@
       
     <div class="row" style="padding:10px 10px">
       <h1 class="section-header" id="study-overview-header">Dynamic Surveys</h1>
+      <a class="waves-effect waves-light btn-large col s2" style="height:auto;line-height:22px;padding-top:9px;padding-bottom:9px" ng-click="vm.showDisplayType()">Download CSV</a>
 
       <!-- Dynamically load questions -->
       <div ng-repeat="question in vm.loadedResponses">
         <div ng-show="vm.showResultVisualization(question)" class='row no-padding'>
           <div class='col s12 highcharts-background study-module study-stats z-depth-2' id=''>
             <h5 class = 'center'>{{question.title}}</h5>
+              
+            <div ng-show="vm.showTextField(question)">
+                <br>
+                <div class="row">
+                    <a class="waves-effect waves-ligt btn-large col s2 offset-s5 blue lighten-2" style="height:auto;line-height:22px;padding-top:9px;padding-bottom:9px" ng-click="vm.showTextFieldResponses(question)">View Responses</a>
+                </div>
+                <div class="row">
+                    <h3 class="col s8 offset-s2 center">This is an open-ended question. To view all the responses, click the button above.</h3>
+                </div>
+            </div>
+              
             <highchart ng-show="vm.showChart(question)" config="question.graph"></highchart>
           </div>
         </div>
@@ -313,3 +325,37 @@
     </div>
   </div>
 </footer>
+
+<!-- Modal to show the responses for open-ended text field questions -->
+<div id="textFieldResponsesModal" class="modal modal-fixed-footer" ng-show="vm.showTextFieldResponsesModal">
+  <div class="modal-content">
+    <h4>{{vm.questionTitle}}</h4>
+    <div class="row" ng-repeat="(key, val) in vm.currentQuestion.answers">
+        <div class="col s10 offset-s1">
+            <div class="card-panel teal">
+                <span class="white-text">{{key}}</span>
+            </div>
+        </div>  
+    </div>
+    <div style="height:25px"></div>
+  </div>
+  <div class="modal-footer">
+    <button id = "TextFieldResponsesClose" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideTextFieldResponses()'>Close</button>
+  </div>
+</div>
+
+<!-- Modal to select display type for answers in the CSV export -->
+<div id="displayTypeModal" class="modal" ng-show="vm.showDisplayTypeModal">
+  <div class="modal-content">
+    <h4>Answer Display Type</h4>
+    <p>Please select how you would like survey answers to display in your CSV export. This will only affect applicable question types (multiple choice, yes/no, etc).</p>
+    <div style="height:25px"></div>
+    <div class="row">
+        <button id="CSVAsIndex" class="col s3 offset-s2 waves-effect waves-light btn-large green lighten-1" ng-click='vm.printCSV("index")' style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px">Display Answer Indexes</button>
+        <button id="CSVAsString" class="col s3 offset-s2 waves-effect waves-light btn-large green lighten-1" ng-click='vm.printCSV("string")' style="height:auto;line-height:20px;padding-top:8px;padding-bottom:8px">Display Answer Strings</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id = "CSVExportCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDisplayType()'>Cancel</button>
+  </div>
+</div>
