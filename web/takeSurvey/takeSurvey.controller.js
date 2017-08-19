@@ -14,6 +14,7 @@
         vm.slider = {
             options: {}
         };
+        vm.options = [];
 
         //Authentication
         var auth = $firebaseAuth();
@@ -59,97 +60,107 @@
 
         vm.takeSurvey = function(survey){
             vm.currentSurvey = survey;
-            vm.currentQuestion = {}
-            vm.currentQuestion.surveyName = survey.name
+            vm.currentQuestion = {};
+            vm.currentQuestion.surveyName = survey.name;
             if(survey.surveys != null){
-                vm.currentQuestion.count = 0
-                vm.currentQuestion.type = survey.surveys[vm.currentQuestion.count].type
-                vm.currentQuestion.title = survey.surveys[vm.currentQuestion.count].title
-                vm.currentQuestion.id = survey.surveys[vm.currentQuestion.count].id
-                vm.currentQuestion.totalQuestions = survey.surveys.length
-                if (vm.currentSurvey.surveys[vm.currentQuestion.count].choices != null)
-                    if(vm.currentQuestion.type == 'MultipleChoice'){
+                vm.currentQuestion.count = 0;
+                vm.currentQuestion.type = survey.surveys[vm.currentQuestion.count].type;
+                vm.currentQuestion.title = survey.surveys[vm.currentQuestion.count].title;
+                vm.currentQuestion.id = survey.surveys[vm.currentQuestion.count].id;
+                vm.currentQuestion.totalQuestions = survey.surveys.length;
+                if(vm.currentQuestion.type == 'MultipleChoice'){
+                    if (vm.currentSurvey.surveys[vm.currentQuestion.count].choices != null){
                         vm.currentQuestion.multipleSelect = "";
                         vm.currentQuestion.multipleSelect = vm.currentSurvey.surveys[vm.currentQuestion.count].multipleSelect;
-                        vm.currentQuestion.choices = []
+                        vm.currentQuestion.choices = [];
                         vm.currentSurvey.surveys[vm.currentQuestion.count].choices.forEach(function (element) {
                             vm.currentQuestion.choices.push({
                                 choice: element,
                                 answer: null
-                            })
-                        })
+                            });
+                        });
                     }
-                    if(vm.currentQuestion.type == 'Scale'){
-                        vm.slider.options.floor = 1;
-                        vm.slider.options.ceil = vm.currentSurvey.surveys[vm.currentQuestion.count].choices.length;
-                        vm.slider.options.steps = 1;
-                        vm.slider.options.showTicks = true;
-                        vm.slider.options.showTicksValues = true;
-                        vm.slider.options.stepsArray = [];
-                        for (var i = 1; i <= vm.slider.options.ceil; i++) {
-                            vm.slider.options.stepsArray.push({
-                                value: i,
-                                legend: vm.currentSurvey.surveys[vm.currentQuestion.count].choices[i - 1]
+                }
+                if(vm.currentQuestion.type == "timeInt"){
+                    // Already obtained above
+                    vm.options = [];
+                    for(var i=0; i<10; i++){
+                        vm.options.push({id:i+1,value:(i+1).toString()});
+                    }
+                    vm.selectedOption = vm.options[0];
+                    // $("#drum-picker").drum();
+                }
+                if(vm.currentQuestion.type == 'Scale'){
+                    vm.slider.options.floor = 1;
+                    vm.slider.options.ceil = vm.currentSurvey.surveys[vm.currentQuestion.count].choices.length;
+                    vm.slider.options.steps = 1;
+                    vm.slider.options.showTicks = true;
+                    vm.slider.options.showTicksValues = true;
+                    vm.slider.options.stepsArray = [];
+                    for (var i = 1; i <= vm.slider.options.ceil; i++) {
+                        vm.slider.options.stepsArray.push({
+                            value: i,
+                            legend: vm.currentSurvey.surveys[vm.currentQuestion.count].choices[i - 1]
+                        });
+                    }
+                }
+                if(vm.currentQuestion.type == "dateTime"){
+                    vm.currentQuestion.both = vm.currentSurvey.surveys[vm.currentQuestion.count].both;
+                    vm.currentQuestion.multiple = vm.currentSurvey.surveys[vm.currentQuestion.count].multiple;
+                    vm.currentQuestion.prior = vm.currentSurvey.surveys[vm.currentQuestion.count].prior;
+
+                    // If both date and timepicker are to be included
+                    if(vm.currentQuestion.both){
+                        // If date prior to current date can be selected
+                        if(vm.currentQuestion.prior){
+                            $("#datepicker").datepicker({
+                                onSelect: function (event) {
+                                    // console.log(event);
+                                }
+                            });
+                        } else { // restrict date selection to current
+                            $("#datepicker").datepicker({
+                                minDate:0,
+                                onSelect: function (event) {
+                                    // console.log(event);
+                                }
                             });
                         }
-                    }
-                    if(vm.currentQuestion.type == "dateTime"){
-                        vm.currentQuestion.both = vm.currentSurvey.surveys[vm.currentQuestion.count].both;
-                        vm.currentQuestion.multiple = vm.currentSurvey.surveys[vm.currentQuestion.count].multiple;
-                        vm.currentQuestion.prior = vm.currentSurvey.surveys[vm.currentQuestion.count].prior;
-
-                        // If both date and timepicker are to be included
-                        if(vm.currentQuestion.both){
-                            // If date prior to current date can be selected
-                            if(vm.currentQuestion.prior){
-                                $("#datepicker").datepicker({
-                                    onSelect: function (event) {
-                                        // console.log(event);
-                                    }
-                                });
-                            } else { // restrict date selection to current
-                                $("#datepicker").datepicker({
-                                    minDate:0,
-                                    onSelect: function (event) {
-                                        // console.log(event);
-                                    }
-                                });
-                            }
-                            $(".timepicker").timepicki();
-                            // Show timepicker
-                            $(".timepicker").prop("type","text");
-                            // Reduce datepicker width
-                            $(".hasDatepicker").removeClass("m12");
-                            $(".hasDatepicker").addClass("m5");
-                        } else { // only show datepicker
-                            // If date prior to current date can be selected
-                            if(vm.currentQuestion.prior){
-                                console.log(vm.currentQuestion.both);
-                                $("#datepicker").datepicker({
-                                    onSelect: function (event) {
-                                        console.log(event);
-                                    }
-                                });
-                            } else {
-                                $("#datepicker").datepicker({
-                                    minDate:0,
-                                    onSelect: function (event) {
-                                        console.log(event);
-                                    }
-                                });
-                            }
-                            // Hide timepicker
-                            $(".timepicker").prop("type","hidden");
-                            // Expand datepicker width
-                            $(".hasDatepicker").removeClass("m5");
-                            $(".hasDatepicker").addClass("m12");
-                            // Center align datepicker
-                            $(".ui-datepicker-inline").css("margin-right","auto");
-                            $(".ui-datepicker-inline").css("margin-left","auto");
+                        $(".timepicker").timepicki();
+                        // Show timepicker
+                        $(".timepicker").prop("type","text");
+                        // Reduce datepicker width
+                        $(".hasDatepicker").removeClass("m12");
+                        $(".hasDatepicker").addClass("m5");
+                    } else { // only show datepicker
+                        // If date prior to current date can be selected
+                        if(vm.currentQuestion.prior){
+                            console.log(vm.currentQuestion.both);
+                            $("#datepicker").datepicker({
+                                onSelect: function (event) {
+                                    console.log(event);
+                                }
+                            });
+                        } else {
+                            $("#datepicker").datepicker({
+                                minDate:0,
+                                onSelect: function (event) {
+                                    console.log(event);
+                                }
+                            });
                         }
+                        // Hide timepicker
+                        $(".timepicker").prop("type","hidden");
+                        // Expand datepicker width
+                        $(".hasDatepicker").removeClass("m5");
+                        $(".hasDatepicker").addClass("m12");
+                        // Center align datepicker
+                        $(".ui-datepicker-inline").css("margin-right","auto");
+                        $(".ui-datepicker-inline").css("margin-left","auto");
                     }
+                }
             }
-            console.log(vm.currentQuestion);
+            //console.log(vm.currentQuestion);
             vm.showTakeSurvey = true;
             $('#modal-take-survey').modal('open');
         }
