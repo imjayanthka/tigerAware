@@ -12,9 +12,7 @@
       var vm=this;
       vm.initOverviewController=initOverviewController;
       vm.showDeleteModal = false;
-      vm.showDisplayTypeModal = false;
       vm.showAddUserModal = false;
-      vm.CSVSurveyKey = '';
 
       //check auth, otherwise redirect. This needs to be defined in order to hit the users/ ref
       var auth = $firebaseAuth();
@@ -99,9 +97,6 @@
                vm.surveyForDelete = {}
             } // reset survey for delete on close
          });
-         $("#displayTypeModal").modal({
-             
-         });
          $("#addUserModal").modal({
              
          });
@@ -141,17 +136,6 @@
       vm.hideDelete = function(){
          $("#deleteModal").modal("close");
          vm.showDeleteModal = false;
-      }      
-      
-      vm.showDisplayType = function(surveyKey){
-         $("#displayTypeModal").modal('open');
-         vm.showDisplayTypeModal = true;
-         vm.CSVSurveyKey = surveyKey;
-      }
-      
-      vm.hideDisplayType = function(){
-         $("#displayTypeModal").modal("close");
-         vm.showDisplayTypeModal = false;
       }
       
       vm.showAddUser = function(survey) {
@@ -236,104 +220,6 @@
          $("#deleteModal").modal('close');
       }
       
-      //Connor's Implementation of CSV Export of Current Data
-      vm.printCSV = function (displayType) {
-            
-            console.log("Exporting CSV of survey " + vm.CSVSurveyKey + " with answers displayed as " + displayType);
-            $("#displayTypeModal").modal("close");
-            vm.showDisplayTypeModal = false;
-          
-          
-            // Get survey response data from firebase
-            var i = 0;
-            var header = [];
-            var content = [];
-            header.push("Response");
-            var outputString = "";
-            var responseID = "";
-          
-            // Depending on output type user wants, mark all Yes/No or MultipleChoice questions to be changed
-            var questionsToBeChanged = {};
-            var blueprintRef = firebase.database().ref('blueprints/' + vm.CSVSurveyKey + '/survey/');
-            blueprintRef.once('value').then(function(snapshot) {
-                snapshot.forEach(function(questionSnapshot) {
-                    // Yes/No needs to be changed if user wants index answers
-                    if(displayType == 'index' && questionSnapshot.child("type").val() == 'yesNo') {
-                        questionsToBeChanged[questionSnapshot.child("id").val().toString()] = {};
-                        questionsToBeChanged[questionSnapshot.child("id").val().toString()][0] = "No";
-                        questionsToBeChanged[questionSnapshot.child("id").val().toString()][1] = "Yes";
-                    }
-                    // Multiple choice need to be changed if user wants string answers
-                    else if(displayType == 'string' && questionSnapshot.child("type").val() == 'MultipleChoice') {
-                        questionsToBeChanged[questionSnapshot.child("id").val().toString()] = {};
-                        questionSnapshot.child("choices").forEach(function(choiceSnapshot) {
-                            questionsToBeChanged[questionSnapshot.child("id").val().toString()][choiceSnapshot.key] = choiceSnapshot.val();
-                        });
-                    }
-                });
-            });
-
-            // Reference for survey answers
-            var dataRef = firebase.database().ref('data/' + vm.CSVSurveyKey + '/answers/');
-
-            dataRef.once('value').then(function (snapshot) {
-                  snapshot.forEach(function (responseSnapshot) {
-                        responseID = responseSnapshot.key.toString();
-                        responseID = responseID.slice(1);
-                        content.push(responseID);
-                      
-                        responseSnapshot.forEach(function (surveyDataSnapshot) {
-                              surveyDataSnapshot.forEach(function (questionAnswerSnapshot) {
-                                    if (i < 1) {
-                                          header.push(questionAnswerSnapshot.key.toString());
-                                    }
-                                    // If the current question needs to be modified for output
-                                    if(questionsToBeChanged.hasOwnProperty(questionAnswerSnapshot.key)) {
-                                        if(displayType == 'string') {
-                                            content.push(questionsToBeChanged[questionAnswerSnapshot.key][questionAnswerSnapshot.val().toString()]);
-                                        }
-                                        else if(displayType == 'index') {
-                                            for(var key in questionsToBeChanged[questionAnswerSnapshot.key]) {
-                                                if(questionAnswerSnapshot.val().toString() == questionsToBeChanged[questionAnswerSnapshot.key][key]) {
-                                                    content.push(key);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                        content.push(questionAnswerSnapshot.val().toString());
-                              });
-                              i++;
-                        });
-                  });
-            }).then(function() {
-                  for (var i = 0; i < header.length; i++) {
-                        if (i > 0) {
-                              outputString += ',';
-                        }
-                        outputString += '"' + header[i] + '"';
-                  }
-                  outputString += '\n';
-                  for (var j = 0; j < content.length; j = j) {
-                        for (var k = 0; k < header.length; k++) {
-                              if (k > 0) {
-                                    outputString += ',';
-                              }
-                              outputString += '"' + content[j] + '"';
-                              j++;
-                        }
-                        outputString += '\n';
-                  }
-
-                  // Download CSV
-                  var hiddenElement = document.createElement('a');
-                  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(outputString);
-                  hiddenElement.target = '_blank';
-                  hiddenElement.download = 'SurveyData.csv';
-                  hiddenElement.click();
-            });
-      }
-      
       
       // Functions for autocomplete functionality on user search
       var data = {};
@@ -343,7 +229,7 @@
           dataRef.once('value').then(function (snapshot) {
               snapshot.forEach(function(IDSnapshot) {
                   data[IDSnapshot.key.toString()] = null;
-                  data[IDSnapshot.child("email").val().toString()] = null;
+                  //data[IDSnapshot.child("email").val().toString()] = null;
                   data[IDSnapshot.child("userName").val().toString()] = null;
               });
           }).then(function() {
