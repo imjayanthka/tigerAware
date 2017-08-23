@@ -10,10 +10,21 @@
             setSurveyResponse: setSurveyResponse,
             getUserSurveys: getUserSurveys,
             getSurveyByInd: getSurveyByInd,
-            getAllSurveyInformation: getAllSurveyInformation
+            getAllSurveyInformation: getAllSurveyInformation,
+            getUserName: getUserName,
+            getEmailID: getEmailID
         };
         /* Get All Studies */
         //TODO: Need to update it for User Profile Page
+        function getUserName() {
+            var user_blueprints = localStorageService.get('usersurveys');
+            return user_blueprints['userName']
+        }
+        function getEmailID() {
+            var user_blueprints = localStorageService.get('usersurveys');
+            return user_blueprints['email']
+        }
+
         function getAllSurveyInformation() {
             var blueprintRef = firebase.database().ref('blueprints/');
             var promise = blueprintRef.once('value').then(function (snapshots) {
@@ -40,10 +51,10 @@
 
         function getSurveyByInd(index) {
             var user_blueprints = localStorageService.get('usersurveys');
-            for (var key in user_blueprints) {
-                if (user_blueprints.hasOwnProperty(key)) {
-                    if (user_blueprints[key]['survey_id'] == index) {
-                        return user_blueprints[key];
+            for (var key in user_blueprints['surveys']) {
+                if (user_blueprints['surveys'].hasOwnProperty(key)) {
+                    if (user_blueprints['surveys'][key]['survey_id'] == index) {
+                        return user_blueprints['surveys'][key];
                     }
                 }
             }
@@ -51,12 +62,33 @@
 
         function setUserSurveys(username) {
             var user_blueprints = {};
-            var userRef = firebase.database().ref('users/' + username + '/surveys/');
+
+            //removing survey part from the dataref
+            // var userRef = firebase.database().ref('users/' + username + '/surveys/');
+            var userRef = firebase.database().ref('users/' + username);
+
+            //Modify the following to add user infromation to session storage.
             var user_surveys_promise = userRef.once('value').then(function (snapshot) {
                 var user_surveys = []
-                snapshot.forEach(function (childSnapshot) {
-                    user_surveys.push(childSnapshot.val());
-                });
+                // snapshot.forEach(function (childSnapshot) {
+                //     user_surveys.push(childSnapshot.val());
+                // });
+                // console.log("inside user extraction")
+                // console.log(user_surveys)
+
+                //console.log("inside user extraction")
+                // console.log(snapshot.val())
+
+                snapshot.forEach(function (snap) {
+                    if (snap.key == 'surveys') {
+                        //console.log(snap.val())
+                        snap.forEach(function (childSnap) {
+                            user_surveys.push(childSnap.val());
+                        })
+                    } else {
+                        user_blueprints[snap.key] = snap.val()
+                    }
+                })
                 return user_surveys;
             }).then(function (user_surveys) {
                 var blueprintRef = firebase.database().ref('blueprints/');
@@ -84,7 +116,9 @@
                     return blueprints
                 })
             }).then(function (blueprints) {
-                user_blueprints = blueprints
+                user_blueprints['surveys'] = blueprints
+                // console.log("here we are")
+                // console.log(user_blueprints)
                 var keys = Object.keys(blueprints)
                 var promises = []
 
@@ -96,20 +130,22 @@
             }).then(function (snapshots) {
                 //After returning a promise
                 snapshots.forEach(function (snapshot) {
-                    // console.log("Here is a value")
-                    // console.log(snapshot.val())
+                    console.log("Here is a value")
+                    console.log(snapshot.val())
                     if (snapshot.val() != null) {
                         //Number of participants
-                        user_blueprints[snapshot.key]['numParticipants'] = Object.keys(snapshot.val()).length
-                        user_blueprints[snapshot.key]['answers'] = snapshot.val();
+                        user_blueprints['surveys'][snapshot.key]['numParticipants'] = Object.keys(snapshot.val()).length
+                        user_blueprints['surveys'][snapshot.key]['answers'] = snapshot.val();
                         var num_responses = 0;
                         //Added to accomdate the newer user implementation
-                        for(var snap in snapshot.val()){
+                        for (var snap in snapshot.val()) {
                             num_responses += Object.keys(snapshot.val()).length
                         }
-                        user_blueprints[snapshot.key]['num_responses'] = num_responses;
+                        user_blueprints['surveys'][snapshot.key]['num_responses'] = num_responses;
                     }
                 })
+                console.log("Here")
+                console.log(user_blueprints)
                 return user_blueprints;
             });
             return user_surveys_promise
@@ -182,7 +218,7 @@
                                     
             */
 
-            
+
             // dataRef.child(surveyId).child('answers').push().set({
             //     surveyData: responses
             // })   
