@@ -131,11 +131,24 @@
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <input required id="{{vm.currentQuestion.id}}" type="text" class="validate" ng-model="vm.currentQuestion.answer">
                     </div>
-                    <!-- <div input-field ng-show="vm.currentQuestion.type=='timeInt'">
-
-                    </div> -->
-                
-                    
+                    <div ng-show="vm.currentQuestion.type=='timeInt'">
+                        <h3>{{vm.currentQuestion.title}}</h3>
+                        <select id="drum-picker" class="browser-default" ng-model="vm.selectedOption" style="text-align:center">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <script>
+                            $("#drum-picker").drum();
+                        </script>
+                    </div>
                     <div input-field ng-show="vm.currentQuestion.type=='Scale'">
                         <h3>{{vm.currentQuestion.title}}</h3>
                         <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>

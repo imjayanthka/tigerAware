@@ -14,6 +14,7 @@
         vm.slider = {
             options: {}
         };
+        vm.options = [];
 
         //Authentication
         var auth = $firebaseAuth();
@@ -59,26 +60,36 @@
 
         vm.takeSurvey = function(survey){
             vm.currentSurvey = survey;
-            vm.currentQuestion = {}
-            vm.currentQuestion.surveyName = survey.name
+            vm.currentQuestion = {};
+            vm.currentQuestion.surveyName = survey.name;
             if(survey.surveys != null){
-                vm.currentQuestion.count = 0
-                vm.currentQuestion.type = survey.surveys[vm.currentQuestion.count].type
-                vm.currentQuestion.title = survey.surveys[vm.currentQuestion.count].title
-                vm.currentQuestion.id = survey.surveys[vm.currentQuestion.count].id
-                vm.currentQuestion.totalQuestions = survey.surveys.length
-                if (vm.currentSurvey.surveys[vm.currentQuestion.count].choices != null)
-                    if(vm.currentQuestion.type == 'MultipleChoice'){
+                vm.currentQuestion.count = 0;
+                vm.currentQuestion.type = survey.surveys[vm.currentQuestion.count].type;
+                vm.currentQuestion.title = survey.surveys[vm.currentQuestion.count].title;
+                vm.currentQuestion.id = survey.surveys[vm.currentQuestion.count].id;
+                vm.currentQuestion.totalQuestions = survey.surveys.length;
+                if(vm.currentQuestion.type == 'MultipleChoice'){
+                    if (vm.currentSurvey.surveys[vm.currentQuestion.count].choices != null){
                         vm.currentQuestion.multipleSelect = "";
                         vm.currentQuestion.multipleSelect = vm.currentSurvey.surveys[vm.currentQuestion.count].multipleSelect;
-                        vm.currentQuestion.choices = []
+                        vm.currentQuestion.choices = [];
                         vm.currentSurvey.surveys[vm.currentQuestion.count].choices.forEach(function (element) {
                             vm.currentQuestion.choices.push({
                                 choice: element,
                                 answer: null
-                            })
-                        })
+                            });
+                        });
                     }
+                }
+                if(vm.currentQuestion.type == "timeInt"){
+                    // Already obtained above
+                    vm.options = [];
+                    for(var i=0; i<10; i++){
+                        vm.options.push({id:i+1,value:(i+1).toString()});
+                    }
+                    vm.selectedOption = vm.options[0];
+                    // $("#drum-picker").drum();
+                }
                 if(vm.currentQuestion.type == 'Scale'){
                     vm.slider.options.floor = 1;
                     vm.slider.options.ceil = vm.currentSurvey.surveys[vm.currentQuestion.count].choices.length;
@@ -149,7 +160,7 @@
                     }
                 }
             }
-            console.log(vm.currentQuestion);
+            //console.log(vm.currentQuestion);
             vm.showTakeSurvey = true;
             $('#modal-take-survey').modal('open');
         }
