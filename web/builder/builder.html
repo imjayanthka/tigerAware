@@ -235,28 +235,7 @@
                 <p style="margin-bottom:0; font-weight:bold">SELECT OPTIONS</p>
               </div>
             </div>
-            <div class="row"  style="margin-bottom:0; margin-top:10px; padding-left:10px">
-              <div class="col s12">
-                <div class="valign-wrapper">
-                  <div class="col s8" style="padding-left:0">
-                    <p style="margin-bottom:0;">Can the user select multiple options?</p>
-                  </div>
-                  <div class="col s4" style="margin-bottom:0; padding-left:10px; padding-right:10px">
-                    <div class="switch">
-                      <label>
-                        No
-                        <input id="multipleSelect" type="checkbox">
-                        <span class="lever"></span>
-                        Yes
-                      </label>
-                    </div>
-                  </div> <!-- end col s4 -->
-                </div> <!-- end valign -->
-              </div>
-            </div>
           </div>
-
-          <!-- OPTIONS -->
           <div ng-show="vm.currentQuestion.type=='MultipleChoice'" class="input-field col s12" data-ng-repeat="choice in vm.choices"
             style="margin-top:0">
             <div class="row" style="margin-bottom:0; padding-left:10px; padding-right:10px">
@@ -276,7 +255,7 @@
             </div>
           </div>
           <!-- End of Options of MCQ -->
-
+          
           <!-- Range Slider -->
           <div ng-show="vm.currentQuestion.type=='Scale'">
             <div class="row" style="margin-bottom:0; margin-top:10px; padding-left:10px">
@@ -300,7 +279,7 @@
   </div>
   <!-- close modal content -->
   <div class="modal-footer">
-    <button id="newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion(question)'>Add</button>
+    <button id="newQuestionCreate" class="waves-effect waves-light btn green accent-3" ng-click='vm.saveNewQuestion()'>Add</button>
     <button id="newQuestionCancel" class="waves-effect waves-light btn red" ng-click='vm.cancelNewQuestion()' style="margin-right:15px">Cancel</button>
   </div>
 </div>
@@ -338,24 +317,27 @@
   </div>
 </div>
 
-<div id="modal-legends" class="modal" ng-show="vm.showLegendsModel">
+<!-- LEGENDS MODAL -->
+<div id="modal-legends" class="modal modal-fixed-footer" ng-show="vm.showLegendsModel">
   <div class="modal-content">
     <!-- MODAL HEADER -->
     <div class="row no-padding no-margin">
       <h4>Enter legends for scale values</h4>
     </div>
-    <div class="row">
-      <div class="col s4">
-        <h6>Value: {{vm.legendValue}}</h6>
+    <div class="row no-padding no-margin">
+      <div class="col no-padding">
+        <h5>Value: {{vm.legendValue}}</h5>
       </div>
-      <div class="input-field col s8">
-        <input required id="stepLegend" type="text" class="validate" ng-model="vm.legend">
-      </div>
+    </div>
+    <div class="row no-padding no-margin">
+        <div class="col no-padding s12">
+          <input required id="stepLegend" type="text" class="validate" ng-model="vm.legend" placeholder="Legend Text" style="height:1.5em">
+        </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button id="saveLegend" class="waves-effect waves-light btn green" ng-click='vm.closeLegend()'>Save</button>
-    <button id="cancelLegend" class="waves-effect waves-light btn red accent-3" ng-click='vm.closeLegend()' style="margin-right:15px">Cancel</button>
+    <button id="saveLegend" class="waves-effect waves-light btn green" ng-click='vm.closeLegend("save",numberOfSteps)'>Save</button>
+    <button id="cancelLegend" class="waves-effect waves-light btn red accent-3" ng-click='vm.closeLegend("cancel",numberOfSteps)' style="margin-right:15px">Cancel</button>
   </div>
 </div>
 
