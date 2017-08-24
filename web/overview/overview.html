@@ -108,12 +108,8 @@
               <div class="valign survey-badge"><span class="new badge z-depth-1" data-badge-caption="responses">{{survey.num_responses}}</span></div>
             </div>
 
-            <div class="icon-row col s2">
+            <div class="icon-row col s2 offset-s2">
               <a class="btn-floating waves-effect waves-light blue lighten-1" ng-click="vm.showAddUser(survey)"><i class="material-icons">person_add</i></a>
-            </div>
-
-            <div class="icon-row col s2">
-              <a class="btn-floating waves-effect waves-light green lighten-1" ng-click="vm.showDisplayType(survey.survey_key)"><i class="material-icons">assignment_returned</i></a>
             </div>
 
             <div class="icon-row col s2">
@@ -189,7 +185,7 @@
 </div>
 
 <!-- Modal to select display type for answers in the CSV export -->
-<div id="displayTypeModal" class="modal" ng-show="vm.showDisplayTypeModal">
+<!-- <div id="displayTypeModal" class="modal" ng-show="vm.showDisplayTypeModal">
   <div class="modal-content">
     <h4>Answer Display Type</h4>
     <p>Please select how you would like survey answers to display in your CSV export. This will only affect applicable question
@@ -205,7 +201,7 @@
   <div class="modal-footer">
     <button id="CSVExportCancel" class="waves-effect waves-light btn grey accent-1" ng-click='vm.hideDisplayType()'>Cancel</button>
   </div>
-</div>
+</div> -->
 
 <div class="parallax-container">
   <div class="parallax"><img src="resources/images/man-field-smartphone-yellow.jpg"></div>
